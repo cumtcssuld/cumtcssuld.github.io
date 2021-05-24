@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next_RSP.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next_RSP.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="A3ajzAa0GB">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cumtcssuld.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="数据结构第六章学习笔记，供同学们参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构笔记（第六章）">
+<meta property="og:url" content="https://cumtcssuld.github.io/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%89/index.html">
+<meta property="og:site_name" content="RSP_Blog">
+<meta property="og:description" content="数据结构第六章学习笔记，供同学们参考。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164615277-963473401.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164649545-1056964307.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164717530-793508365.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164751453-1658178094.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164838718-1003480619.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164850313-61195599.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164922931-1574804304.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164949182-2050846012.png">
+<meta property="article:published_time" content="2021-05-24T15:16:53.984Z">
+<meta property="article:modified_time" content="2020-06-18T08:38:41.610Z">
+<meta property="article:author" content="CUMTCSSULD">
+<meta property="article:tag" content="期末复习">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164615277-963473401.png">
+
+<link rel="canonical" href="https://cumtcssuld.github.io/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>数据结构笔记（第六章） | RSP_Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RSP_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">矿大计算机学院资源共享计划·博客</h1>
+      
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-contributors">
+
+    <a href="/contributors/" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>贡献者们</a>
+
+  </li>
+        <li class="menu-item menu-item-blogs-recommendation">
+
+    <a href="/blogs-recommendation" rel="section"><i class="fa fa-fw fa-truck"></i>博客站点推荐</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cumtcssuld.github.io/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/RSP_Logo.jpg">
+      <meta itemprop="name" content="CUMTCSSULD">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RSP_Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          数据结构笔记（第六章）
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-24 23:16:53" itemprop="dateCreated datePublished" datetime="2021-05-24T23:16:53+08:00">2021-05-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-18 16:38:41" itemprop="dateModified" datetime="2020-06-18T16:38:41+08:00">2020-06-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E5%86%85%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">课内学习</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E5%86%85%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="第六章-集合与字典"><a href="#第六章-集合与字典" class="headerlink" title="第六章 集合与字典"></a>第六章 集合与字典</h1><p>这部分只讲了散列</p>
+<h2 id="散列表"><a href="#散列表" class="headerlink" title="散列表"></a>散列表</h2><p><strong>词典(Dictionary)的抽象数据类型</strong></p>
+<p>在计算科学中把词典当作一种抽象数据类型。<br>在讨论词典抽象数据类型时，把词典定义为 &lt;名字-属性&gt;对的集合。</p>
+<h3 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h3><p>若能在待查记录的关键字值和它的存储位置之间建立一个确定的对应关系f,则查找时不必再进行关键字值间的比较。这个对应关系f 称为哈希（Hash）函数,  按这个思想建立的表为哈希表（也称散列表）.</p>
+<p><strong>哈希方法（建表与查找）</strong><br>      选取某个函数，依该函数按关键字计算元素的存储位置，并按此存放；查找时，由同一个函数对给定值k计算地址，将k与地址单元中元素关键码进行比较，确定查找是否成功。<br><strong>冲突</strong><br>      通常关键码的集合比哈希地址集合大得多，因而经过哈希函数变换后，可能将不同的关键码映射到同一个哈希地址上，这种现象称为冲突。</p>
+<p>所以对于散列方法, 需要讨论以下两个问题：<br>1）构造好的哈希函数<br>（a）所选函数尽可能简单，以便提高转换速度；<br>（b）所选函数对关键码计算出的地址，应在哈希地址集中大致均匀分布，以减少空间浪费。</p>
+<p>2）制定一个好的解决冲突的方案<br>   查找时，如果从哈希函数计算出的地址中查不到关键码，则应当依据解决冲突的规则，有规律地查询其它相关单元。</p>
+<h3 id="二、构造哈希函数的基本方法"><a href="#二、构造哈希函数的基本方法" class="headerlink" title="二、构造哈希函数的基本方法"></a>二、构造哈希函数的基本方法</h3><p><strong>基本要求</strong></p>
+<p>设关键字集K中有n个关键字，哈希表长为m，即哈希表地址集为[0,m-1]，则哈希函数H应满足：</p>
+<ol>
+<li><p>对任意ki∈K，i=1,2,…,n，有0≤H(ki)≤m-1；</p>
+</li>
+<li><p>对任意ki∈K，H(ki)取[0,m-1]中任一值的概率相等</p>
+</li>
+</ol>
+<p><strong>常用哈希构造方法</strong></p>
+<p>直接定址法<br>除留余数法<br>乘余取整法<br>数字分析法<br>平方取中法<br>折叠法<br>随机数法 </p>
+<p><strong>1</strong>、<strong>直接定址法</strong></p>
+<p><strong>举例</strong></p>
+<p>关键码集合为{100，300，500，700，800，900}，选取哈希函数为Hash(key)=key/100，则存储结构（哈希表）如下：</p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164615277-963473401.png" alt=""></p>
+<p>此方法所得地址集合和关键字集合的大小相同，因此对于不同的关键字不会发生冲突，但实际中使用这种哈希函数的情况很少。</p>
+<p><strong>2</strong>、<strong>除留余数法</strong></p>
+<p>取关键字被某个不大于哈希表表长 m 的数 p 除后所得余数为哈希地址。一般情况下， p≤m且为质数</p>
+<p><strong>举例</strong></p>
+<p>设有一组关键字如下：（19,14,23,01,68,20,84,27,55,11,10,79），试用除留余数法设计哈希函数</p>
+<p>可取p为13，即令H(key)=key%13 。</p>
+<p><strong>为什么要对 p 加限制？</strong></p>
+<p>例：给定一组关键字为: 12, 39, 18, 24, 33, 21，若取 p=9, 则他们对应的哈希函数值将为: 3, 3, 0, 6, 6, 3</p>
+<p>可见，若 p 中含质因子 3, 则所有含质因子 3 的关键字均映射到“3 的倍数”的地址上，从而增加了“冲突”的可能。</p>
+<p><strong>3、数字分析法</strong></p>
+<p>若关键字是ｒ进制数，且可预知全部可能出现的关键字值，则可取关键字中若干位构成哈希地址。</p>
+<p><strong>举例</strong></p>
+<p>设要在长为100的哈希地址空间中保存80个数据元素，部分关键字值如下，试用数字分析法设计哈希函数</p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164649545-1056964307.png" alt=""></p>
+<p>n数字分析法仅适用于事先明确知道表中所有关键码每一位数值的分布情况，它完全依赖于关键码集合。如果换一个关键码集合，选择哪几位要重新决定。</p>
+<p><strong>4、平方取中法</strong></p>
+<p>若关键字较短，则可先对关键字值求平方，然后取运算结果的中间几位为哈希地址</p>
+<p><strong>举例</strong></p>
+<p>　　设某计算机语言中标识符定义为一个字母或一个字母加一个数字，又知字母、数字的机内码（以八进制数表示）如下：</p>
+<p>　　Ａ：０１　Ｂ：０２　Ｃ：０３　…　Ｚ：３２</p>
+<p>　　０：６０　１：６１　２：６２　…　９：７１</p>
+<p>现以标识符的机内码为关键字，构造哈希表，试用平方取中法设计哈希函数。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164717530-793508365.png" alt=""></p>
+<p><strong>4、折叠法</strong></p>
+<p>将关键字值分割成位数相同的几个部分，然后取这几部分的叠加和（舍去进位）作为哈希地址。</p>
+<p>移位叠加</p>
+<p>　　将各部分按最低位对齐，然后相加；</p>
+<p>间界叠加</p>
+<p>　　将关键字值从一端向另一端沿分界线来回折迭，然后对齐相加。</p>
+<p><strong>举例</strong></p>
+<p>设某图书馆的馆藏图书不足10000种，现欲以国际标准图书编号为关键字构造哈希表，试用折叠法设计哈希函数。</p>
+<p>移位叠加</p>
+<p>设有编号：0-442-20586-4，即：0442205864，由低位向高位，每四位一折，可得三段，再将各部分按最低位对齐后相加，并舍去进位，即得对应的哈希地址。</p>
+<p>间界叠加</p>
+<p>设有编号：0-442-20586-4，即：0442205864，由低位向高位，每四位为一段，各段沿分割界来回折迭后对齐相加，舍去进位即得哈希地址。</p>
+<p>一般当关键码的位数很多，而且关键码每一位上数字的分布大致比较均匀时，可用这种方法得到散列地址。以上介绍了几种常用的散列函数。在实际工作中应根据关键码的特点，选用适当的方法。有人曾用“轮盘赌”的统计分析方法对它们进行了模拟分析，结论是平方取中法最接近于“随机化”。</p>
+<h3 id="三、处理冲突的基本方法"><a href="#三、处理冲突的基本方法" class="headerlink" title="三、处理冲突的基本方法"></a>三、处理冲突的基本方法</h3><p>处理冲突是指对于一个待插入哈希表的数据元素，若按给定的哈希函数求得的哈希地址已被占用，则按一定规则求下一哈希地址，如此重复，直至找到一个可用的地址以保存该元素。</p>
+<p>开放定址法（开地址法）<br>链地址法（拉链法）<br>再哈希法（双哈希函数法）<br>建立一个公共溢出区 </p>
+<p><strong>1、开放定址法</strong></p>
+<p><strong>方法</strong></p>
+<p>令Hi=(H(key)+di)%m，i=1,2,…,m-1，其中H(key)为哈希函数，m为哈希表长，di为增量序列。</p>
+<p>若取di=1,2,3,…,m-1，则称线性探测再散列；</p>
+<p>若取di=12,-12,22,-22…,±k2，则称二次探测再散列；</p>
+<p>若取di=伪随机数序列，则称伪随机探测再散列。</p>
+<p>平方探查法是一种较好的处理冲突的方法，可以避免出现堆积问题。它的缺点是不能探查到哈希表上的所有单元，但至少能探查到一半单元。</p>
+<p><strong>举例</strong><br>　　设有一组关键字如下：(67,84,18,26,34,28)，哈希函数为H(key)=key%7，用线性探测再散列法处理冲突，试画出哈希表存储结构示意图。</p>
+<p>已知：</p>
+<p>哈希函数：H(key)=key%7</p>
+<p>有冲突时：Hi=(H(key)+di)%7   其中：di=1,2,3,4,5,6</p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164751453-1658178094.png" alt=""></p>
+<p>线性探测法的优点：只要哈希表未被填满，保证能找到一个空地址单元存放有冲突的元素；<br>线性探测法的缺点：线性探测容易出现在相邻的哈希地址上“堆积”的问题。<br>解决方案：可采用二次探测法或伪随机探测法，以改善“堆积”问题。 </p>
+<p>二次探查法是一种较好的处理冲突的方法</p>
+<p>优点：可以避免出现堆积问题。<br>缺点：不能探查到哈希表上的所有单元，但至少能探查到一半单元<br>可证明：当表长m为质数且表的装载因子不超过0.5时，新表项插入时，任何位置不会被探查两次。<br>注意二次探查表长 m 必为素数(质数)（如: 7,  11, 13,17，19, 23, … 等）。</p>
+<p>散列表的装填因子＝表中填入的记录数n/表长m</p>
+<p><strong>2、再哈希法（双哈希函数法）</strong></p>
+<p>Hi=RHi(key)       i=1, 2,  …，k<br>RHi均是不同的哈希函数，当产生冲突时就计算另一个哈希函数，直到冲突不再发生。<br>优点：不易产生聚集；<br>缺点：增加了计算时间。</p>
+<p><strong>3、链地址法（开散列）</strong></p>
+<p>将所有按给定的哈希函数求得的哈希地址相同的关键字存储在同一线性链表中，且使链表按关键字有序。</p>
+<p><strong>举例</strong><br>设有一组关键字如下：(67,84,18,26,34,28)，哈希函数为H(key)=key%7，用链地址法处理冲突，哈希表存储结构</p>
+<p>哈希函数：H(key)=key%7    有冲突时：在对应链表中插入新结点</p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164838718-1003480619.png" alt=""></p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164850313-61195599.png" alt=""></p>
+<p><strong>4、公共溢出区法</strong></p>
+<p>若关键字所对应的哈希地址已被占用，则保存到公共溢出区中。</p>
+<p>设有一组关键字如下：(67,84,18,26,34,28)，哈希函数为H(key)=key%7，用公共溢出区法处理冲突，试画出哈希表存储结构示意图。</p>
+<p>哈希函数：H(key)=key%7</p>
+<p>有冲突时：保存到公共溢出区</p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164922931-1574804304.png" alt=""></p>
+<p>开散列和闭散列，这两种方法的不同之处在于：开散列法把发生冲突的关键码存储在散列表主表之外，而闭散列法把发生冲突的关键码存储在表中另一个槽内。</p>
+<p>开散列法优于闭散列法；在散列函数中，用除留余数法作散列函数优于其它类型的散列函数，最差的是折叠法。</p>
+<h3 id="四、在哈希表中查找元素"><a href="#四、在哈希表中查找元素" class="headerlink" title="四、在哈希表中查找元素"></a>四、在哈希表中查找元素</h3><p>在哈希表中查找数据元素的过程与将数据元素插入哈希表的过程基本一致，即：</p>
+<p>根据待查关键字值，按给定的哈希函数，求哈希地址；</p>
+<p>若该地址上无数据元素，则查找失败；</p>
+<p>若该地址上有数据元素，则进行关键字值间的比较。若相等，则查找成功；若不等，则按冲突处理方法求下一可能的存储地址。</p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200616164949182-2050846012.png" alt=""></p>
+<p>虽然哈希表在关键字值与存储位置间建立了映象，但由于冲突的存在，查找时仍需进行关键字之间的比较，因此仍以查找成功时的平均查找长度和查找不成功时的比较次数作为衡量查找效率的依据。</p>
+<p>ASL succ=搜索到表中已有元素的平均探查次数<br>ASL unsucc=表中所有可能散列到的位置上要插入新元素时为找到空桶的探查次数的平均值。</p>
+<p><strong>哈希表的查找及分析</strong></p>
+<p>由于冲突的存在，哈希法仍需进行关键字比较， 因此仍需用平均查找长度来评价哈希法的查找性能。<br>哈希法中影响关键字比较次数的因素有三个：<strong>哈希函数</strong>、 <strong>处理冲突的方法</strong>以及<strong>哈希表的装填因子</strong>。</p>
+<p>哈希表的装填因子表明了表中的装满程度。越大，说明表越满，再插入新元素时发生冲突的可能性就越大。越小，发生冲突的可能就越小，而存储空间的利用率也就越低。<br>散列表的平均查找长度是装填因子α的函数，不直接依赖于 n 或 m。在很多情况下，散列表的空间都比查找集合大，此时虽然浪费了一定的空间，但换来的是查找效率。<br>不论表的长度有多大，总能选择一个合适的装填因子，以把平均查找长度限制在一定范围内。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 期末复习</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"><i class="fa fa-tag"></i> 数据结构</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/24/%E7%88%B1python,%E5%B0%B1%E7%94%A8ipython/" rel="prev" title="爱Python, 就用ipython">
+      <i class="fa fa-chevron-left"></i> 爱Python, 就用ipython
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E5%85%AB%E7%AB%A0%EF%BC%89/" rel="next" title="数据结构笔记（第八章）">
+      数据结构笔记（第八章） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第六章-集合与字典"><span class="nav-number">1.</span> <span class="nav-text">第六章 集合与字典</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#散列表"><span class="nav-number">1.1.</span> <span class="nav-text">散列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、基本概念"><span class="nav-number">1.1.1.</span> <span class="nav-text">一、基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、构造哈希函数的基本方法"><span class="nav-number">1.1.2.</span> <span class="nav-text">二、构造哈希函数的基本方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、处理冲突的基本方法"><span class="nav-number">1.1.3.</span> <span class="nav-text">三、处理冲突的基本方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、在哈希表中查找元素"><span class="nav-number">1.1.4.</span> <span class="nav-text">四、在哈希表中查找元素</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CUMTCSSULD"
+      src="/images/RSP_Logo.jpg">
+  <p class="site-author-name" itemprop="name">CUMTCSSULD</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cumtcssuld" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cumtcssuld@foxmail.com" title="E-Mail → mailto:cumtcssuld@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://user.qzone.qq.com/1390274240" title="学习菌QQ空间 → https:&#x2F;&#x2F;user.qzone.qq.com&#x2F;1390274240" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>学习菌QQ空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/cumtcssuld" title="码云 → https:&#x2F;&#x2F;gitee.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>码云</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/weixin_43608722" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;weixin_43608722" rel="noopener" target="_blank">vito</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://home.cnblogs.com/u/scwjy/" title="https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;scwjy&#x2F;" rel="noopener" target="_blank">Poplar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="/xzaslxr.xyz" title="xzaslxr.xyz">xzlxr</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/AIAHUB/HUST-AIA-Courses-Resource" title="https:&#x2F;&#x2F;github.com&#x2F;AIAHUB&#x2F;HUST-AIA-Courses-Resource" rel="noopener" target="_blank">HUST-AIA资源仓库</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CUMTCSSULD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">188k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:50</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 24550,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '24f145eaad236b72c6ca',
+      clientSecret: '6be2fb8df7a0afc8bae34beb6b9ec156cb45150c',
+      repo        : 'Comments_for_RSP_Blog',
+      owner       : 'cumtcssuld',
+      admin       : ['cumtcssuld'],
+      id          : '866d129e16c3cd77ace4ed3d6f437940',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

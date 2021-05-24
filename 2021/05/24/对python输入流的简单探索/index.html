@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next_RSP.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next_RSP.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="A3ajzAa0GB">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cumtcssuld.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="用python，你真的会input()了吗？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对python输入流的简单探索">
+<meta property="og:url" content="https://cumtcssuld.github.io/2021/05/24/%E5%AF%B9python%E8%BE%93%E5%85%A5%E6%B5%81%E7%9A%84%E7%AE%80%E5%8D%95%E6%8E%A2%E7%B4%A2/index.html">
+<meta property="og:site_name" content="RSP_Blog">
+<meta property="og:description" content="用python，你真的会input()了吗？">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-05-24T15:16:53.969Z">
+<meta property="article:modified_time" content="2020-03-08T12:04:12.282Z">
+<meta property="article:author" content="CUMTCSSULD">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="蓝桥杯">
+<meta property="article:tag" content="基础操作">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://cumtcssuld.github.io/2021/05/24/%E5%AF%B9python%E8%BE%93%E5%85%A5%E6%B5%81%E7%9A%84%E7%AE%80%E5%8D%95%E6%8E%A2%E7%B4%A2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>对python输入流的简单探索 | RSP_Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RSP_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">矿大计算机学院资源共享计划·博客</h1>
+      
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-contributors">
+
+    <a href="/contributors/" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>贡献者们</a>
+
+  </li>
+        <li class="menu-item menu-item-blogs-recommendation">
+
+    <a href="/blogs-recommendation" rel="section"><i class="fa fa-fw fa-truck"></i>博客站点推荐</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cumtcssuld.github.io/2021/05/24/%E5%AF%B9python%E8%BE%93%E5%85%A5%E6%B5%81%E7%9A%84%E7%AE%80%E5%8D%95%E6%8E%A2%E7%B4%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/RSP_Logo.jpg">
+      <meta itemprop="name" content="CUMTCSSULD">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RSP_Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          对python输入流的简单探索
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-24 23:16:53" itemprop="dateCreated datePublished" datetime="2021-05-24T23:16:53+08:00">2021-05-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-08 20:04:12" itemprop="dateModified" datetime="2020-03-08T20:04:12+08:00">2020-03-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%AD%E8%A8%80/" itemprop="url" rel="index">
+                    <span itemprop="name">语言</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%AD%E8%A8%80/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>本文首发于<a href="https://blog.csdn.net/weixin_43608722/article/details/104306943" target="_blank" rel="noopener">vito的CSDN博客</a>，经作者同意后转载。</p>
+</blockquote>
+<hr>
+<p>今年的蓝桥杯新增加了python比赛，CCF-CSP认证现在也可以使用python语言，我和身边的一些小伙伴选择了使用pyhton来做算法题。我刚从C/C++转到python有诸多不适，遇到的第一个问题便是python的<strong>输入</strong>问题</p>
+<p>我先举一个简单的例子，输入两个整型，用空格隔开,<br>在C++中非常简单实现</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a,b;</span><br><span class="line"><span class="built_in">cin</span>&gt;&gt;a&gt;&gt;b;</span><br></pre></td></tr></table></figure>
+<p>C++的输入流<code>&gt;&gt;</code>不仅支持按回车分隔输入，也支持按空格分隔输入<br>刚开始学python的我有了这样先入为主的概念，就写出这样的python的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a=input()</span><br><span class="line">b=input()</span><br><span class="line">print(a)</span><br><span class="line">print(b)</span><br></pre></td></tr></table></figure>
+<p>这样写是没有语法问题的，运行一下输入 1 2，可是当我输入2后按下了回车键，光标提示我还要继续输入，我下意识再按了下回车，输出，本应该出现在两行的1和2竟然出现在了一行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<img src=https://img-blog.csdnimg.cn/2020021409485921.jpg width='50%'>
+
+<p>修改一下程序,去掉print(b)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(a)</span><br></pre></td></tr></table></figure>
+<p>在运行程序，输入1 2，点击运行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>结果不变，显然1、空格、2都赋值给了a<br>为什么会出现这样的结果呢，我这里用help查询一下吧</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>help(input)</span><br><span class="line">Help on built-<span class="keyword">in</span> function input <span class="keyword">in</span> module builtins:</span><br><span class="line"></span><br><span class="line">input(prompt=<span class="literal">None</span>, /)</span><br><span class="line">    Read a string <span class="keyword">from</span> standard input.  The trailing newline <span class="keyword">is</span> stripped.</span><br><span class="line">    </span><br><span class="line">    The prompt string, <span class="keyword">if</span> given, <span class="keyword">is</span> printed to standard output without a</span><br><span class="line">    trailing newline before reading input.</span><br><span class="line">    </span><br><span class="line">    If the user hits EOF (*nix: Ctrl-D, Windows: Ctrl-Z+Return), <span class="keyword">raise</span> EOFError.</span><br><span class="line">    On *nix systems, readline <span class="keyword">is</span> used <span class="keyword">if</span> available.</span><br></pre></td></tr></table></figure>
+<p>Read a <code>string</code> from standard input.  这句话解释得非常清楚啦，input()是读取了一个字符串。也就是说，刚刚我按下空格时，并没有<strong>结束</strong>当前a=input()这一动作，而是继续读取接下来我从键盘上输入的2，所以b就有接收到2了。<br>我在Python Shell上再继续验证一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a=input()</span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line">&gt;&gt;&gt;print(<span class="string">"a="</span>,a,<span class="string">"\na's type is"</span>,type(a))</span><br><span class="line">a= <span class="number">1</span> <span class="number">2</span></span><br><span class="line">a<span class="string">'s type is &lt;class '</span>st<span class="string">r'&gt;</span></span><br></pre></td></tr></table></figure>
+<p>python的input()有点像C++的<code>cin.getline()</code>，可以接受带空格的字符串，按回车才会结束当前输入。<br>即使你输入的是整型、浮点型，也会自动转化为字符串</p>
+<p>我在<a href="https://pintia.cn/problem-sets/994805260223102976/problems/type/7" target="_blank" rel="noopener">PAT (Basic Level) Practice</a>里找了一个OJ题，来练习一下在OJ遇见此类问题(带空格的输入)应该怎么做</p>
+<h4 id="1010-一元多项式求导"><a href="#1010-一元多项式求导" class="headerlink" title="1010 一元多项式求导"></a><center><a href="https://pintia.cn/problem-sets/994805260223102976/problems/994805313708867584" target="_blank" rel="noopener">1010 一元多项式求导</a></center></h4><blockquote>
+<p>设计函数求一元多项式的导数。（注：x^n  （n为整数）的一阶导数为nx^n−1 。）<br>输入格式:<br>以指数递降方式输入多项式非零项系数和指数（绝对值均为不超过 1000 的整数）。数字间以<code>空格</code>分隔。<br>输出格式:<br>以与输入相同的格式输出导数多项式非零项的系数和指数。数字间以空格分隔，但结尾<strong>不能有多余空格</strong>。注意“零多项式”的指数和系数都是 0，但是表示为 0 0。<br>输入样例:<br>3 4 -5 2 6 1 -2 0<br>输出样例:<br>12 3 -10 1 6 0</p>
+</blockquote>
+<p>ok，读完题感觉很简单一道OJ题，可是对于当时刚学了一个周python满脑子是C++的我来说并不容易，光是输入就让我头疼半天。我仔细回想了一下，问题出在于我对于input()赋给变量一个<code>字符串</code>没有清楚的概念</p>
+<p>好了，现在我们坚信input()输入的是字符串，接下来就是对字符串的操作了，然而直接对字符进行操作是很生硬的，我首先用<code>split()</code>将其转化为<code>列表</code>，其中再将其字符转化为整型，剩下对列表操作就行云流水了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">st=input()</span><br><span class="line">s=[int(x) <span class="keyword">for</span> x <span class="keyword">in</span> st.split()]</span><br><span class="line">result=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(s),<span class="number">2</span>):</span><br><span class="line">    <span class="keyword">if</span> s[i+<span class="number">1</span>]!=<span class="number">0</span>:</span><br><span class="line">        result.append(str(int(s[i]*s[i+<span class="number">1</span>])))</span><br><span class="line">        result.append(str(s[i+<span class="number">1</span>]<span class="number">-1</span>))</span><br><span class="line"><span class="keyword">if</span> len(result)==<span class="number">0</span>:</span><br><span class="line">    print(<span class="string">'0 0'</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">' '</span>.join(result))</span><br></pre></td></tr></table></figure>
+<p>其实，当你熟练python,前面两句可以简化为以下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s=[int(x) <span class="keyword">for</span> x <span class="keyword">in</span> input().split()]</span><br></pre></td></tr></table></figure>
+<p>input()就是一个字符串，大胆地使用.split()就好了</p>
+<p>为了强化input()是字符串这一概念呢，我又准备了一道题</p>
+<h4 id="1009-说反话"><a href="#1009-说反话" class="headerlink" title="1009 说反话  "></a><center><a href="https://pintia.cn/problem-sets/994805260223102976/problems/994805314941992960" target="_blank" rel="noopener">1009 说反话</a>  </center></h4><blockquote>
+<p>给定一句英语，要求你编写程序，将句中所有单词的顺序颠倒输出。<br>输入格式：<br>测试输入包含一个测试用例，在一行内给出总长度不超过 80 的字符串。字符串由若干单词和若干空格组成，其中单词是由英文字母（大小写有区分）组成的字符串，单词之间用 1 个空格分开，输入保证句子末尾没有多余的空格。<br>输出格式：<br>每个测试用例的输出占一行，输出倒序后的句子。<br>输入样例：<br>Hello World Here I Come<br>输出样例：<br>Come I Here World Hello</p>
+</blockquote>
+<p>经过我的反复修改，最终答案只剩一行代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">' '</span>.join(input().split()[::<span class="number">-1</span>]))</span><br></pre></td></tr></table></figure>
+<p>先用<code>split()</code>将input()转化为<code>字符串列表</code>,再使用<code>切片[::-1]</code>逆序,最后在用’ ‘.join()将字符列表转化为<code>字符串</code>输出,这一行代码融合了输入流、输出流、字符串和列表之间的转化，python使用起来确实很流畅<br><img src=https://img-blog.csdnimg.cn/20200214103649856.jpg width='50%'></p>
+<hr>
+<p>这是Vito的第二篇原创博客，以后我会陆续介绍学习python的一点心得。除了在CSDN上发布博客，我也会在<a href="https://github.com/cumtcssuld/RSP_of_CUMTCS" target="_blank" rel="noopener">矿大计算机学院资源共享计划（Resource Sharing Plan of CUMTCS）</a>这个GitHub资源库里分享我的学习资料和博客</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+              <a href="/tags/%E8%93%9D%E6%A1%A5%E6%9D%AF/" rel="tag"><i class="fa fa-tag"></i> 蓝桥杯</a>
+              <a href="/tags/%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/" rel="tag"><i class="fa fa-tag"></i> 基础操作</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%89/" rel="prev" title="数据结构笔记（第七章）">
+      <i class="fa fa-chevron-left"></i> 数据结构笔记（第七章）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/24/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E8%AE%BA%E5%A4%8D%E4%B9%A0%E5%8F%82%E8%80%83/" rel="next" title="大数据导论期末复习参考">
+      大数据导论期末复习参考 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1010-一元多项式求导"><span class="nav-number">1.</span> <span class="nav-text">1010 一元多项式求导</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1009-说反话"><span class="nav-number">2.</span> <span class="nav-text">1009 说反话  </span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CUMTCSSULD"
+      src="/images/RSP_Logo.jpg">
+  <p class="site-author-name" itemprop="name">CUMTCSSULD</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cumtcssuld" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cumtcssuld@foxmail.com" title="E-Mail → mailto:cumtcssuld@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://user.qzone.qq.com/1390274240" title="学习菌QQ空间 → https:&#x2F;&#x2F;user.qzone.qq.com&#x2F;1390274240" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>学习菌QQ空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/cumtcssuld" title="码云 → https:&#x2F;&#x2F;gitee.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>码云</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/weixin_43608722" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;weixin_43608722" rel="noopener" target="_blank">vito</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://home.cnblogs.com/u/scwjy/" title="https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;scwjy&#x2F;" rel="noopener" target="_blank">Poplar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="/xzaslxr.xyz" title="xzaslxr.xyz">xzlxr</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/AIAHUB/HUST-AIA-Courses-Resource" title="https:&#x2F;&#x2F;github.com&#x2F;AIAHUB&#x2F;HUST-AIA-Courses-Resource" rel="noopener" target="_blank">HUST-AIA资源仓库</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CUMTCSSULD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">188k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:50</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 24550,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '24f145eaad236b72c6ca',
+      clientSecret: '6be2fb8df7a0afc8bae34beb6b9ec156cb45150c',
+      repo        : 'Comments_for_RSP_Blog',
+      owner       : 'cumtcssuld',
+      admin       : ['cumtcssuld'],
+      id          : '393bc6f204d90b891929764eb13eac33',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

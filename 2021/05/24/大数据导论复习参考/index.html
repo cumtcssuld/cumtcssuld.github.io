@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next_RSP.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next_RSP.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="A3ajzAa0GB">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cumtcssuld.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="大数据导论期末复习资料，覆盖了大部分的课程内容，供同学们参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据导论期末复习参考">
+<meta property="og:url" content="https://cumtcssuld.github.io/2021/05/24/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E8%AE%BA%E5%A4%8D%E4%B9%A0%E5%8F%82%E8%80%83/index.html">
+<meta property="og:site_name" content="RSP_Blog">
+<meta property="og:description" content="大数据导论期末复习资料，覆盖了大部分的课程内容，供同学们参考。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524161638263.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524161647858.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524161938953.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524162001284.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524162009939.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524162016813.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524162039550.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524162117333.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524162131141.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524162145725.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524162204941.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2021-05-24T15:16:53.967Z">
+<meta property="article:modified_time" content="2020-05-30T08:48:01.888Z">
+<meta property="article:author" content="CUMTCSSULD">
+<meta property="article:tag" content="大数据导论">
+<meta property="article:tag" content="期末复习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200524161638263.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70">
+
+<link rel="canonical" href="https://cumtcssuld.github.io/2021/05/24/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E8%AE%BA%E5%A4%8D%E4%B9%A0%E5%8F%82%E8%80%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>大数据导论期末复习参考 | RSP_Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RSP_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">矿大计算机学院资源共享计划·博客</h1>
+      
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-contributors">
+
+    <a href="/contributors/" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>贡献者们</a>
+
+  </li>
+        <li class="menu-item menu-item-blogs-recommendation">
+
+    <a href="/blogs-recommendation" rel="section"><i class="fa fa-fw fa-truck"></i>博客站点推荐</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cumtcssuld.github.io/2021/05/24/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E8%AE%BA%E5%A4%8D%E4%B9%A0%E5%8F%82%E8%80%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/RSP_Logo.jpg">
+      <meta itemprop="name" content="CUMTCSSULD">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RSP_Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          大数据导论期末复习参考
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-24 23:16:53" itemprop="dateCreated datePublished" datetime="2021-05-24T23:16:53+08:00">2021-05-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-30 16:48:01" itemprop="dateModified" datetime="2020-05-30T16:48:01+08:00">2020-05-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E5%86%85%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">课内学习</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E5%86%85%E5%AD%A6%E4%B9%A0/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E8%AE%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据导论</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>7.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>19 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>本文首发于<a href="https://blog.csdn.net/weixin_43608722/article/details/106316387" target="_blank" rel="noopener">vito的CSDN博客</a>，经作者同意后转载。</p>
+</blockquote>
+<hr>
+<h3 id="第1章-大数据概述"><a href="#第1章-大数据概述" class="headerlink" title="第1章 大数据概述"></a>第1章 大数据概述</h3><h4 id="数据类型、数据组织形式、数据的使用"><a href="#数据类型、数据组织形式、数据的使用" class="headerlink" title="数据类型、数据组织形式、数据的使用"></a>数据类型、数据组织形式、数据的使用</h4><h5 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h5><table>
+<thead>
+<tr>
+<th align="center">类型</th>
+<th align="center"><strong>含义</strong></th>
+<th align="center"><strong>本质</strong></th>
+<th align="center"><strong>举例</strong></th>
+<th align="center"><strong>技术</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>结构化数据</strong></td>
+<td align="center">直接可以用传统关系数据库存储和管理的数据</td>
+<td align="center">先有结构，后有管理</td>
+<td align="center">数字、符号、表格</td>
+<td align="center">SQL</td>
+</tr>
+<tr>
+<td align="center"><strong>非结构化数据</strong></td>
+<td align="center">无法用传统关系数据库存储和管理的数据</td>
+<td align="center">难以发现同一的结构</td>
+<td align="center">语音、图像、文本</td>
+<td align="center">NoSQL,NewSQL,云技术</td>
+</tr>
+<tr>
+<td align="center"><strong>半结构化数据</strong></td>
+<td align="center">经过转换用传统关系数据库存储和管理的数据</td>
+<td align="center">先有数据，后有结构</td>
+<td align="center">HTML、XML</td>
+<td align="center">RDF、OWL</td>
+</tr>
+</tbody></table>
+<h5 id="数据组织形式"><a href="#数据组织形式" class="headerlink" title="数据组织形式"></a>数据组织形式</h5><p>计算机系统中的数据组织形式主要有两种，即文件和数据库。</p>
+<ol>
+<li><p>文件：计算机系统中的很多数据都是以文件形式存在的，比如一个WORD文件、一个文本文件、一个网页文件、一个图片文件等等。</p>
+</li>
+<li><p>数据库：计算机系统中另一种非常重要的数据组织形式就是数据库，数据库已经成为计算机软件开发的基础和核心。</p>
+</li>
+</ol>
+<h5 id="数据的使用"><a href="#数据的使用" class="headerlink" title="数据的使用"></a>数据的使用</h5><ul>
+<li><p>数据清洗</p>
+</li>
+<li><p>数据管理</p>
+</li>
+<li><p>数据分析</p>
+</li>
+<li><p>信息化浪潮、信息科技为大数据时代提供技术支撑</p>
+<ol>
+<li>存储设备容量不断增加<ol start="2">
+<li>CPU处理能力大幅提升 <ol start="3">
+<li>网络带宽不断增加</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h4 id="大数据的概念-4V"><a href="#大数据的概念-4V" class="headerlink" title="大数据的概念(4V)"></a>大数据的概念(4V)</h4><img src=https://img-blog.csdnimg.cn/20200524161358526.png#pic_center width='75%'>
+
+<h4 id="科学研究四种范式"><a href="#科学研究四种范式" class="headerlink" title="科学研究四种范式"></a>科学研究四种范式</h4><ul>
+<li><p>实验</p>
+</li>
+<li><p>理论</p>
+</li>
+<li><p>计算机</p>
+</li>
+<li><p>数据</p>
+</li>
+</ul>
+<h3 id="第2章-大数据与云计算、物联网、人工智能"><a href="#第2章-大数据与云计算、物联网、人工智能" class="headerlink" title="第2章 大数据与云计算、物联网、人工智能"></a>第2章 大数据与云计算、物联网、人工智能</h3><h4 id="云计算概念、云计算服务模式和类型"><a href="#云计算概念、云计算服务模式和类型" class="headerlink" title="云计算概念、云计算服务模式和类型"></a>云计算概念、云计算服务模式和类型</h4><h5 id="五个特征"><a href="#五个特征" class="headerlink" title="五个特征"></a>五个特征</h5><ul>
+<li><p>宽带接入</p>
+</li>
+<li><p>弹性架构</p>
+</li>
+<li><p>可测量服务</p>
+</li>
+<li><p>按需自服务</p>
+</li>
+<li><p>虚拟化的资源池</p>
+</li>
+</ul>
+<h5 id="四个部署模型"><a href="#四个部署模型" class="headerlink" title="四个部署模型"></a>四个部署模型</h5><ul>
+<li><p>公有云</p>
+</li>
+<li><p>私有云</p>
+</li>
+<li><p>混合云</p>
+</li>
+<li><p>社区云</p>
+</li>
+</ul>
+<h5 id="服务模式"><a href="#服务模式" class="headerlink" title="服务模式"></a>服务模式</h5><p><code>IaaS</code>（Infrastructure as a Service）：基础设施级服务。消费者通过因特网可以从完善的计算机基础设施获得服务。</p>
+<p>IaaS通过网络向用户提供计算机（物理机和虚拟机）、存储空间、网络连接、负载均衡和防火墙等基本计算资源；用户在此基础上部署和运行各种软件，包括操作系统和应用程序。例如，通过亚马逊的AWS，用户可以按需定制所要的虚拟主机和块存储等，在线配置和管理这些资源。</p>
+<p><code>PaaS</code>（Platform as a Service）：平台级服务。PaaS实际上是指将软件研发的平台作为一种服务，以SaaS的模式提交给用户。因此，PaaS也是SaaS模式的一种应用。但是，PaaS的出现可以加快SaaS的发展，尤其是加快SaaS应用的开发速度。</p>
+<p> 平台通常包括操作系统、编程语言的运行环境、数据库和 Web服务器，用户在此平台上部署和运行自己的应用。用户不能管理和控制底层的基础设施，只能控制自己部署的应用。目前常见的PaaS提供商有CloudFoundry、谷歌的GAE等。</p>
+<p><code>SaaS</code>（Software as a Service）：软件级服务。它是一种通过因特网提供软件的模式，用户无需购买软件，而是向提供商租用基于Web的软件，来管理企业经营活动，例如邮件服务、数据处理服务、财务管理服务等</p>
+<h4 id="大数据系统与云安全、云安全及其关键技术"><a href="#大数据系统与云安全、云安全及其关键技术" class="headerlink" title="大数据系统与云安全、云安全及其关键技术"></a>大数据系统与云安全、云安全及其关键技术</h4><ul>
+<li><p>认证授权问题</p>
+</li>
+<li><p>访问控制问题</p>
+</li>
+<li><p>操作审计问题</p>
+</li>
+<li><p>敏感数据保护问题</p>
+</li>
+<li><p>认证授权问题</p>
+</li>
+</ul>
+<img src=https://img-blog.csdnimg.cn/20200524161430903.png#pic_center width='80%'>
+
+
+
+<h4 id="物联网概念、物联网三要素、物联网层次架构"><a href="#物联网概念、物联网三要素、物联网层次架构" class="headerlink" title="物联网概念、物联网三要素、物联网层次架构"></a>物联网概念、物联网三要素、物联网层次架构</h4><img src=https://img-blog.csdnimg.cn/2020052416155132.png#pic_center width='35%'>
+
+<img src=https://img-blog.csdnimg.cn/2020052416161370.png#pic_center width='65%'>
+
+
+
+<h4 id="大数据与云计算、物联网的关系"><a href="#大数据与云计算、物联网的关系" class="headerlink" title="大数据与云计算、物联网的关系"></a>大数据与云计算、物联网的关系</h4><img src=https://img-blog.csdnimg.cn/20200524161626127.png#pic_center width='70%'>
+
+
+<h4 id="人工智能概念、人工智能关键技术"><a href="#人工智能概念、人工智能关键技术" class="headerlink" title="人工智能概念、人工智能关键技术"></a>人工智能概念、人工智能关键技术</h4><p>人工智能（Artificial Intelligence），英文缩写为AI，是研究、开发用于模拟、延伸和扩展人的智能的理论、方法、技术及应用系统的一门新的技术科学。</p>
+<p>关键技术：机器学习、专家系统、知识图谱、计算机视觉、自然语言处理、生物特征识别、人机交互、VR/AR、模式识别</p>
+<h4 id="大数据与人工智能的关系"><a href="#大数据与人工智能的关系" class="headerlink" title="大数据与人工智能的关系"></a>大数据与人工智能的关系</h4><ol>
+<li>人工智能需要数据来建立其智能，特别是机器学习</li>
+<li>大数据技术为人工智能提供了强大的存储能力和计算能力</li>
+</ol>
+<h3 id="第3章-大数据技术"><a href="#第3章-大数据技术" class="headerlink" title="第3章 大数据技术"></a>第3章 大数据技术</h3><h4 id="大数据技术的不同层面及其功能"><a href="#大数据技术的不同层面及其功能" class="headerlink" title="大数据技术的不同层面及其功能"></a>大数据技术的不同层面及其功能</h4><p><img src="https://img-blog.csdnimg.cn/20200524161638263.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="传统的数据采集与大数据采集的区别"><a href="#传统的数据采集与大数据采集的区别" class="headerlink" title="传统的数据采集与大数据采集的区别"></a>传统的数据采集与大数据采集的区别</h4><p><img src="https://img-blog.csdnimg.cn/20200524161647858.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="互联网爬虫基本架构、爬取策略"><a href="#互联网爬虫基本架构、爬取策略" class="headerlink" title="互联网爬虫基本架构、爬取策略"></a>互联网爬虫基本架构、爬取策略</h4><ol>
+<li>将这些URL放入待抓取URL队列；</li>
+<li>读取URL，Download对应页面；</li>
+<li>解析页面，嗅探新的URL去重加入队列；</li>
+<li>Goto step 3</li>
+</ol>
+<h4 id="ETL概念"><a href="#ETL概念" class="headerlink" title="ETL概念"></a>ETL概念</h4><p><code>ETL</code>(Extract、Transform、load)</p>
+<p>ETL是数据获取的重要手段，需要知道具体格式<br><img src=https://img-blog.csdnimg.cn/20200524161759589.png#pic_center width='85%'></p>
+<h4 id="数据清洗的主要内容"><a href="#数据清洗的主要内容" class="headerlink" title="数据清洗的主要内容"></a>数据清洗的主要内容</h4><img src=https://img-blog.csdnimg.cn/20200524161717912.png#pic_center width='65%'>
+
+
+<h4 id="大数据时代的数据存储和管理技术"><a href="#大数据时代的数据存储和管理技术" class="headerlink" title="大数据时代的数据存储和管理技术"></a>大数据时代的数据存储和管理技术</h4><ol>
+<li>分布式文件系统</li>
+<li>NewSQL和NoSQL数据库</li>
+</ol>
+<h4 id="数据挖掘和机器学习算法、深度学习概念和应用领域"><a href="#数据挖掘和机器学习算法、深度学习概念和应用领域" class="headerlink" title="数据挖掘和机器学习算法、深度学习概念和应用领域"></a>数据挖掘和机器学习算法、深度学习概念和应用领域</h4><img src=https://img-blog.csdnimg.cn/20200524161724534.png#pic_center width='75%'>
+
+<h4 id="大数据处理分析技术类型及解决的主要问题"><a href="#大数据处理分析技术类型及解决的主要问题" class="headerlink" title="大数据处理分析技术类型及解决的主要问题"></a>大数据处理分析技术类型及解决的主要问题</h4><table>
+<thead>
+<tr>
+<th align="center"><strong>大数据计算模式</strong></th>
+<th align="center"><strong>解决问题</strong></th>
+<th align="center"><strong>代表产品</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>批处理计算</strong></td>
+<td align="center">针对大规模数据的批量处理</td>
+<td align="center">MapReduce、Spark等</td>
+</tr>
+<tr>
+<td align="center"><strong>流计算</strong></td>
+<td align="center">针对流数据的实时计算</td>
+<td align="center">Storm、S4、Flume、Streams、Puma、DStream、Super Mario、银河流数据处理平台等</td>
+</tr>
+<tr>
+<td align="center"><strong>图计算</strong></td>
+<td align="center">针对大规模图结构数据的处理</td>
+<td align="center">Pregel、GraphX、Giraph、PowerGraph、Hama、GoldenOrb等</td>
+</tr>
+<tr>
+<td align="center"><strong>查询分析计算</strong></td>
+<td align="center">大规模数据的存储管理和查询分析</td>
+<td align="center">Dremel、Hive、Cassandra、Impala等</td>
+</tr>
+</tbody></table>
+<h4 id="数据可视化概念"><a href="#数据可视化概念" class="headerlink" title="数据可视化概念"></a>数据可视化概念</h4><p>数据可视化是指将大型数据集中的数据以图形图像形式表示，并利用数据分析和开发工具发现其中未知信息的处理过程</p>
+<h4 id="数据安全技术"><a href="#数据安全技术" class="headerlink" title="数据安全技术"></a>数据安全技术</h4><ol>
+<li>身份认证技术</li>
+<li>防火墙技术</li>
+<li>访问控制技术</li>
+<li>入侵检测技术</li>
+<li>加密技术</li>
+</ol>
+<h3 id="第4、5、6章-大数据应用、大数据安全、大数据思维"><a href="#第4、5、6章-大数据应用、大数据安全、大数据思维" class="headerlink" title="第4、5、6章 大数据应用、大数据安全、大数据思维"></a>第4、5、6章 大数据应用、大数据安全、大数据思维</h3><h4 id="推荐系统、推荐方法、推荐系统"><a href="#推荐系统、推荐方法、推荐系统" class="headerlink" title="推荐系统、推荐方法、推荐系统"></a>推荐系统、推荐方法、推荐系统</h4><p>推荐系统是自动联系用户和物品的一种工具，和搜索引擎相比，推荐系统通过研究用户的兴趣偏好，进行个性化计算。推荐系统可发现用户的兴趣点，帮助用户从海量信息中去发掘自己潜在的需求。<br><img src="https://img-blog.csdnimg.cn/20200524161938953.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src=https://img-blog.csdnimg.cn/20200524161947729.png#pic_center width='75%'></p>
+<h4 id="大数据应用领域"><a href="#大数据应用领域" class="headerlink" title="大数据应用领域"></a>大数据应用领域</h4><ol>
+<li>互联网领域</li>
+<li>生物医学领域</li>
+<li>物流领域</li>
+<li>城市管理领域</li>
+<li>金融领域</li>
+<li>汽车领域</li>
+<li>零售领域</li>
+<li>餐饮领域</li>
+<li>电信领域</li>
+<li>能源领域</li>
+<li>体育和娱乐领域</li>
+<li>安全领域</li>
+<li>政府领域</li>
+</ol>
+<h4 id="大数据安全与传统数据安全的不同"><a href="#大数据安全与传统数据安全的不同" class="headerlink" title="大数据安全与传统数据安全的不同"></a>大数据安全与传统数据安全的不同</h4><ol>
+<li>大数据成为网络攻击的显著目标</li>
+<li>大数据加大隐私泄露风险</li>
+<li>大数据技术被应用到攻击手段中</li>
+<li>大数据成为高级可持续攻击（APT）的载体</li>
+</ol>
+<h4 id="大数据思维方式"><a href="#大数据思维方式" class="headerlink" title="大数据思维方式"></a>大数据思维方式</h4><ol>
+<li>全样而非抽样</li>
+<li>效率而非精确</li>
+<li>相关而非因果</li>
+<li>以数据为中心</li>
+<li>我为人人，人人为我</li>
+</ol>
+<h3 id="第9章-Hadoop、HDFS、MapReduce、Hive、Spark简介"><a href="#第9章-Hadoop、HDFS、MapReduce、Hive、Spark简介" class="headerlink" title="第9章 Hadoop、HDFS、MapReduce、Hive、Spark简介"></a>第9章 Hadoop、HDFS、MapReduce、Hive、Spark简介</h3><h4 id="Hadoop的特性、项目结构"><a href="#Hadoop的特性、项目结构" class="headerlink" title="Hadoop的特性、项目结构"></a>Hadoop的特性、项目结构</h4><p>特性：</p>
+<ul>
+<li>高可靠性<ul>
+<li>高效性</li>
+<li>高可扩展性</li>
+<li>高容错性</li>
+<li>成本低</li>
+<li>运行在Linux平台上</li>
+<li>支持多种编程语言</li>
+</ul>
+</li>
+</ul>
+<p>项目结构：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200524162001284.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<table>
+<thead>
+<tr>
+<th><strong>组件</strong></th>
+<th><strong>功能</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>HDFS</strong></td>
+<td><strong>分布式文件系统</strong></td>
+</tr>
+<tr>
+<td><strong>MapReduce</strong></td>
+<td><strong>分布式并行编程模型</strong></td>
+</tr>
+<tr>
+<td><strong>YARN</strong></td>
+<td><strong>资源管理和调度器</strong></td>
+</tr>
+<tr>
+<td><strong>Tez</strong></td>
+<td><strong>运行在YARN之上的下一代Hadoop查询处理框架，它会将很多的mr任务分析优化后构建一个有向无环图，保证最高的工作效率</strong></td>
+</tr>
+<tr>
+<td><strong>Hive</strong></td>
+<td><strong>Hadoop上的数据仓库</strong></td>
+</tr>
+<tr>
+<td><strong>HBase</strong></td>
+<td><strong>Hadoop上的非关系型的分布式数据库</strong></td>
+</tr>
+<tr>
+<td><strong>Pig</strong></td>
+<td><strong>一个基于Hadoop的大规模数据分析平台，提供类似SQL的查询语言Pig Latin</strong></td>
+</tr>
+<tr>
+<td><strong>Sqoop</strong></td>
+<td><strong>用于在Hadoop与传统数据库之间进行数据传递</strong></td>
+</tr>
+<tr>
+<td><strong>Oozie</strong></td>
+<td><strong>Hadoop上的工作流管理系统</strong></td>
+</tr>
+<tr>
+<td><strong>Zookeeper</strong></td>
+<td><strong>提供分布式协调一致性服务</strong></td>
+</tr>
+<tr>
+<td><strong>Storm</strong></td>
+<td><strong>流计算框架</strong></td>
+</tr>
+<tr>
+<td><strong>Flume</strong></td>
+<td><strong>一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统</strong></td>
+</tr>
+<tr>
+<td><strong>Ambari</strong></td>
+<td><strong>Hadoop快速部署工具，支持Apache Hadoop集群的供应、管理和监控</strong></td>
+</tr>
+<tr>
+<td><strong>Kafka</strong></td>
+<td><strong>一种高吞吐量的分布式发布订阅消息系统，可以处理消费者规模的网站中的所有动作流数据</strong></td>
+</tr>
+<tr>
+<td><strong>Spark</strong></td>
+<td><strong>类似于**</strong>Hadoop MapReduce<strong>**的通用并行框架</strong></td>
+</tr>
+</tbody></table>
+<h4 id="HDFS相关概念、体系结构、数据存取策略、数据错误与恢复"><a href="#HDFS相关概念、体系结构、数据存取策略、数据错误与恢复" class="headerlink" title="HDFS相关概念、体系结构、数据存取策略、数据错误与恢复"></a>HDFS相关概念、体系结构、数据存取策略、数据错误与恢复</h4><h5 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h5><ul>
+<li><p>块</p>
+<p>HDFS默认一个块128MB，一个文件被分成多个块，以块作为存储单位。</p>
+<pre><code>+ 支持大规模文件存储
++ 简化系统设计
++ 适合数据备份</code></pre></li>
+<li><p>NameNode和DataNode</p>
+<table>
+<thead>
+<tr>
+<th><strong>NameNode</strong></th>
+<th><strong>DataNode</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储元数据</td>
+<td>存储文件内容</td>
+</tr>
+<tr>
+<td>元数据保存在内存中</td>
+<td>文件内容保存在磁盘</td>
+</tr>
+<tr>
+<td>保存文件,block,datanode之间的映射关系</td>
+<td>维护了block  id和datanode本地文件的映射关系</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>NameNode</p>
+<ul>
+<li><p>在HDFS中，名称节点（NameNode）负责管理分布式文件系统的命名空间，保存了两个核心的数据结构，即FsImage和EditLog</p>
+</li>
+<li><p>名称节点记录了每个文件中各个块所在的数据节点的位置信息<br><img src="https://img-blog.csdnimg.cn/20200524162009939.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+</li>
+<li><p>FsImage文件</p>
+<ul>
+<li>FsImage文件包含文件系统中所有目录和文件inode的序列化形式。</li>
+<li>FsImage文件没有记录块存储在哪个数据节点。而是由名称节点把这些 映射保留在内存中</li>
+</ul>
+</li>
+<li><p>SecondaryNameNode</p>
+<p>第二名称节点是HDFS架构中的一个组成部分，它是用来保存名称节点中对HDFS 元数据信息的备份，并减少名称节点重启的时间。SecondaryNameNode一般是单独运行在一台机器上</p>
+</li>
+<li><p>数据节点（DataNode）</p>
+<ul>
+<li><p>数据节点是分布式文件系统HDFS的工作节点，负责数据的存储和读取，会根据</p>
+<p>客户端或者是名称节点的调度来进行数据的存储和检索，并且向名称节点定期发</p>
+<p>送自己所存储的块的列表</p>
+</li>
+<li><p>每个数据节点中的数据会被保存在各自节点的本地Linux文件系统中</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="HDFS体系结构"><a href="#HDFS体系结构" class="headerlink" title="HDFS体系结构"></a>HDFS体系结构</h5><p>HDFS采用了主从（Master/Slave）结构模型，一个HDFS集群包括一个名称节点（NameNode）和若干个数据节点（DataNode）。名称节点作为中心服务器，负责管理文件系统的命名空间及客户端对文件的访问。集群中的数据节点一般是一个节点运行一个数据节点进程，负责处理文件系统客户端的读/写请求，在名称节点的统一调度下进行数据块的创建、删除和复制等操作。每个数据节点的数据实际上是保存在本地Linux文件系统中的</p>
+<p><img src="https://img-blog.csdnimg.cn/20200524162016813.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5 id="数据存取策略"><a href="#数据存取策略" class="headerlink" title="数据存取策略"></a>数据存取策略</h5><ol>
+<li>数据存放<ul>
+<li>第一个副本：放置在上传文件的数据节点；如果是集群外提交，则随机挑选一台磁盘不太满、CPU不太忙的节点</li>
+<li>第二个副本：放置在与第一个副本不同的机架的节点上</li>
+<li>第三个副本：与第一个副本相同机架的其他节点上</li>
+<li>更多副本：随机节点</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20200524162039550.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<ol start="2">
+<li>数据读取<ul>
+<li>HDFS提供了一个API可以确定一个数据节点所属的机架ID，客户端也可以调用API获取自己所属的机架ID</li>
+<li>当客户端读取数据时，从名称节点获得数据块不同副本的存放位置列表，列表中包含了副本所在的数据节点，可以调用API来确定客户端和这些数据节点所属的机架ID，当发现某个数据块副本对应的机架ID和客户端对应的机架ID相同时，就优先选择该 副本读取数据，如果没有发现，就随机选择一个副本读取数据</li>
+</ul>
+</li>
+</ol>
+<h5 id="数据错误与恢复"><a href="#数据错误与恢复" class="headerlink" title="数据错误与恢复"></a>数据错误与恢复</h5><ol>
+<li><p>名称节点出错</p>
+<p>HDFS设置了备份机制，把这些核心文件同步复制到备份服务器SecondaryNameNode上。当名称节点出错时，就可以根据备份服务器SecondaryNameNode中的FsImage和Editlog数据进行恢复。</p>
+</li>
+<li><p>数据节点出错</p>
+<ul>
+<li><p>每个数据节点会定期向名称节点发送“心跳”信息，向名称节点报告自己的状态</p>
+</li>
+<li><p>当数据节点发生故障，或者网络发生断网时，名称节点就无法收到来自一些数据节点的心跳信息，这时，这些数据节点就会被标记为“宕机”，节点上面的所有数据都会被标记为“不可读”，名称节点不会再给它们发送任何I/O请求</p>
+</li>
+<li><p>这时，有可能出现一种情形，即由于一些数据节点的不可用，会导致一些数据块的副本数量小于冗余因子</p>
+</li>
+<li><p>名称节点会定期检查这种情况，一旦发现某个数据块的副本数量小于冗余因子，就会启动数据冗余复制，为它生成新的副本</p>
+</li>
+<li><p>HDFS和其它分布式文件系统的最大区别就是可以调整冗余数据的位置</p>
+</li>
+</ul>
+</li>
+<li><p>数据出错</p>
+<ol>
+<li>网络传输和磁盘错误等因素，都会造成数据错误</li>
+</ol>
+</li>
+</ol>
+<ol start="2">
+<li>客户端在读取到数据后，会采用md5和sha1对数据块进行校验，以确定读取到正确的数据</li>
+</ol>
+<ol start="3">
+<li>在文件被创建时，客户端就会对每一个文件块进行信息摘录，并把这些信息写入到同一个径的隐藏文件里面</li>
+</ol>
+<ol start="4">
+<li><p>当客户端读取文件的时候，会先读取该信息文件，然后，利用该信息文件对每个读取的数</p>
+<ol start="5">
+<li>据块进行校验，如果校验出错，客户端就会请求到另外一个数据节点读取该文件块，并且向名称节点报告这个文件块有错误，名称节点会定期检查并且重新复制这个块</li>
+</ol>
+</li>
+</ol>
+<h4 id="HDFS如何减轻名称节点的负担"><a href="#HDFS如何减轻名称节点的负担" class="headerlink" title="HDFS如何减轻名称节点的负担"></a>HDFS如何减轻名称节点的负担</h4><p>在客户端需要访问一个文件时,名称节点并不参与数据的传输,而是只将数据节点位置发给客户端,因此实现了一个文件的数据能够在不同的数据节点上实现并发访问,大大提高了数据访问速度并减轻了中心服务器的负担,方便了数据管理。</p>
+<h4 id="MapReduce相较于传统并行计算框架的优势"><a href="#MapReduce相较于传统并行计算框架的优势" class="headerlink" title="MapReduce相较于传统并行计算框架的优势"></a>MapReduce相较于传统并行计算框架的优势</h4><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"><strong>传统并行计算框架</strong></th>
+<th align="center"><strong>MapReduce</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">集群架构/容错性</td>
+<td align="center">共享式(共享内存/共享存储)，容错性差</td>
+<td align="center">非共享式，容错性好</td>
+</tr>
+<tr>
+<td align="center">硬件/价格/扩展性</td>
+<td align="center">刀片服务器、高速网、SAN，价格贵，扩展性差</td>
+<td align="center">普通PC机，便宜，扩展性好</td>
+</tr>
+<tr>
+<td align="center">编程/学习难度</td>
+<td align="center">what-how，难</td>
+<td align="center">what，简单</td>
+</tr>
+<tr>
+<td align="center">适用场景</td>
+<td align="center">实时、细粒度计算、计算密集型</td>
+<td align="center">批处理、非实时、数据密集型</td>
+</tr>
+</tbody></table>
+<h4 id="MapReduce体系结构、应用程序执行过程"><a href="#MapReduce体系结构、应用程序执行过程" class="headerlink" title="MapReduce体系结构、应用程序执行过程"></a>MapReduce体系结构、应用程序执行过程</h4><h5 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h5><p>MapReduce体系结构主要由四个部分组成，分别是：Client、JobTracker、TaskTracker以及Task</p>
+<p><img src="https://img-blog.csdnimg.cn/20200524162117333.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li><p><strong>Client</strong></p>
+<ul>
+<li>用户编写的MapReduce程序通过Client提交到JobTracker端</li>
+<li>用户可通过Client提供的一些接口查看作业运行状态</li>
+</ul>
+</li>
+<li><p><strong>JobTracker</strong></p>
+<ul>
+<li><p>JobTracker负责资源监控和作业调度</p>
+</li>
+<li><p>JobTracker 监控所有TaskTracker与Job的健康状况，一旦发现失败，就将相</p>
+<p>应的任务转移到其他节点</p>
+</li>
+<li><p>JobTracker 会跟踪任务的执行进度、资源使用量等信息，并将这些信息告诉任务调度器（TaskScheduler,可插拔，可自定义），而调度器会在资源出现空闲时，选择合适的任务去使用这些资源</p>
+</li>
+</ul>
+</li>
+<li><p><strong>TaskTracker</strong></p>
+<ul>
+<li><p>TaskTracker 会周期性地通过“心跳”将本节点上资源的使用情况和任务的</p>
+<p> 运行进度汇报给JobTracker，同时接收JobTracker 发送过来的命令并执行相</p>
+<p> 应的操作（如启动新任务、杀死任务等）</p>
+</li>
+<li><p>TaskTracker 使用”slot（槽）”等量划分本节点上的资源量（CPU、内存等）。</p>
+</li>
+<li><p>一个Task 获取到一个slot 后才有机会运行，而Hadoop调度器的作用就是将各个TaskTracker上的空闲slot分配给Task使用。slot 分为Map slot 和 Reduce slot 两种，分别供MapTask 和Reduce Task 使用</p>
+</li>
+</ul>
+</li>
+<li><p>Task</p>
+<p>Task 分为Map Task 和Reduce Task 两种，均由TaskTracker 启动</p>
+</li>
+</ul>
+<h5 id="MapReduce应用程序执行过程"><a href="#MapReduce应用程序执行过程" class="headerlink" title="MapReduce应用程序执行过程"></a>MapReduce应用程序执行过程</h5><p><img src="https://img-blog.csdnimg.cn/20200524162131141.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="数据仓库概念、-Hive特点"><a href="#数据仓库概念、-Hive特点" class="headerlink" title="数据仓库概念、 Hive特点"></a>数据仓库概念、 Hive特点</h4><p><code>数据仓库</code>（Data Warehouse）是一个面向主题的（Subject Oriented）、集成的（Integrated）、相对稳定的（Non-Volatile）、反映历史变化（Time Variant）的数据集合，用于支持管理决策。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200524162145725.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li><p>Hive是一个构建于Hadoop顶层的数据仓库工具</p>
+</li>
+<li><p>支持大规模数据存储、分析，具有良好的可扩展性</p>
+</li>
+<li><p>某种程度上可以看作是用户编程接口，本身不存储和处理数据</p>
+</li>
+<li><p>依赖分布式文件系统HDFS存储数据</p>
+</li>
+<li><p>依赖分布式并行计算模型MapReduce处理数据</p>
+</li>
+<li><p>定义了简单的类似SQL 的查询语言——HiveQL</p>
+</li>
+<li><p>用户可以通过编写的HiveQL语句运行MapReduce任务</p>
+</li>
+<li><p>可以很容易把原来构建在关系数据库上的数据仓库应用程序移植到Hadoop平台上</p>
+</li>
+<li><p>是一个可以提供有效、合理、直观组织和使用数据的分析工具</p>
+</li>
+</ul>
+<p>Hive具有的特点非常适用于数据仓库</p>
+<ul>
+<li>采用批处理方式处理海量数据<ul>
+<li>Hive需要把HiveQL语句转换成MapReduce任务进行运行</li>
+<li>数据仓库存储的是静态数据，对静态数据的分析适合采用批处理方式，不需要快速响应给出结果，而且数据本身也不会频繁变化</li>
+</ul>
+</li>
+<li>提供适合数据仓库操作的工具<ul>
+<li>Hive本身提供了一系列对数据进行提取、转换、加载（ETL）的工具，可以存储、查询和分析存储在Hadoop中的大规模数据</li>
+<li>这些工具能够很好地满足数据仓库各种应用场景</li>
+</ul>
+</li>
+</ul>
+<h4 id="Hive与Hadoop生态系统中其他组件的关系"><a href="#Hive与Hadoop生态系统中其他组件的关系" class="headerlink" title="Hive与Hadoop生态系统中其他组件的关系"></a>Hive与Hadoop生态系统中其他组件的关系</h4><ul>
+<li><p>Hive依赖于HDFS存储数据</p>
+</li>
+<li><p>Hive依赖于MapReduce 处理数据</p>
+</li>
+<li><p>在某些场景下Pig可以作为Hive的替代工具</p>
+</li>
+<li><p>HBase 提供数据的实时访问</p>
+<img src=https://img-blog.csdnimg.cn/20200524162152774.png#pic_center width='50%'>
+
+
+</li>
+</ul>
+<h4 id="Spark特点、Spark基本概念"><a href="#Spark特点、Spark基本概念" class="headerlink" title="Spark特点、Spark基本概念"></a>Spark特点、Spark基本概念</h4><ul>
+<li><p><strong>运行速度快</strong>：使用DAG执行引擎以支持循环数据流与内存计算</p>
+</li>
+<li><p><strong>容易使用</strong>：支持使用Scala、Java、Python和R语言进行编程，可以通过Spark Shell进行交互式编程</p>
+</li>
+<li><p><strong>通用性</strong>：Spark提供了完整而强大的技术栈，包括SQL查询、流式计算、机器学习和图算法组件</p>
+</li>
+<li><p><strong>运行模式多样</strong>：可运行于独立的集群模式中，可运行于Hadoop中，并且可以访问HDFS、HBase、Hive等多种数据源</p>
+</li>
+</ul>
+<h4 id="Spark与Hadoop的对比、Spark-RDD"><a href="#Spark与Hadoop的对比、Spark-RDD" class="headerlink" title="Spark与Hadoop的对比、Spark RDD"></a>Spark与Hadoop的对比、Spark RDD</h4><p>Hadoop存在如下一些缺点：</p>
+<ul>
+<li><p>表达能力有限</p>
+</li>
+<li><p>磁盘IO开销大</p>
+</li>
+<li><p>延迟高</p>
+</li>
+<li><p>任务之间的衔接涉及IO开销</p>
+</li>
+<li><p>在前一个任务执行完成之前，其他任务就无法开始，难以胜任复杂、多阶段的计算任务</p>
+</li>
+</ul>
+<p>相比于Hadoop MapReduce，Spark主要具有如下优点：</p>
+<ul>
+<li><p>Spark的计算模式也属于MapReduce，但不局限于Map和Reduce操作，还提供了多 种数据集操作类型，编程模型比Hadoop MapReduce更灵活</p>
+</li>
+<li><p>Spark提供了内存计算，可将中间结果放到内存中，对于迭代运算效率更高</p>
+</li>
+<li><p>Spark基于DAG的任务调度执行机制，要优于Hadoop MapReduce的迭代执行机制</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>MapReduce</strong></th>
+<th align="center"><strong>Spark</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">数据存储结构：磁盘HDFS文件系统的split</td>
+<td align="center">使用内存构建弹性分布式数据集RDD  对数据进行运算和cache</td>
+</tr>
+<tr>
+<td align="center">编程范式：Map  + Reduce</td>
+<td align="center">DAG:  Transformation + Action</td>
+</tr>
+<tr>
+<td align="center">计算中间结果落到磁盘，IO代价大</td>
+<td align="center">计算中间结果在内存中维护  存取速度比磁盘高几个数量级</td>
+</tr>
+<tr>
+<td align="center">Task以进程的方式维护，需要数秒时间才能启动任务</td>
+<td align="center">Task以线程的方式维护  对于小数据集读取能够达到亚秒级的延迟</td>
+</tr>
+</tbody></table>
+<h5 id="Spark-RDD"><a href="#Spark-RDD" class="headerlink" title="Spark RDD"></a>Spark RDD</h5><p>RDD提供了一个抽象的数据架构，我们不必 担心底层数据的分布式特性，只需将具体的应用逻辑表达为一系列转换处理，不同RDD之间的转换操作形成依赖关系，可以实现管道化，避免中间数据存储</p>
+<p>RDD典型的执行过程如下：</p>
+<ul>
+<li><p>RDD读入外部数据源进行创建</p>
+</li>
+<li><p>RDD经过一系列的转换（Transformation）操作，每一次都会产生不同的RDD，供给下一个转换操作使用</p>
+</li>
+<li><p>最后一个RDD经过“动作”操作进行转换，并输出到外部数据源</p>
+</li>
+</ul>
+<p>RDD特性</p>
+<ul>
+<li><p>高效的容错性</p>
+<p>现有容错机制：数据复制或者记录日志</p>
+<p>RDD：血缘关系、重新计算丢失分区、无需回滚系统、重算过程在不同</p>
+<p> 节点之间并行、只记录粗粒度的操作</p>
+</li>
+<li><p>中间结果持久化到内存，数据在内存中的多个RDD操作之间进行传递，避免  了不必要的读写磁盘开销</p>
+</li>
+</ul>
+<p>担心底层数据的分布式特性，只需将具体的应用逻辑表达为一系列转换处理，不同RDD之间的转换操作形成依赖关系，可以实现管道化，避免中间数据存储</p>
+<p>RDD典型的执行过程如下：</p>
+<ul>
+<li><p>RDD读入外部数据源进行创建</p>
+</li>
+<li><p>RDD经过一系列的转换（Transformation）操作，每一次都会产生不同的RDD，供给下一个转换操作使用</p>
+</li>
+<li><p>最后一个RDD经过“动作”操作进行转换，并输出到外部数据源<br><img src="https://img-blog.csdnimg.cn/20200524162204941.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzYwODcyMg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<p>RDD特性</p>
+<ul>
+<li><p>高效的容错性</p>
+<p>现有容错机制：数据复制或者记录日志</p>
+<p>RDD：血缘关系、重新计算丢失分区、无需回滚系统、重算过程在不同</p>
+<p> 节点之间并行、只记录粗粒度的操作</p>
+</li>
+<li><p>中间结果持久化到内存，数据在内存中的多个RDD操作之间进行传递，避免  了不必要的读写磁盘开销</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E8%AE%BA/" rel="tag"><i class="fa fa-tag"></i> 大数据导论</a>
+              <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 期末复习</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/24/%E5%AF%B9python%E8%BE%93%E5%85%A5%E6%B5%81%E7%9A%84%E7%AE%80%E5%8D%95%E6%8E%A2%E7%B4%A2/" rel="prev" title="对python输入流的简单探索">
+      <i class="fa fa-chevron-left"></i> 对python输入流的简单探索
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/02/%E5%90%90%E8%A1%80%E6%8E%A8%E8%8D%90%EF%BC%8CB%E7%AB%99%E6%9C%80%E5%BC%BA%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90%E6%B1%87%E6%80%BB%EF%BC%88%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6%EF%BC%8C%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%8CPython%EF%BC%89/" rel="next" title="吐血推荐，B站最强学习资源汇总（数据科学，机器学习，python）(转)">
+      吐血推荐，B站最强学习资源汇总（数据科学，机器学习，python）(转) <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第1章-大数据概述"><span class="nav-number">1.</span> <span class="nav-text">第1章 大数据概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据类型、数据组织形式、数据的使用"><span class="nav-number">1.1.</span> <span class="nav-text">数据类型、数据组织形式、数据的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据类型"><span class="nav-number">1.1.1.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据组织形式"><span class="nav-number">1.1.2.</span> <span class="nav-text">数据组织形式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据的使用"><span class="nav-number">1.1.3.</span> <span class="nav-text">数据的使用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据的概念-4V"><span class="nav-number">1.2.</span> <span class="nav-text">大数据的概念(4V)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#科学研究四种范式"><span class="nav-number">1.3.</span> <span class="nav-text">科学研究四种范式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第2章-大数据与云计算、物联网、人工智能"><span class="nav-number">2.</span> <span class="nav-text">第2章 大数据与云计算、物联网、人工智能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#云计算概念、云计算服务模式和类型"><span class="nav-number">2.1.</span> <span class="nav-text">云计算概念、云计算服务模式和类型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#五个特征"><span class="nav-number">2.1.1.</span> <span class="nav-text">五个特征</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#四个部署模型"><span class="nav-number">2.1.2.</span> <span class="nav-text">四个部署模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#服务模式"><span class="nav-number">2.1.3.</span> <span class="nav-text">服务模式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据系统与云安全、云安全及其关键技术"><span class="nav-number">2.2.</span> <span class="nav-text">大数据系统与云安全、云安全及其关键技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#物联网概念、物联网三要素、物联网层次架构"><span class="nav-number">2.3.</span> <span class="nav-text">物联网概念、物联网三要素、物联网层次架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据与云计算、物联网的关系"><span class="nav-number">2.4.</span> <span class="nav-text">大数据与云计算、物联网的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#人工智能概念、人工智能关键技术"><span class="nav-number">2.5.</span> <span class="nav-text">人工智能概念、人工智能关键技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据与人工智能的关系"><span class="nav-number">2.6.</span> <span class="nav-text">大数据与人工智能的关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第3章-大数据技术"><span class="nav-number">3.</span> <span class="nav-text">第3章 大数据技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据技术的不同层面及其功能"><span class="nav-number">3.1.</span> <span class="nav-text">大数据技术的不同层面及其功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#传统的数据采集与大数据采集的区别"><span class="nav-number">3.2.</span> <span class="nav-text">传统的数据采集与大数据采集的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#互联网爬虫基本架构、爬取策略"><span class="nav-number">3.3.</span> <span class="nav-text">互联网爬虫基本架构、爬取策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ETL概念"><span class="nav-number">3.4.</span> <span class="nav-text">ETL概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据清洗的主要内容"><span class="nav-number">3.5.</span> <span class="nav-text">数据清洗的主要内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据时代的数据存储和管理技术"><span class="nav-number">3.6.</span> <span class="nav-text">大数据时代的数据存储和管理技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据挖掘和机器学习算法、深度学习概念和应用领域"><span class="nav-number">3.7.</span> <span class="nav-text">数据挖掘和机器学习算法、深度学习概念和应用领域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据处理分析技术类型及解决的主要问题"><span class="nav-number">3.8.</span> <span class="nav-text">大数据处理分析技术类型及解决的主要问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据可视化概念"><span class="nav-number">3.9.</span> <span class="nav-text">数据可视化概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据安全技术"><span class="nav-number">3.10.</span> <span class="nav-text">数据安全技术</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第4、5、6章-大数据应用、大数据安全、大数据思维"><span class="nav-number">4.</span> <span class="nav-text">第4、5、6章 大数据应用、大数据安全、大数据思维</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#推荐系统、推荐方法、推荐系统"><span class="nav-number">4.1.</span> <span class="nav-text">推荐系统、推荐方法、推荐系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据应用领域"><span class="nav-number">4.2.</span> <span class="nav-text">大数据应用领域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据安全与传统数据安全的不同"><span class="nav-number">4.3.</span> <span class="nav-text">大数据安全与传统数据安全的不同</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大数据思维方式"><span class="nav-number">4.4.</span> <span class="nav-text">大数据思维方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第9章-Hadoop、HDFS、MapReduce、Hive、Spark简介"><span class="nav-number">5.</span> <span class="nav-text">第9章 Hadoop、HDFS、MapReduce、Hive、Spark简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Hadoop的特性、项目结构"><span class="nav-number">5.1.</span> <span class="nav-text">Hadoop的特性、项目结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HDFS相关概念、体系结构、数据存取策略、数据错误与恢复"><span class="nav-number">5.2.</span> <span class="nav-text">HDFS相关概念、体系结构、数据存取策略、数据错误与恢复</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#相关概念"><span class="nav-number">5.2.1.</span> <span class="nav-text">相关概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HDFS体系结构"><span class="nav-number">5.2.2.</span> <span class="nav-text">HDFS体系结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据存取策略"><span class="nav-number">5.2.3.</span> <span class="nav-text">数据存取策略</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据错误与恢复"><span class="nav-number">5.2.4.</span> <span class="nav-text">数据错误与恢复</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HDFS如何减轻名称节点的负担"><span class="nav-number">5.3.</span> <span class="nav-text">HDFS如何减轻名称节点的负担</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MapReduce相较于传统并行计算框架的优势"><span class="nav-number">5.4.</span> <span class="nav-text">MapReduce相较于传统并行计算框架的优势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MapReduce体系结构、应用程序执行过程"><span class="nav-number">5.5.</span> <span class="nav-text">MapReduce体系结构、应用程序执行过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#体系结构"><span class="nav-number">5.5.1.</span> <span class="nav-text">体系结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MapReduce应用程序执行过程"><span class="nav-number">5.5.2.</span> <span class="nav-text">MapReduce应用程序执行过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据仓库概念、-Hive特点"><span class="nav-number">5.6.</span> <span class="nav-text">数据仓库概念、 Hive特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hive与Hadoop生态系统中其他组件的关系"><span class="nav-number">5.7.</span> <span class="nav-text">Hive与Hadoop生态系统中其他组件的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spark特点、Spark基本概念"><span class="nav-number">5.8.</span> <span class="nav-text">Spark特点、Spark基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spark与Hadoop的对比、Spark-RDD"><span class="nav-number">5.9.</span> <span class="nav-text">Spark与Hadoop的对比、Spark RDD</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Spark-RDD"><span class="nav-number">5.9.1.</span> <span class="nav-text">Spark RDD</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CUMTCSSULD"
+      src="/images/RSP_Logo.jpg">
+  <p class="site-author-name" itemprop="name">CUMTCSSULD</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cumtcssuld" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cumtcssuld@foxmail.com" title="E-Mail → mailto:cumtcssuld@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://user.qzone.qq.com/1390274240" title="学习菌QQ空间 → https:&#x2F;&#x2F;user.qzone.qq.com&#x2F;1390274240" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>学习菌QQ空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/cumtcssuld" title="码云 → https:&#x2F;&#x2F;gitee.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>码云</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/weixin_43608722" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;weixin_43608722" rel="noopener" target="_blank">vito</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://home.cnblogs.com/u/scwjy/" title="https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;scwjy&#x2F;" rel="noopener" target="_blank">Poplar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="/xzaslxr.xyz" title="xzaslxr.xyz">xzlxr</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/AIAHUB/HUST-AIA-Courses-Resource" title="https:&#x2F;&#x2F;github.com&#x2F;AIAHUB&#x2F;HUST-AIA-Courses-Resource" rel="noopener" target="_blank">HUST-AIA资源仓库</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CUMTCSSULD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">188k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:50</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 24550,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '24f145eaad236b72c6ca',
+      clientSecret: '6be2fb8df7a0afc8bae34beb6b9ec156cb45150c',
+      repo        : 'Comments_for_RSP_Blog',
+      owner       : 'cumtcssuld',
+      admin       : ['cumtcssuld'],
+      id          : '5d78eddeb22ebec2a05e33ed89dd33b0',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

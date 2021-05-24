@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next_RSP.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next_RSP.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="A3ajzAa0GB">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cumtcssuld.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="数据结构第七章学习笔记，供同学们参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构笔记（第七章）">
+<meta property="og:url" content="https://cumtcssuld.github.io/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%89/index.html">
+<meta property="og:site_name" content="RSP_Blog">
+<meta property="og:description" content="数据结构第七章学习笔记，供同学们参考。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102405760-882342916.png">
+<meta property="article:published_time" content="2021-05-24T15:16:53.972Z">
+<meta property="article:modified_time" content="2020-06-18T08:39:07.880Z">
+<meta property="article:author" content="CUMTCSSULD">
+<meta property="article:tag" content="期末复习">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102405760-882342916.png">
+
+<link rel="canonical" href="https://cumtcssuld.github.io/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>数据结构笔记（第七章） | RSP_Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RSP_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">矿大计算机学院资源共享计划·博客</h1>
+      
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-contributors">
+
+    <a href="/contributors/" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>贡献者们</a>
+
+  </li>
+        <li class="menu-item menu-item-blogs-recommendation">
+
+    <a href="/blogs-recommendation" rel="section"><i class="fa fa-fw fa-truck"></i>博客站点推荐</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cumtcssuld.github.io/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/RSP_Logo.jpg">
+      <meta itemprop="name" content="CUMTCSSULD">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RSP_Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          数据结构笔记（第七章）
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-24 23:16:53" itemprop="dateCreated datePublished" datetime="2021-05-24T23:16:53+08:00">2021-05-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-18 16:39:07" itemprop="dateModified" datetime="2020-06-18T16:39:07+08:00">2020-06-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E5%86%85%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">课内学习</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E5%86%85%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>10k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>26 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="第七章-搜索结构"><a href="#第七章-搜索结构" class="headerlink" title="第七章 搜索结构"></a>第七章 搜索结构</h1><h2 id="搜索的基本概念"><a href="#搜索的基本概念" class="headerlink" title="搜索的基本概念"></a>搜索的基本概念</h2><p>所谓搜索，就是在数据集合中寻找满足某种 条件的数据对象。搜索的结果通常有两种可能：搜索成功、搜索不成功。    </p>
+<p>关键码：可以标识一个记录的某个数据项。  </p>
+<p>键值：关键码的值。 </p>
+<p>主关键码：可以唯一地标识一个记录的关键码。</p>
+<p>次关键码：不能唯一地标识一个记录的关键码</p>
+<p><strong>查找的基本概念</strong> </p>
+<p>静态搜索：不涉及插入和删除操作的搜索 。 </p>
+<p>动态搜索：涉及插入和删除操作的搜索。   </p>
+<p>静态搜索适用于：搜索集合一经生成，便只对其进行 搜索，而不进行插入和删除操作，或经过一段时间的 搜索之后，集中地进行插入和删除等修改操作； </p>
+<p>动态搜索适用于：查找与插入和删除操作在同一个阶 段进行，例如当查找成功时，要删除查找到的记录， 当查找不成功时，要插入被查找的记录。 </p>
+<p>搜索结构 ：面向搜索操作的数据结构 ，即搜索基于的 数据结构。 集合中元素之间不存在明显的组织规律，不便查找。 </p>
+<p>线性表：适用于静态搜索，主要采用顺序搜索技术 和折半搜索技术。 </p>
+<p>树表：适用于动态搜索，主要采用二叉排序树的搜 索技术。</p>
+<p>散列表：静态查找和动态查找均适用，主要采用散 列技术。  </p>
+<p><strong>搜索算法的性能</strong>  </p>
+<p>搜索算法时间性能通过关键码的比较次数来度量。</p>
+<p>关键码的比较次数与哪些因素有关呢？<br>平均搜索长度：将搜索算法进行的关键码的比较次数 的数学期望值定义为平均搜索长度，即： </p>
+<p>ASL=求和(i从1到n)  Pi*Ci</p>
+<p>其中：n：问题规模，查找集合中的记录个数；Pi：搜索第i个记录的概率； Ci：搜索第i个记录所需的关键码的比较次数。 </p>
+<p>Ci取决于算法；pi与算法无关，取决于具体应用。如果pi 是已知的，则平均查找长度只是问题规模的函数。 </p>
+<h2 id="线性表的搜索技术"><a href="#线性表的搜索技术" class="headerlink" title="线性表的搜索技术"></a>线性表的搜索技术</h2><p><strong>静态搜索表</strong></p>
+<p>在静态搜索表中，数据元素存放于数组中，利 用数组元素的下标作为数据元素的存放地址。 搜索算法根据给定值 k，在数组中进行搜索。 直到找到 k 在数组中的存放位置或可确定在数 组中找不到 k 为止。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//数据表与搜索表的类定义 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream.h&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt; </span></span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> defaultSize = <span class="number">100</span>; </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">dataList</span>;</span>  <span class="comment">//数据表类的前视定义 </span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span> &gt; </span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">dataNode</span></span></span><br><span class="line"><span class="class">&#123;</span>  <span class="comment">//数据表中结点类的定义 </span></span><br><span class="line"><span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">dataList</span>&lt;E, K&gt;;</span><span class="comment">//声明其友元类为dataList</span></span><br><span class="line"><span class="keyword">private</span>:      </span><br><span class="line">K key;   <span class="comment">//关键码域        </span></span><br><span class="line">E other;            <span class="comment">//其他域（视问题而定）                       </span></span><br><span class="line"> <span class="keyword">public</span>: </span><br><span class="line"></span><br><span class="line">     dataNode (<span class="keyword">const</span> K x) : key(x) &#123; &#125;     <span class="comment">//构造函数      </span></span><br><span class="line">     <span class="function">K <span class="title">getKey</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> key; &#125;     <span class="comment">//读取关键码      </span></span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">setKey</span> <span class="params">(K x)</span> </span>&#123; key = x; &#125;     <span class="comment">//修改关键码</span></span><br><span class="line">  &#125;;  </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span> &gt; </span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">dataList</span> &#123;</span>  <span class="comment">//数据表类定义 </span></span><br><span class="line"><span class="keyword">protected</span>:      dataNode&lt;E, K&gt; *Element;    <span class="comment">//数据表存储数组      </span></span><br><span class="line"><span class="keyword">int</span> ArraySize, CurrentSize;  <span class="comment">//数组最大长度和当前长度</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>顺序搜索（Sequential Search）</strong></p>
+<p>顺序搜索主要用于在线性表中搜索。 </p>
+<p>顺序用各元素的关键码与给定值 x 进行比较 。技巧：把待查关键字key存入表头或表尾（俗称 “哨兵”），这样可以加快执行速度。</p>
+<p><strong>顺序查找 （线性查找）</strong> </p>
+<p>基本思想：从线性表的一端向另一端逐个将关键码与 给定值进行比较，若相等，则查找成功，给出该记录 在表中的位置；若整个表检测完仍未找到与给定值相 等的关键码，则查找失败，给出失败信息。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//顺序查找 （线性查找） </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">SeqSearch1</span><span class="params">(<span class="keyword">int</span> r[ ], <span class="keyword">int</span> n, <span class="keyword">int</span> k)</span> </span></span><br><span class="line"><span class="function"><span class="comment">//数组r[1] ~ r[n]存放查找集合 </span></span></span><br><span class="line"><span class="function"></span>&#123;        </span><br><span class="line">i = n;     </span><br><span class="line"><span class="keyword">while</span> (i&gt;<span class="number">0</span> &amp;&amp;r[i] != k)        </span><br><span class="line">i--;     </span><br><span class="line"><span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>改进的顺序查找</strong> </p>
+<p>基本思想：设置“哨兵”。哨兵就是待查值，将它放 在查找方向的尽头处，免去了在查找过程中每一次比 较后都要判断查找位置是否越界，从而提高查找速度 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//改进的顺序查找 </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">SeqSearch2</span><span class="params">(<span class="keyword">int</span> r[ ], <span class="keyword">int</span> n, <span class="keyword">int</span> k)</span>  </span></span><br><span class="line"><span class="function"><span class="comment">//数组r[1] ~ r[n]存放查找集合 </span></span></span><br><span class="line"><span class="function"></span>&#123;       </span><br><span class="line">r[<span class="number">0</span>] = k; </span><br><span class="line">i = n;      </span><br><span class="line"><span class="keyword">while</span> (r[i] != k)         </span><br><span class="line">i--;      </span><br><span class="line"><span class="keyword">return</span> i; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ASL=O(n) </p>
+<p><strong>顺序查找的缺点：</strong> </p>
+<p>平均查找长度较大，特别是当待查找集合中元素较多 时，查找效率较低。 </p>
+<p><strong>顺序查找的优点</strong>：</p>
+<p>算法简单而且使用面广。 </p>
+<p>对表中记录的存储没有任何要求，顺序存储和链接 存储均可；</p>
+<p>对表中记录的有序性也没有要求，无论记录是否按 关键码有序均可。 </p>
+<p><strong>基于有序顺序表的折半搜索</strong> </p>
+<p>哨兵法当N很大时，搜索的效率很低。</p>
+<p>如果把顺序表的元素按其关键码从小到大 排列，则可以采取效率更高的搜索算法。 </p>
+<p><strong>折半搜索</strong></p>
+<p>使用条件： </p>
+<p>线性表中的记录必须按关键码有序； </p>
+<p>必须采用顺序存储。 </p>
+<p>基本思想：</p>
+<p>折半搜索时, 先求位于搜索区间正中的对 象的下标mid，用其关键码与给定值x比较: </p>
+<p>Element[mid].key == x，搜索成功； </p>
+<p>Element[mid].key &gt; x，把搜索区间缩小到表的前半部分，继续折半搜索； </p>
+<p>Element[mid].key &lt; x，把搜索区间缩小     到表的后半部分，继续折半搜索。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//折半查找——非递归算法 </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">BinSearch1</span><span class="params">(<span class="keyword">int</span> r[ ], <span class="keyword">int</span> n, <span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123; <span class="comment">//数组r[1] ~ r[n]存放查找集合     </span></span><br><span class="line">low = <span class="number">1</span>; high = n;     </span><br><span class="line"><span class="keyword">while</span> (low &lt;= high)                        </span><br><span class="line">&#123;        </span><br><span class="line">mid = (low + high) / <span class="number">2</span>;                    </span><br><span class="line"><span class="keyword">if</span> (k &lt; r[mid])  high = mid - <span class="number">1</span>;        </span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (k &gt; r[mid])  low = mid + <span class="number">1</span>;                </span><br><span class="line"><span class="keyword">else</span> <span class="keyword">return</span> mid;     </span><br><span class="line">&#125;     </span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//折半查找——递归算法 </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">BinSearch2</span><span class="params">(<span class="keyword">int</span> r[ ], <span class="keyword">int</span> low, <span class="keyword">int</span> high, <span class="keyword">int</span> k)</span> </span></span><br><span class="line"><span class="function"></span>&#123;   <span class="comment">//数组r[1] ~ r[n]存放查找集合     </span></span><br><span class="line"><span class="keyword">if</span> (low &gt; high) <span class="keyword">return</span> <span class="number">0</span>;       </span><br><span class="line"><span class="keyword">else</span> &#123;        </span><br><span class="line">mid = (low + high) / <span class="number">2</span>;       </span><br><span class="line"><span class="keyword">if</span> (k &lt; r[mid])            </span><br><span class="line"><span class="keyword">return</span> BinSearch2(r, low, mid<span class="number">-1</span>, k);      </span><br><span class="line"><span class="keyword">else</span>  <span class="keyword">if</span> (k &gt; r[mid])                  </span><br><span class="line"><span class="keyword">return</span> BinSearch2(r, mid+<span class="number">1</span>, high, k);              </span><br><span class="line"><span class="keyword">else</span> <span class="keyword">return</span> mid;    </span><br><span class="line">&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>折半搜索性能分析</strong> </p>
+<p>若设 n = 2h-1，则描述折半搜索的判定树是 高度为 h的满二叉树。              </p>
+<p>n=2h -1, h = log（2） ｜ (n+1) ︱。<br> 搜索成功：在表中查找任一记录的过程，即是折半查 找判定树中从根结点到该记录结点的路径，和给定值 的比较次数等于该记录结点在树中的层数。<br>搜索不成功：查找失败的过程就是走了一条从根结 点到外部结点的路径，和给定值进行的关键码的比 较次数等于该路径上内部结点的个数。 </p>
+<p>ASLsucc=log（2）（n+1）-1</p>
+<p><strong>动态查找表</strong> </p>
+<p>特点：表结构在查找过程中动态生成。</p>
+<p>要求：对于给定值key,若表中存在其关键字等于 key的记录，则查找成功返回； 否则插入或删除关键字等于key的记录。</p>
+<p> 典型的动态表———二叉搜索树(二叉排序树) </p>
+<h2 id="树表的搜索技术"><a href="#树表的搜索技术" class="headerlink" title="树表的搜索技术"></a>树表的搜索技术</h2><p><strong>二叉搜索树 ( Binary Search Tree )</strong> </p>
+<p><strong>定义</strong>          </p>
+<p>二叉搜索树或者是一棵空树，或者是具 有下列性质的二叉树： </p>
+<p>所有结点的关键码互不相同。 </p>
+<p>左子树（如果非空）上所有结点的关键 码都小于根结点的关键码。 </p>
+<p>右子树（如果非空）上所有结点的关键 码都大于根结点的关键码。 </p>
+<p>左子树和右子树也是二叉搜索树。 </p>
+<p><strong>二叉搜索树例</strong></p>
+<p>结点左子树上所 有关键码小于结 点关键码；</p>
+<p>右子树上所有关 键码大于结点关 键码； </p>
+<p>如果对一棵二叉搜索树进行中序遍历，可以按从小到大 的顺序，将各结点关键码排列起来，所以也称二叉搜索 树为二叉排序树。 </p>
+<p>二叉搜索树的类定义用二叉链表作为它的存储表示，许多 操作的实现与二叉树类似。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream.h&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt; </span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">BSTNode</span>  &#123;</span>       <span class="comment">//二叉树结点类     </span></span><br><span class="line">E data;        <span class="comment">//数据域     </span></span><br><span class="line">BSTNode&lt;E, K&gt; *left, *right;  <span class="comment">//左子女和右子女 </span></span><br><span class="line">BSTNode() &#123; left = <span class="literal">NULL</span>; right = <span class="literal">NULL</span>; &#125;     </span><br><span class="line">BSTNode (<span class="keyword">const</span> E d, BSTNode&lt;E, K&gt; *L = <span class="literal">NULL</span>, BSTNode&lt;E, K&gt; *R = <span class="literal">NULL</span>)   &#123; data = d; left = L; right = R;&#125; </span><br><span class="line">～BSTNode() &#123;&#125;    <span class="comment">//析构函数    </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">setData</span> <span class="params">(E d)</span> </span>&#123; data = d; &#125; <span class="comment">//修改 </span></span><br><span class="line"><span class="function">E <span class="title">getData</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> data; &#125;  <span class="comment">//提取     </span></span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span> &lt; (<span class="keyword">const</span> E&amp; x)  <span class="comment">//重载：判小于         </span></span><br><span class="line">&#123; <span class="keyword">return</span> data.key &lt; x.key; &#125;   </span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span> &gt; (<span class="keyword">const</span> E&amp; x)  <span class="comment">//重载：判大于         </span></span><br><span class="line">&#123; <span class="keyword">return</span> data.key &gt; x.key; &#125;     </span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span> == (<span class="keyword">const</span> E&amp; x)  <span class="comment">//重载：判等于         </span></span><br><span class="line">&#123; <span class="keyword">return</span> data.key == x.key; &#125; </span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">BST</span> &#123;</span>      <span class="comment">//二叉搜索树类定义 </span></span><br><span class="line"><span class="keyword">private</span>:     </span><br><span class="line">BSTNode&lt;E, K&gt; *root; <span class="comment">//根指针    </span></span><br><span class="line">K RefValue;    <span class="comment">//输入停止标志 </span></span><br><span class="line"><span class="keyword">public</span>:     </span><br><span class="line">BST() &#123; root = <span class="literal">NULL</span>; &#125;   <span class="comment">//构造函数     </span></span><br><span class="line">BST(K value);     <span class="comment">//构造函数     </span></span><br><span class="line">～BST() &#123;&#125;;     <span class="comment">//析构函数 </span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Search</span> <span class="params">(<span class="keyword">const</span> K x)</span> <span class="keyword">const</span> <span class="comment">//搜索          </span></span></span><br><span class="line"><span class="function"></span>&#123; <span class="keyword">return</span> Search(x,root) != <span class="literal">NULL</span>; &#125;     </span><br><span class="line">BST&lt;E, K&gt;&amp; <span class="keyword">operator</span> = (<span class="keyword">const</span> BST&lt;E, K&gt;&amp; R);           <span class="comment">//重载：赋值     </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">makeEmpty</span><span class="params">()</span>    <span class="comment">//置空         </span></span></span><br><span class="line"><span class="function"></span>&#123; makeEmpty (root); root = <span class="literal">NULL</span>;&#125;     </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintTree</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; PrintTree (root); &#125;    <span class="comment">//输出    </span></span><br><span class="line"><span class="function">E <span class="title">Min</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> Min(root)-&gt;data; &#125;  <span class="comment">//求最小 </span></span><br><span class="line"><span class="function">E <span class="title">Max</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> Max(root)-&gt;data; &#125;  <span class="comment">//求最大 </span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Insert</span> <span class="params">(<span class="keyword">const</span> E&amp; e1)</span>                <span class="comment">//插入新元素         </span></span></span><br><span class="line"><span class="function"></span>&#123; <span class="keyword">return</span> Insert(e1, root);&#125; </span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Remove</span> <span class="params">(<span class="keyword">const</span> K x)</span> </span></span><br><span class="line"><span class="function"></span>&#123; <span class="keyword">return</span> Remove(x, root);&#125;    <span class="comment">//删除含x的结点</span></span><br><span class="line"><span class="keyword">private</span>:     </span><br><span class="line">BSTNode&lt;E, K&gt; * Search (const K x, BSTNode&lt;E, K&gt; *ptr);  //递归：搜索  </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">makeEmpty</span> <span class="params">(BSTNode&lt;E, K&gt; *&amp; ptr)</span></span>;      <span class="comment">//递归：置空     </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintTree</span> <span class="params">(BSTNode&lt;E, K&gt; *ptr)</span> <span class="keyword">const</span></span>;      <span class="comment">//递归：打印         </span></span><br><span class="line">BSTNode&lt;E, K&gt; * (<span class="keyword">const</span> BSTNode&lt;E, K&gt; *ptr); <span class="comment">//递归：复制    </span></span><br><span class="line">BSTNode&lt;E, K&gt;* Min (BSTNode&lt;E, K&gt;* ptr); //递归：求最小    </span><br><span class="line">BSTNode&lt;E, K&gt;* Max (BSTNode&lt;E, K&gt;* ptr);     //递归：求最大    </span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Insert</span> <span class="params">(<span class="keyword">const</span> E&amp; e1, BSTNode&lt;E, K&gt;*&amp; ptr)</span></span>;     <span class="comment">//递归：插入     </span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Remove</span> <span class="params">(<span class="keyword">const</span> K x, BSTNode&lt;E, K&gt;*&amp; ptr)</span></span>;     <span class="comment">//递归：删除 </span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>二叉搜索树的搜索算法</strong> </p>
+<p>在二叉搜索树上进行搜索，是一个从根结点开始，递 归进行比较判等的过程。 </p>
+<p>假设想要在二叉搜索树中搜索关键码为 x 的元素，搜 索过程从根结点开始。 </p>
+<p>如果根指针为NULL，则搜索不成功；否则用给定值 x 与根结点的关键码进行比较： </p>
+<p>若给定值等于根结点关键码，则搜索成功 </p>
+<p>若小于根结点的关键码，则搜索左子树； </p>
+<p>否则。递归搜索根结点的右子树。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">BSTNode</span>&lt;E, K&gt;* <span class="title">BST</span>&lt;E, K&gt;:</span>: Search (<span class="keyword">const</span> K x, BSTNode&lt;E, K&gt; *ptr) </span><br><span class="line">&#123; <span class="comment">//私有递归函数：在以ptr为根的二叉搜索树中搜 //索含x的结点。若找到，则函数返回该结点的 </span></span><br><span class="line"><span class="comment">//地址，否则函数返回NULL值。     </span></span><br><span class="line"><span class="keyword">if</span> (ptr == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;      </span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (x &lt; ptr-&gt;data) <span class="keyword">return</span> Search(x, ptr-&gt;left);     </span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (x &gt; ptr-&gt;data) <span class="keyword">return</span> Search(x, ptr-&gt;right);     </span><br><span class="line"><span class="keyword">else</span> <span class="keyword">return</span> ptr;    <span class="comment">//搜索成功 </span></span><br><span class="line">&#125;; </span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">BSTNode</span>&lt;E, K&gt;* <span class="title">BST</span>&lt;E, K&gt;:</span>: Search (<span class="keyword">const</span> K x, BSTNode&lt;E, K&gt; *ptr) &#123; </span><br><span class="line"><span class="comment">//非递归函数：作为对比，在当前以ptr为根的二 </span></span><br><span class="line"><span class="comment">//叉搜索树中搜索含x的结点。若找到，则函数返 </span></span><br><span class="line"><span class="comment">//回该结点的地址，否则函数返回NULL值。   </span></span><br><span class="line"><span class="keyword">if</span> (ptr == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;     </span><br><span class="line">BSTNode&lt;E, K&gt;* temp = ptr;    </span><br><span class="line"><span class="keyword">while</span> (temp != <span class="literal">NULL</span>) </span><br><span class="line">&#123;       </span><br><span class="line"><span class="keyword">if</span> (x == temp-&gt;data) <span class="keyword">return</span> temp;        </span><br><span class="line"><span class="keyword">if</span> (x &lt; temp-&gt;data) temp = temp-&gt;left; </span><br><span class="line"><span class="keyword">else</span> temp = temp-&gt;right;     </span><br><span class="line">&#125;     </span><br><span class="line"><span class="keyword">return</span> <span class="literal">NULL</span>; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>搜索过程是从根结点开始，沿某条路径自 上而下逐层比较判等的过程。</p>
+<p>搜索成功，搜索指针将停留在树上某个结 点；</p>
+<p>搜索不成功，搜索指针将走到树上某 个结点的空子树。</p>
+<p>设树的高度为h，最多比较次数不超过h。 </p>
+<p><strong>二叉搜索树的插入算法</strong> </p>
+<p>为了向二叉搜索树中插入一个新元素，必须 先检查这个元素是否在树中已经存在。 </p>
+<p>在插入之前，先使用搜索算法在树中检查要 插入元素有还是没有。</p>
+<p>如果搜索成功，说明树中已经有这个元素， 不再插入；</p>
+<p>如果搜索不成功，说明树中原来没有关键 码等于给定值的结点，把新元素加到搜索 操作停止的地方。  </p>
+<p><strong>二叉搜索树的插入</strong> </p>
+<p>每次结点的插入，都要 从根结点出发搜索插入 位置，然后把新结点作为叶结点插入。 </p>
+<p>利用二叉搜索树的插入算法，可以很方 便地建立二叉搜索树。   </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">bool</span> <span class="title">BST</span>&lt;E, K&gt;:</span>:Insert (<span class="keyword">const</span> E&amp; e1,   BSTNode&lt;E, K&gt; *&amp; ptr) </span><br><span class="line">&#123;   <span class="comment">//注意参数形式     </span></span><br><span class="line"><span class="keyword">if</span> (ptr == <span class="literal">NULL</span>) </span><br><span class="line">&#123;    <span class="comment">//新结点作为叶结点插入         </span></span><br><span class="line">ptr = <span class="keyword">new</span> BstNode&lt;E, K&gt;(e1);   <span class="comment">//创建新结点         </span></span><br><span class="line"><span class="keyword">if</span> (ptr == <span class="literal">NULL</span>)&#123; <span class="built_in">cerr</span> &lt;&lt; <span class="string">"Out of space"</span> &lt;&lt; <span class="built_in">endl</span>;  <span class="built_in">exit</span>(<span class="number">1</span>); &#125;      </span><br><span class="line"><span class="keyword">return</span> <span class="literal">true</span>;        </span><br><span class="line">&#125;    </span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (e1 &lt; ptr-&gt;data) <span class="keyword">return</span> Insert (e1, ptr-&gt;left);      </span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (e1 &gt; ptr-&gt;data) <span class="keyword">return</span> Insert (e1, ptr-&gt;right);    </span><br><span class="line"><span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;  <span class="comment">//x已在树中,不再插入 </span></span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span>&gt; <span class="title">BST</span>&lt;E, K&gt;:</span>:BST (K value) </span><br><span class="line">&#123; <span class="comment">//输入一个元素序列, 建立一棵二叉搜索树     </span></span><br><span class="line">    E x;       </span><br><span class="line">    root = <span class="literal">NULL</span>;  RefValue = value;      <span class="comment">//置空树    </span></span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; x;          <span class="comment">//输入数据     </span></span><br><span class="line">    <span class="keyword">while</span> ( x.key != RefValue) &#123;    <span class="comment">//RefValue是一个输入结束标志         </span></span><br><span class="line">        Insert (x, root);  <span class="built_in">cin</span> &gt;&gt; x;   <span class="comment">//插入，再输入数据     </span></span><br><span class="line">    &#125; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//二叉搜索树插入的非递归方法</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt; </span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>; </span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Binode</span></span></span><br><span class="line"><span class="class">&#123;</span>  </span><br><span class="line"><span class="keyword">int</span> data; </span><br><span class="line">Binode *l, *r; </span><br><span class="line">&#125;Binode,*Bitree; </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(Bitree &amp; t, <span class="keyword">int</span> i)</span></span>&#123;      </span><br><span class="line">Bitree  p =t, parent;       </span><br><span class="line"><span class="keyword">while</span> (p != <span class="literal">NULL</span>)</span><br><span class="line">&#123;   </span><br><span class="line"><span class="keyword">if</span> (i &gt; p-&gt;data)&#123; parent=p;p = p-&gt;r;&#125;  </span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (i &lt; p-&gt;data) &#123;parent=p;p = p-&gt;l;&#125;   </span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (i == p-&gt;data)  <span class="keyword">return</span>;  &#125;         </span><br><span class="line">p=<span class="keyword">new</span> Binode;  </span><br><span class="line">p-&gt;data = i; </span><br><span class="line">p-&gt;l = <span class="literal">NULL</span>;   </span><br><span class="line">p-&gt;r = <span class="literal">NULL</span>; </span><br><span class="line"><span class="keyword">if</span>(t==<span class="literal">NULL</span>) t=p;   </span><br><span class="line"><span class="keyword">else</span>            </span><br><span class="line"><span class="keyword">if</span>(parent-&gt;data&lt;i) parent-&gt;r= p;          </span><br><span class="line"><span class="keyword">else</span> parent-&gt;l=p; </span><br><span class="line">&#125; </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123; </span><br><span class="line"> </span><br><span class="line"> Bitree t = <span class="literal">NULL</span>; </span><br><span class="line"> <span class="keyword">int</span> n, k, i;  </span><br><span class="line"> <span class="built_in">cin</span> &gt;&gt; n&gt;&gt; k; </span><br><span class="line"><span class="keyword">while</span> (n--)</span><br><span class="line">&#123;   <span class="built_in">cin</span> &gt;&gt; i; </span><br><span class="line">    insert(t, i);   </span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;i&lt;&lt;<span class="string">" is inserted"</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>二叉搜索树的删除</strong> </p>
+<p>在二叉排序树上删除某个结点之后，仍然保持二叉排 序树的特性。 </p>
+<p>分三种情况讨论： </p>
+<p>被删除的结点是叶子； 操作：将双亲结点中相应指针域的值改为空。 </p>
+<p>被删除的结点只有左子树或者只有右子树； 操作：将双亲结点的相应指针域的值指向被删除 结点的左子树（或右子树）。 </p>
+<p>被删除的结点既有左子树，也有右子树。 操作：被删结点左、右子树都不为空，以其左子树中的最大值结点（或右子树中的最小 值结点）替代之，再来处理这个结点的删除问题。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">E</span>, <span class="title">class</span> <span class="title">K</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">bool</span> <span class="title">BST</span>&lt;E, K&gt;:</span>:Remove (<span class="keyword">const</span> K x, BstNode&lt;E, K&gt; *&amp; ptr) </span><br><span class="line">&#123; <span class="comment">//在以 ptr 为根的二叉搜索树中删除含 x 的结点    </span></span><br><span class="line">BstNode&lt;E, K&gt; *temp;     </span><br><span class="line"><span class="keyword">if</span> (ptr != <span class="literal">NULL</span>) &#123;          </span><br><span class="line"><span class="keyword">if</span> (x &lt; ptr-&gt;data) </span><br><span class="line"><span class="keyword">return</span> Remove (x, ptr-&gt;left);      <span class="comment">//在左子树中执行删除       </span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (x &gt; ptr-&gt;data) </span><br><span class="line"><span class="keyword">return</span>  Remove (x, ptr-&gt;right);        <span class="comment">//在右子树中执行删除 </span></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (ptr-&gt;left != <span class="literal">NULL</span> &amp;&amp; ptr-&gt;right != <span class="literal">NULL</span>) </span><br><span class="line"> &#123; <span class="comment">//ptr指示关键码为x的结点，它有两个子女              </span></span><br><span class="line"> temp = ptr-&gt;right;  <span class="comment">//到右子树搜寻中序下第一个结点             </span></span><br><span class="line"> <span class="keyword">while</span> (temp-&gt;left != <span class="literal">NULL</span>)                   </span><br><span class="line"> temp = temp-&gt;left;              </span><br><span class="line"> ptr-&gt;data = temp-&gt;data;           <span class="comment">//用该结点数据代替根结点数据      </span></span><br><span class="line"> <span class="keyword">return</span> Remove (ptr-&gt;data, ptr-&gt;right);        </span><br><span class="line"> &#125;      </span><br><span class="line"> <span class="keyword">else</span> &#123; <span class="comment">//ptr指示关键码为x的结点有一个子女 </span></span><br><span class="line"> temp = ptr;     </span><br><span class="line"> <span class="keyword">if</span> (ptr-&gt;left == <span class="literal">NULL</span>) ptr = ptr-&gt;right;             </span><br><span class="line"> <span class="keyword">else</span> ptr = ptr-&gt;left;             </span><br><span class="line"> <span class="keyword">delete</span> temp;             </span><br><span class="line"> <span class="keyword">return</span> <span class="literal">true</span>;        </span><br><span class="line"> &#125; </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="keyword">return</span> <span class="literal">false</span>; </span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>注意在删除算法参数表引用型指针参数的使用</p>
+<p><strong>二叉搜索树性能分析</strong></p>
+<p>对于有 n 个关键码的集合，其关键码有 n! 种 不同排列，可构成不同二叉搜索树有 ( 1/(n+1) )*C 2n,n</p>
+<p>同样 3 个数据{ 1, 2, 3 }，输入顺序不同，建立 起来的二叉搜索树的形态也不同。这直接影响 到二叉搜索树的搜索性能。 </p>
+<p>如果输入序列选得不好，会建立起一棵单支树， 使得二叉搜索树的高度达到最大。</p>
+<p>在二叉搜索树中加入外结点，形成判定树。外 结点表示失败结点，内结点表示搜索树中已有 的数据。 </p>
+<p>这样的判定树即为扩充的二叉搜索树。 </p>
+<p>一般把平均搜索长度达到最小的扩充的二叉搜 索树称作最优二叉搜索树。 </p>
+<p>在相等搜索概率的情形下，所有内部、外部结 点的搜索概率都相等，视它们的权值都为 1。 同时，第 k 层有 2^(k-1)个结点，k = 1, 2, … 。则 有 n 个内部结点的扩充二叉搜索树的内部路径 长度 I 至少等于序列  </p>
+<p>0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, … 的前 n 项的和。 </p>
+<p> 因此，最优二叉搜索树的搜索成功的平均搜索 长度和搜索不成功的平均搜索长度分别为: </p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102405760-882342916.png" alt=""></p>
+<p>(2) 不相等搜索概率的情形 </p>
+<p>不相等搜索概率情形下的最优二叉搜索树可能不同于完全二叉树的形态。考虑在不相等搜索概率情形下如何构造最优二叉搜索树。要构造最优二叉搜索树，必须先构造它的左子树和右子树，它们也是最优二叉搜索树。</p>
+<p>构造最优二叉搜索树的方法就是自底向上逐步构造的方法。</p>
+<p><strong>构造的步骤</strong></p>
+<p>第一步，构造只有一个内部结点的最优搜索树：T[0] [1]，T[1] [2]，…，T[n-1] [n]。<br>在T[i-1] [i] (1  i  n) 中只包含关键码 key[i]。其代价分别是 C[i-1] [i] = W[i-1] [i]。另外设立一 个数组 R[0..n] [0..n] 存放各最优二叉搜索树的根。R[0] [1] = 1, R[1] [2] = 2, … , R[n-1] [n] = n。<br>第二步, 构造有两个内部结点的最优二叉搜索树：T[0] [2], T[1] [3], …, T[n-2] [n]。在T[i-2] [i] 中包含两个关键码 { key[i-1], key[i] }。其代价取分别以 key[i-1], key[i] 做根时计算出的 C[i-2] [i] 中的小者。</p>
+<p>第三步，第四步，…，构造有 3 个内部结点，有 4 个内部结点，… 的最优二叉搜索树。<br>最后构造出包含有 n 个内部结点的最优二叉搜索树。对于这样的最优二叉搜索树，若设根为 k，则根 k 的值存于 R[0] [n] 中，其代价存于 C[0] [n] 中，左子树的根存于 R[0] [k-1] 中，右子树的根存于 R[k] [n] 中。</p>
+<h2 id="散列表的搜索技术"><a href="#散列表的搜索技术" class="headerlink" title="散列表的搜索技术"></a>散列表的搜索技术</h2><p><strong>具体内容见第六章笔记</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//线性探查法的搜索算法，函数返回找到位置。</span></span><br><span class="line"><span class="comment">//若返回负数可能是空位，若为-TableSize则失败。</span></span><br><span class="line">Find ( <span class="keyword">const</span> Type &amp; x ) &#123;</span><br><span class="line"><span class="keyword">int</span> i =  FindPos ( x ),  j = i;</span><br><span class="line">   <span class="keyword">while</span> ( ht[j].info != Empty &amp;&amp; ht[j].Element != x )&#123;</span><br><span class="line">       j = ( j + <span class="number">1</span> ) % TableSize;</span><br><span class="line">       <span class="keyword">if</span> ( j == i ) <span class="keyword">return</span> -TableSize;</span><br><span class="line">   &#125; </span><br><span class="line">   <span class="keyword">if</span> ( ht[j].info == Active ) <span class="keyword">return</span> j;</span><br><span class="line">   <span class="keyword">else</span> -j;					</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>线性探查方法容易产生“堆积”，不同探查序列的关键码占据可用的空桶，为寻找某一关键码需要经历不同的探查序列，导致搜索时间增加。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//循链搜索的算法</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">Type</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">Type</span> *<span class="title">HashTable</span>&lt;Type&gt;:</span>: Find ( <span class="keyword">const</span> Type &amp; x,)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> j = HashFunc ( x, buckets );</span><br><span class="line">    ListPtr&lt;Type&gt; *p = ht[j];</span><br><span class="line">    <span class="keyword">while</span> ( p != <span class="literal">NULL</span> )</span><br><span class="line">         <span class="keyword">if</span> ( p→key == x ) <span class="keyword">return</span> &amp; p→key;</span><br><span class="line">         <span class="keyword">else</span> p = p→link;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 期末复习</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"><i class="fa fa-tag"></i> 数据结构</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%89/" rel="prev" title="数据结构笔记（第三章）">
+      <i class="fa fa-chevron-left"></i> 数据结构笔记（第三章）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/24/%E5%AF%B9python%E8%BE%93%E5%85%A5%E6%B5%81%E7%9A%84%E7%AE%80%E5%8D%95%E6%8E%A2%E7%B4%A2/" rel="next" title="对python输入流的简单探索">
+      对python输入流的简单探索 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第七章-搜索结构"><span class="nav-number">1.</span> <span class="nav-text">第七章 搜索结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索的基本概念"><span class="nav-number">1.1.</span> <span class="nav-text">搜索的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性表的搜索技术"><span class="nav-number">1.2.</span> <span class="nav-text">线性表的搜索技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#树表的搜索技术"><span class="nav-number">1.3.</span> <span class="nav-text">树表的搜索技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#散列表的搜索技术"><span class="nav-number">1.4.</span> <span class="nav-text">散列表的搜索技术</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CUMTCSSULD"
+      src="/images/RSP_Logo.jpg">
+  <p class="site-author-name" itemprop="name">CUMTCSSULD</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cumtcssuld" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cumtcssuld@foxmail.com" title="E-Mail → mailto:cumtcssuld@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://user.qzone.qq.com/1390274240" title="学习菌QQ空间 → https:&#x2F;&#x2F;user.qzone.qq.com&#x2F;1390274240" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>学习菌QQ空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/cumtcssuld" title="码云 → https:&#x2F;&#x2F;gitee.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>码云</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/weixin_43608722" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;weixin_43608722" rel="noopener" target="_blank">vito</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://home.cnblogs.com/u/scwjy/" title="https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;scwjy&#x2F;" rel="noopener" target="_blank">Poplar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="/xzaslxr.xyz" title="xzaslxr.xyz">xzlxr</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/AIAHUB/HUST-AIA-Courses-Resource" title="https:&#x2F;&#x2F;github.com&#x2F;AIAHUB&#x2F;HUST-AIA-Courses-Resource" rel="noopener" target="_blank">HUST-AIA资源仓库</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CUMTCSSULD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">188k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:50</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 24550,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '24f145eaad236b72c6ca',
+      clientSecret: '6be2fb8df7a0afc8bae34beb6b9ec156cb45150c',
+      repo        : 'Comments_for_RSP_Blog',
+      owner       : 'cumtcssuld',
+      admin       : ['cumtcssuld'],
+      id          : 'e3a560eedfd01a0264afdbbe10138b63',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next_RSP.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next_RSP.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="A3ajzAa0GB">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cumtcssuld.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="在树莓派上搭建一个博客平台">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在树莓派搭建博客平台">
+<meta property="og:url" content="https://cumtcssuld.github.io/2020/04/12/%E5%9C%A8%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%B9%B3%E5%8F%B0/index.html">
+<meta property="og:site_name" content="RSP_Blog">
+<meta property="og:description" content="在树莓派上搭建一个博客平台">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i0.wp.com/img.xzaslxr.xyz/img/20200412102617.png">
+<meta property="og:image" content="https://i2.wp.com/img.xzaslxr.xyz/img/20200412102619.png">
+<meta property="og:image" content="https://i1.wp.com/img.xzaslxr.xyz/img/20200412102621.png">
+<meta property="og:image" content="http://img.xzaslxr.xyz/img/31220.png">
+<meta property="article:published_time" content="2020-04-12T02:21:12.000Z">
+<meta property="article:modified_time" content="2020-04-12T06:28:03.236Z">
+<meta property="article:author" content="CUMTCSSULD">
+<meta property="article:tag" content="frp">
+<meta property="article:tag" content="树莓派">
+<meta property="article:tag" content="搭建">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i0.wp.com/img.xzaslxr.xyz/img/20200412102617.png">
+
+<link rel="canonical" href="https://cumtcssuld.github.io/2020/04/12/%E5%9C%A8%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%B9%B3%E5%8F%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>在树莓派搭建博客平台 | RSP_Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RSP_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">矿大计算机学院资源共享计划·博客</h1>
+      
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-contributors">
+
+    <a href="/contributors/" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>贡献者们</a>
+
+  </li>
+        <li class="menu-item menu-item-blogs-recommendation">
+
+    <a href="/blogs-recommendation" rel="section"><i class="fa fa-fw fa-truck"></i>博客站点推荐</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cumtcssuld.github.io/2020/04/12/%E5%9C%A8%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E5%B9%B3%E5%8F%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/RSP_Logo.jpg">
+      <meta itemprop="name" content="CUMTCSSULD">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RSP_Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          在树莓派搭建博客平台
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-12 10:21:12 / 修改时间：14:28:03" itemprop="dateCreated datePublished" datetime="2020-04-12T10:21:12+08:00">2020-04-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index">
+                    <span itemprop="name">web</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">环境搭建</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>8.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>20 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>本文首发于作者xzlxr的个人网站，本站获授权转载。</p>
+<p><a href="http://xzaslxr.xyz/index.php/2020/03/19/zai-shu-mei-pai-da-jian-bo-ke/" target="_blank" rel="noopener">点击访问原文</a></p>
+</blockquote>
+<hr>
+<h1 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h1><h2 id="镜像下载"><a href="#镜像下载" class="headerlink" title="镜像下载"></a>镜像下载</h2><ul>
+<li><p><a href="https://www.offensive-security.com/kali-linux-arm-images/#1493408272250-e17e9049-9ce8" target="_blank" rel="noopener">kali   download_</a></p>
+</li>
+<li><p><a href="https://www.raspberrypi.org/downloads/" target="_blank" rel="noopener">raspbian</a></p>
+<p>  <strong>推荐raspbian</strong></p>
+</li>
+</ul>
+<h2 id="烧录"><a href="#烧录" class="headerlink" title="烧录"></a>烧录</h2><p>选择镜像<br>使用win32DiskImager烧录<br><img src="https://i0.wp.com/img.xzaslxr.xyz/img/20200412102617.png" alt="批注 2020-03-05 151401.png"></p>
+<p>当win10弹出请求格式化窗口时，取消。<br>烧录成功的分区</p>
+<p><img src="https://i2.wp.com/img.xzaslxr.xyz/img/20200412102619.png" alt="批注 2020-03-05 151758.png"></p>
+<h2 id="使用ssh连接控制-启动并更改root密码"><a href="#使用ssh连接控制-启动并更改root密码" class="headerlink" title="使用ssh连接控制 启动并更改root密码"></a>使用ssh连接控制 启动并更改root密码</h2><blockquote>
+<p>注意 打开daspbian  ssh需要  添加 SSH 文件(无后续)<br><img src="https://i1.wp.com/img.xzaslxr.xyz/img/20200412102621.png" alt="批注 2020-03-05 152449.png"></p>
+</blockquote>
+<ul>
+<li>查看 ip</li>
+</ul>
+<blockquote>
+<p>登录路由器管理员页面<br>或使用ip 扫描器 192.168.1.1-192.168.1.254<br>我这边是192.168.1.115(有线连接)</p>
+</blockquote>
+<ul>
+<li>使用ssh.exe连接 </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh pi@192.168.1.115</span><br></pre></td></tr></table></figure>
+
+
+<p>需注意raspbian一开始只能使用 <code>pi</code> 用户  且密码为<code>raspberry</code></p>
+<ul>
+<li>raspbian</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd root <span class="comment">#设置密码</span></span><br><span class="line">sudo passwd --unlock root <span class="comment">#开启root账户</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>kali<br>  默认<code>root</code> 密码为 <code>toor</code></li>
+</ul>
+<h2 id="更新源"><a href="#更新源" class="headerlink" title="更新源"></a>更新源</h2><ul>
+<li>kali</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/apt/sources.list</span><br><span class="line"><span class="comment">#中科大</span></span><br><span class="line">deb http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib</span><br><span class="line">deb-src http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib</span><br><span class="line"><span class="comment">#aliyun</span></span><br><span class="line">deb http://mirrors.aliyun.com/kali kali-rolling main non-free contrib</span><br><span class="line">deb-src http://mirrors.aliyun.com/kali kali-rolling main non-free contrib </span><br><span class="line"><span class="comment">#清华</span></span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free</span><br><span class="line">deb-src https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>raspbian<br>  <a href="https://lug.ustc.edu.cn/wiki/mirrors/help/raspbian" target="_blank" rel="noopener">https://lug.ustc.edu.cn/wiki/mirrors/help/raspbian</a></li>
+</ul>
+<h3 id="修改apt软件源-和-系统源"><a href="#修改apt软件源-和-系统源" class="headerlink" title="修改apt软件源  和 系统源"></a>修改apt软件源  和 系统源</h3><p>添加进去 ，最好先备份</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/apt/sources.list </span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi</span><br><span class="line">deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main contrib non-free rpi</span><br></pre></td></tr></table></figure>
+
+<p>完成源的更新软件包索引</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<p>接着更新系统源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo nano &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;raspi.list</span><br><span class="line"></span><br><span class="line">deb http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspberrypi&#x2F; buster main ui</span><br><span class="line">deb-src http:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;raspberrypi&#x2F; buster main ui</span><br></pre></td></tr></table></figure>
+
+<p>最后<code>sudo apt-get upgrade</code></p>
+<p>配置pip源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~/.pip/pip.conf</span><br><span class="line"></span><br><span class="line">[global]</span><br><span class="line">index-url = http://pypi.douban.com/simple/</span><br></pre></td></tr></table></figure>
+
+<h2 id="打开-设置wifi"><a href="#打开-设置wifi" class="headerlink" title="打开 设置wifi"></a>打开 设置wifi</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo raspi-config</span><br><span class="line">SSID:WIFI_NAME</span><br><span class="line">password:WIFI_Password</span><br></pre></td></tr></table></figure>
+
+<p>在win10通过查看wifi的属性来获取SSID<br><img src="http://img.xzaslxr.xyz/img/31220.png" alt="SSID配置"></p>
+<h2 id="扩展分区"><a href="#扩展分区" class="headerlink" title="扩展分区"></a>扩展分区</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo raspi-config <span class="comment">#选择7 -&gt; A1</span></span><br></pre></td></tr></table></figure>
+
+<p><code>df -h</code>查看</p>
+<h2 id="win远程🔗"><a href="#win远程🔗" class="headerlink" title="win远程🔗"></a>win远程🔗</h2><p>1.安装相关服务<br>卸载原tightvnc<br><code>sudo apt-get purge tightvnc xrdp</code><br>安装tighyvnc xrdp<br><code>sudo apt-get install tightvncserver  xrdp</code></p>
+<p>2.开启连接<br>win+r  &gt; mstsc<br>输入用户名和密码就行</p>
+<h2 id="查看树莓派-信息"><a href="#查看树莓派-信息" class="headerlink" title="查看树莓派 信息"></a>查看树莓派 信息</h2><ul>
+<li>CPU温度、CPU占用情况、内存占用情况和硬盘占用</li>
+</ul>
+<p>来源<br><a href="https://shumeipai.nxez.com/2014/10/04/get-raspberry-the-current-status-and-data.html" target="_blank" rel="noopener">get-raspberry-the-current-status-and-data.html</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="comment"># Return CPU temperature as a character string</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getCPUtemperature</span><span class="params">()</span>:</span></span><br><span class="line">    res = os.popen(<span class="string">'vcgencmd measure_temp'</span>).readline()</span><br><span class="line">    <span class="keyword">return</span>(res.replace(<span class="string">"temp="</span>,<span class="string">""</span>).replace(<span class="string">"'C\n"</span>,<span class="string">""</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Return RAM information (unit=kb) in a list</span></span><br><span class="line"><span class="comment"># Index 0: total RAM</span></span><br><span class="line"><span class="comment"># Index 1: used RAM</span></span><br><span class="line"><span class="comment"># Index 2: free RAM</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getRAMinfo</span><span class="params">()</span>:</span></span><br><span class="line">    p = os.popen(<span class="string">'free'</span>)</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        i = i + <span class="number">1</span></span><br><span class="line">        line = p.readline()</span><br><span class="line">        <span class="keyword">if</span> i==<span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span>(line.split()[<span class="number">1</span>:<span class="number">4</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Return % of CPU used by user as a character string</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getCPUuse</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span>(str(os.popen(<span class="string">"top -n1 | awk '/Cpu\(s\):/ &#123;print $2&#125;'"</span>).readline().strip()))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Return information about disk space as a list (unit included)                   # Index 0: total disk space                                                       # Index 1: used disk space                                                       # Index 2: remaining disk space                                                   # Index 3: percentage of disk used                                               def getDiskSpace():</span></span><br><span class="line">    p = os.popen(<span class="string">"df -h /"</span>)</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        i = i +<span class="number">1</span></span><br><span class="line">        line = p.readline()</span><br><span class="line">        <span class="keyword">if</span> i==<span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span>(line.split()[<span class="number">1</span>:<span class="number">5</span>])</span><br><span class="line"><span class="comment"># CPU informatiom</span></span><br><span class="line">CPU_temp = getCPUtemperature()</span><br><span class="line">CPU_usage = getCPUuse()</span><br><span class="line"></span><br><span class="line"><span class="comment"># RAM information</span></span><br><span class="line"><span class="comment"># Output is in kb, here I convert it in Mb for readability</span></span><br><span class="line">RAM_stats = getRAMinfo()</span><br><span class="line">RAM_total = round(int(RAM_stats[<span class="number">0</span>]) / <span class="number">1000</span>,<span class="number">1</span>)</span><br><span class="line">RAM_used = round(int(RAM_stats[<span class="number">1</span>]) / <span class="number">1000</span>,<span class="number">1</span>)</span><br><span class="line">RAM_free = round(int(RAM_stats[<span class="number">2</span>]) / <span class="number">1000</span>,<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Disk information</span></span><br><span class="line">DISK_stats = getDiskSpace()</span><br><span class="line">DISK_total = DISK_stats[<span class="number">0</span>]</span><br><span class="line">DISK_used = DISK_stats[<span class="number">1</span>]</span><br><span class="line">DISK_perc = DISK_stats[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(<span class="string">''</span>)</span><br><span class="line">    print(<span class="string">'CPU Temperature = '</span>+CPU_temp)</span><br><span class="line">    print(<span class="string">'CPU Use = '</span>+CPU_usage)</span><br><span class="line">    print(<span class="string">''</span>)</span><br><span class="line">    print(<span class="string">'RAM Total = '</span>+str(RAM_total)+<span class="string">' MB'</span>)</span><br><span class="line">    print(<span class="string">'RAM Used = '</span>+str(RAM_used)+<span class="string">' MB'</span>)</span><br><span class="line">    print(<span class="string">'RAM Free = '</span>+str(RAM_free)+<span class="string">' MB'</span>)</span><br><span class="line">    print(<span class="string">''</span>)  </span><br><span class="line">    print(<span class="string">'DISK Total Space = '</span>+str(DISK_total)+<span class="string">'B'</span>)</span><br><span class="line">    print(<span class="string">'DISK Used Space = '</span>+str(DISK_used)+<span class="string">'B'</span>)</span><br><span class="line">    print(<span class="string">'DISK Used Percentage = '</span>+str(DISK_perc))</span><br></pre></td></tr></table></figure>
+
+<p>添加执行权限并执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod +x get.py</span><br><span class="line">python3 get.py</span><br></pre></td></tr></table></figure>
+
+<h1 id="网站搭建"><a href="#网站搭建" class="headerlink" title="网站搭建"></a>网站搭建</h1><h2 id="安装Nginx-php-7-3-MariaDB"><a href="#安装Nginx-php-7-3-MariaDB" class="headerlink" title="安装Nginx + php 7.3 + MariaDB"></a>安装Nginx + php 7.3 + MariaDB</h2><h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="php"><a href="#php" class="headerlink" title="php"></a>php</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install -y -t buster php7.3-fpm php7.3-curl php7.3-gd php7.3-intl php7.3-mbstring php7.3-mysql php7.3-imap php7.3-opcache php7.3-sqlite3 php7.3-xml php7.3-xmlrpc php7.3-zip</span><br></pre></td></tr></table></figure>
+
+<h3 id="MariaDB"><a href="#MariaDB" class="headerlink" title="MariaDB"></a>MariaDB</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mariadb-server</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>设置初始密码及修改密码</strong></li>
+</ul>
+<p><a href="https://www.cnblogs.com/messhair/p/11782850.html" target="_blank" rel="noopener">https://www.cnblogs.com/messhair/p/11782850.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; use mysql;</span><br><span class="line">MariaDB [mysql]&gt; UPDATE mysql.user SET password &#x3D; PASSWORD(&#39;xzlxr@mysql&#39;) WHERE user &#x3D; &#39;root&#39;;</span><br><span class="line">MariaDB [mysql]&gt; UPDATE user SET plugin&#x3D;&#39;mysql_native_password&#39; WHERE user &#x3D; &#39;root&#39;;</span><br><span class="line">MariaDB [mysql]&gt; FLUSH PRIVILEGES;  #刷新权限相关表格</span><br></pre></td></tr></table></figure>
+
+<p><strong>restart</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mariadb restart</span><br></pre></td></tr></table></figure>
+
+<p><strong>登录</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br></pre></td></tr></table></figure>
+
+<p>输入新密码即可</p>
+<h3 id="apache2"><a href="#apache2" class="headerlink" title="apache2"></a>apache2</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install apache2</span><br><span class="line">sudo apt-get install libapache2-mod-php</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="配置-暂时无安全加固"><a href="#配置-暂时无安全加固" class="headerlink" title="配置(暂时无安全加固)"></a>配置(暂时无安全加固)</h2><h3 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h3><p>打开配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo  nano /etc/nginx/sites-available/default</span><br></pre></td></tr></table></figure>
+
+<p>连接php以及添加 index.php</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service nginx restart </span><br><span class="line">sudo service php7.3-fpm restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装typecho"><a href="#安装typecho" class="headerlink" title="安装typecho"></a>安装typecho</h2><p><a href="http://typecho.org/" target="_blank" rel="noopener">官网</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo wget http://typecho.org/downloads/1.1-17.10.30-release.tar.gz</span><br><span class="line">sudo tar zxvf 1.1-17.10.30-release.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h2 id="wordpass"><a href="#wordpass" class="headerlink" title="wordpass"></a>wordpass</h2><p><a href="https://wordpress.com/" target="_blank" rel="noopener">官网下载</a></p>
+<h2 id="使用-Frp-实现内网穿透，公网访问web服务器，设置自动启动，后台运行"><a href="#使用-Frp-实现内网穿透，公网访问web服务器，设置自动启动，后台运行" class="headerlink" title="使用 Frp 实现内网穿透，公网访问web服务器，设置自动启动，后台运行"></a>使用 Frp 实现内网穿透，公网访问web服务器，设置自动启动，后台运行</h2><p>参考：</p>
+<p><a href="https://blog.csdn.net/u012963827/article/details/89427544?depth_1-utm_source=distribute.pc_relevant.none-task&utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">使用 Frp 实现内网穿透，公网访问web服务器，设置自动启动，后台运行</a><br><a href="https://blog.csdn.net/datana/article/details/86559217" target="_blank" rel="noopener">通过frp穿透内网ssh访问树莓派</a></p>
+<p><a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">https://github.com/fatedier/frp/releases</a></p>
+<ul>
+<li>客户端配置</li>
+</ul>
+<blockquote>
+<p>在树莓派上</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/fatedier/frp/releases/download/v0.32.0/frp_0.32_linux_arm.tar.gz</span><br><span class="line">tar -zxvf frp_0.32_linux_arm.tar.gz</span><br><span class="line"><span class="built_in">cd</span> frp_0.32_linux_arm</span><br><span class="line">sudo nano frpc.ini</span><br><span class="line"></span><br><span class="line">[common]</span><br><span class="line">token = XXXXXXXX <span class="comment">#your_token</span></span><br><span class="line">server_addr = xxx.xxx.xxx.xxx<span class="comment">#服务器ip</span></span><br><span class="line">server_port = XXXX<span class="comment">#服务器端口</span></span><br><span class="line"></span><br><span class="line">[web]</span><br><span class="line"><span class="built_in">type</span> = http</span><br><span class="line">local_ip = xxx.xxx.xxx.xxx <span class="comment">#本地ip</span></span><br><span class="line">local_port = 80</span><br><span class="line">remote_port = 80</span><br><span class="line">custom_domains = <span class="comment">#你的域名</span></span><br></pre></td></tr></table></figure>
+
+<p>在树莓派上添加自启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /lib/systemd/system/frpc.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=frpc service</span><br><span class="line">After=network.target syslog.target</span><br><span class="line">Wants=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/home/pi/frp/frpc -c /home/pi/frp/frpc.ini  </span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+
+
+<p>重启Frpc，可以 <code>sudo systemctl restart frpc</code><br>停止Frpc，可以 <code>sudo systemctl stop frpc</code></p>
+<h2 id="v2ray"><a href="#v2ray" class="headerlink" title="v2ray"></a>v2ray</h2><p><a href="https://github.com/jiangxufeng/v2rayL" target="_blank" rel="noopener">v2ray</a></p>
+<h2 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h2><p><a href="https://suool.net/2018/01/09/树莓派折腾指南之使用-SSR-实现科学上网/" target="_blank" rel="noopener">https://suool.net/2018/01/09/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E6%8C%87%E5%8D%97%E4%B9%8B%E4%BD%BF%E7%94%A8-SSR-%E5%AE%9E%E7%8E%B0%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/</a></p>
+<h3 id="添加xml"><a href="#添加xml" class="headerlink" title="添加xml"></a>添加xml</h3><p>一开始想直接用插件的(插件，他不香吗)</p>
+<p>但问题是，我的vps是代理转发的，而实际的博客vps地址。。。只有内网地址<em>(192.168.1.xxx)</em>，试了google-sitemap(不行)，改了wp上的url设置还是不行。。。</p>
+<p>最后的方案:</p>
+<ul>
+<li>编写sitemap.php</li>
+</ul>
+<blockquote>
+<p><a href="https://blog.csdn.net/u011781521/java/article/details/82814723" target="_blank" rel="noopener">来源</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">require</span>(<span class="string">'./wp-blog-header.php'</span>);</span><br><span class="line"> </span><br><span class="line">header(<span class="string">"Content-type: text/xml"</span>);</span><br><span class="line"> </span><br><span class="line">header(<span class="string">'HTTP/1.1 200 OK'</span>);</span><br><span class="line"> </span><br><span class="line">$posts_to_show = <span class="number">1000</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;?xml version="1.0" encoding="UTF-8"?&gt;'</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:mobile="http://www.baidu.com/schemas/sitemap-mobile/1/"&gt;'</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"> </span><br><span class="line">&lt;!-- generated-on=<span class="meta">&lt;?php</span> <span class="keyword">echo</span> get_lastpostdate(<span class="string">'blog'</span>); <span class="meta">?&gt;</span> --&gt;</span><br><span class="line"> </span><br><span class="line">&lt;url&gt;</span><br><span class="line"> </span><br><span class="line">&lt;loc&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> get_home_url(); <span class="meta">?&gt;</span>&lt;/loc&gt;</span><br><span class="line"> </span><br><span class="line">&lt;lastmod&gt;<span class="meta">&lt;?php</span> $ltime = get_lastpostmodified(GMT);$ltime = gmdate(<span class="string">'Y-m-d\TH:i:s+00:00'</span>, strtotime($ltime)); <span class="keyword">echo</span> $ltime; <span class="meta">?&gt;</span>&lt;/lastmod&gt;</span><br><span class="line"> </span><br><span class="line">&lt;changefreq&gt;daily&lt;/changefreq&gt;</span><br><span class="line"> </span><br><span class="line">&lt;priority&gt;<span class="number">1.0</span>&lt;/priority&gt;</span><br><span class="line"> </span><br><span class="line">&lt;/url&gt;</span><br><span class="line"> </span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">/* 文章页面 */</span></span><br><span class="line"> </span><br><span class="line">$myposts = get_posts( <span class="string">"numberposts="</span> . $posts_to_show );</span><br><span class="line"> </span><br><span class="line"><span class="keyword">foreach</span>( $myposts <span class="keyword">as</span> $post ) &#123; <span class="meta">?&gt;</span></span><br><span class="line"> </span><br><span class="line">&lt;url&gt;</span><br><span class="line"> </span><br><span class="line">&lt;loc&gt;<span class="meta">&lt;?php</span> the_permalink(); <span class="meta">?&gt;</span>&lt;/loc&gt;</span><br><span class="line"> </span><br><span class="line">&lt;lastmod&gt;<span class="meta">&lt;?php</span> the_time(<span class="string">'c'</span>) <span class="meta">?&gt;</span>&lt;/lastmod&gt;</span><br><span class="line"> </span><br><span class="line">&lt;changefreq&gt;monthly&lt;/changefreq&gt;</span><br><span class="line"> </span><br><span class="line">&lt;priority&gt;<span class="number">0.6</span>&lt;/priority&gt;</span><br><span class="line"> </span><br><span class="line">&lt;/url&gt;</span><br><span class="line"> </span><br><span class="line"><span class="meta">&lt;?php</span> &#125; <span class="comment">/* 文章循环结束 */</span> <span class="meta">?&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">/* 单页面 */</span></span><br><span class="line"> </span><br><span class="line">$mypages = get_pages();</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span>(count($mypages) &gt; <span class="number">0</span>) &#123;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">foreach</span>($mypages <span class="keyword">as</span> $page) &#123; <span class="meta">?&gt;</span></span><br><span class="line"> </span><br><span class="line">&lt;url&gt;</span><br><span class="line"> </span><br><span class="line">&lt;loc&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> get_page_link($page-&gt;ID); <span class="meta">?&gt;</span>&lt;/loc&gt;</span><br><span class="line"> </span><br><span class="line">&lt;lastmod&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> str_replace(<span class="string">" "</span>,<span class="string">"T"</span>,get_page($page-&gt;ID)-&gt;post_modified); <span class="meta">?&gt;</span>+<span class="number">00</span>:<span class="number">00</span>&lt;/lastmod&gt;</span><br><span class="line"> </span><br><span class="line">&lt;changefreq&gt;weekly&lt;/changefreq&gt;</span><br><span class="line"> </span><br><span class="line">&lt;priority&gt;<span class="number">0.6</span>&lt;/priority&gt;</span><br><span class="line"> </span><br><span class="line">&lt;/url&gt;</span><br><span class="line"> </span><br><span class="line"><span class="meta">&lt;?php</span> &#125;&#125; <span class="comment">/* 单页面循环结束 */</span> <span class="meta">?&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">/* 博客分类 */</span></span><br><span class="line"> </span><br><span class="line">$terms = get_terms(<span class="string">'category'</span>, <span class="string">'orderby=name&amp;hide_empty=0'</span> );</span><br><span class="line"> </span><br><span class="line">$count = count($terms);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span>($count &gt; <span class="number">0</span>)&#123;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">foreach</span> ($terms <span class="keyword">as</span> $term) &#123; <span class="meta">?&gt;</span></span><br><span class="line"> </span><br><span class="line">&lt;url&gt;</span><br><span class="line"> </span><br><span class="line">&lt;loc&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> get_term_link($term, $term-&gt;slug); <span class="meta">?&gt;</span>&lt;/loc&gt;</span><br><span class="line"> </span><br><span class="line">&lt;changefreq&gt;weekly&lt;/changefreq&gt;</span><br><span class="line"> </span><br><span class="line">&lt;priority&gt;<span class="number">0.8</span>&lt;/priority&gt;</span><br><span class="line"> </span><br><span class="line">&lt;/url&gt;</span><br><span class="line"> </span><br><span class="line"><span class="meta">&lt;?php</span> &#125;&#125; <span class="comment">/* 分类循环结束 */</span><span class="meta">?&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">/* 标签(可选) */</span></span><br><span class="line"> </span><br><span class="line">$tags = get_terms(<span class="string">"post_tag"</span>);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">foreach</span> ( $tags <span class="keyword">as</span> $key =&gt; $tag ) &#123;</span><br><span class="line"> </span><br><span class="line">$link = get_term_link( intval($tag-&gt;term_id), <span class="string">"post_tag"</span> );</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> ( is_wp_error( $link ) )</span><br><span class="line"> </span><br><span class="line"><span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"> </span><br><span class="line">$tags[ $key ]-&gt;link = $link;</span><br><span class="line"> </span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"> </span><br><span class="line">&lt;url&gt;</span><br><span class="line"> </span><br><span class="line">&lt;loc&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> $link <span class="meta">?&gt;</span>&lt;/loc&gt;</span><br><span class="line"> </span><br><span class="line">&lt;changefreq&gt;monthly&lt;/changefreq&gt;</span><br><span class="line"> </span><br><span class="line">&lt;priority&gt;<span class="number">0.4</span>&lt;/priority&gt;</span><br><span class="line"> </span><br><span class="line">&lt;/url&gt;</span><br><span class="line"> </span><br><span class="line"><span class="meta">&lt;?php</span>  &#125; <span class="comment">/* 标签循环结束 */</span> <span class="meta">?&gt;</span></span><br><span class="line"> </span><br><span class="line">&lt;/urlset&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><pre><code>Yoast SEO  #目前来看最好用的SEO插件</code></pre></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/frp/" rel="tag"><i class="fa fa-tag"></i> frp</a>
+              <a href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/" rel="tag"><i class="fa fa-tag"></i> 树莓派</a>
+              <a href="/tags/%E6%90%AD%E5%BB%BA/" rel="tag"><i class="fa fa-tag"></i> 搭建</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/12/Enterprise-grade-PaaS-Solution/" rel="prev" title="企业级PaaS解决方案">
+      <i class="fa fa-chevron-left"></i> 企业级PaaS解决方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/12/%E6%90%AD%E5%BB%BAweb%E8%BF%90%E8%A1%8C%E7%9A%84%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83%E4%BB%A5%E5%8F%8A%E5%8A%A0%E5%9B%BA/" rel="next" title="搭建web运行的基础环境以及加固">
+      搭建web运行的基础环境以及加固 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本"><span class="nav-number">1.</span> <span class="nav-text">基本</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像下载"><span class="nav-number">1.1.</span> <span class="nav-text">镜像下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#烧录"><span class="nav-number">1.2.</span> <span class="nav-text">烧录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用ssh连接控制-启动并更改root密码"><span class="nav-number">1.3.</span> <span class="nav-text">使用ssh连接控制 启动并更改root密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新源"><span class="nav-number">1.4.</span> <span class="nav-text">更新源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改apt软件源-和-系统源"><span class="nav-number">1.4.1.</span> <span class="nav-text">修改apt软件源  和 系统源</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打开-设置wifi"><span class="nav-number">1.5.</span> <span class="nav-text">打开 设置wifi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展分区"><span class="nav-number">1.6.</span> <span class="nav-text">扩展分区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#win远程🔗"><span class="nav-number">1.7.</span> <span class="nav-text">win远程🔗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看树莓派-信息"><span class="nav-number">1.8.</span> <span class="nav-text">查看树莓派 信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网站搭建"><span class="nav-number">2.</span> <span class="nav-text">网站搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Nginx-php-7-3-MariaDB"><span class="nav-number">2.1.</span> <span class="nav-text">安装Nginx + php 7.3 + MariaDB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx"><span class="nav-number">2.1.1.</span> <span class="nav-text">Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#php"><span class="nav-number">2.1.2.</span> <span class="nav-text">php</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MariaDB"><span class="nav-number">2.1.3.</span> <span class="nav-text">MariaDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apache2"><span class="nav-number">2.1.4.</span> <span class="nav-text">apache2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-暂时无安全加固"><span class="nav-number">2.2.</span> <span class="nav-text">配置(暂时无安全加固)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx-配置"><span class="nav-number">2.2.1.</span> <span class="nav-text">Nginx 配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装typecho"><span class="nav-number">2.3.</span> <span class="nav-text">安装typecho</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wordpass"><span class="nav-number">2.4.</span> <span class="nav-text">wordpass</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Frp-实现内网穿透，公网访问web服务器，设置自动启动，后台运行"><span class="nav-number">2.5.</span> <span class="nav-text">使用 Frp 实现内网穿透，公网访问web服务器，设置自动启动，后台运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#v2ray"><span class="nav-number">2.6.</span> <span class="nav-text">v2ray</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSR"><span class="nav-number">2.7.</span> <span class="nav-text">SSR</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加xml"><span class="nav-number">2.7.1.</span> <span class="nav-text">添加xml</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CUMTCSSULD"
+      src="/images/RSP_Logo.jpg">
+  <p class="site-author-name" itemprop="name">CUMTCSSULD</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cumtcssuld" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cumtcssuld@foxmail.com" title="E-Mail → mailto:cumtcssuld@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://user.qzone.qq.com/1390274240" title="学习菌QQ空间 → https:&#x2F;&#x2F;user.qzone.qq.com&#x2F;1390274240" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>学习菌QQ空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/cumtcssuld" title="码云 → https:&#x2F;&#x2F;gitee.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>码云</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/weixin_43608722" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;weixin_43608722" rel="noopener" target="_blank">vito</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://home.cnblogs.com/u/scwjy/" title="https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;scwjy&#x2F;" rel="noopener" target="_blank">Poplar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="/xzaslxr.xyz" title="xzaslxr.xyz">xzlxr</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/AIAHUB/HUST-AIA-Courses-Resource" title="https:&#x2F;&#x2F;github.com&#x2F;AIAHUB&#x2F;HUST-AIA-Courses-Resource" rel="noopener" target="_blank">HUST-AIA资源仓库</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CUMTCSSULD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">188k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:50</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 24550,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '24f145eaad236b72c6ca',
+      clientSecret: '6be2fb8df7a0afc8bae34beb6b9ec156cb45150c',
+      repo        : 'Comments_for_RSP_Blog',
+      owner       : 'cumtcssuld',
+      admin       : ['cumtcssuld'],
+      id          : '2444b31c19f26f149be991dca18a1684',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next_RSP.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next_RSP.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="baidu-site-verification" content="A3ajzAa0GB">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cumtcssuld.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="数据结构第八章学习笔记，供同学们参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构笔记（第八章）">
+<meta property="og:url" content="https://cumtcssuld.github.io/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E5%85%AB%E7%AB%A0%EF%BC%89/index.html">
+<meta property="og:site_name" content="RSP_Blog">
+<meta property="og:description" content="数据结构第八章学习笔记，供同学们参考。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102707655-2094219092.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102746243-301822766.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102823434-1325153282.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102907499-992845421.png">
+<meta property="article:published_time" content="2021-05-24T15:16:53.983Z">
+<meta property="article:modified_time" content="2020-06-18T08:39:34.685Z">
+<meta property="article:author" content="CUMTCSSULD">
+<meta property="article:tag" content="期末复习">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102707655-2094219092.png">
+
+<link rel="canonical" href="https://cumtcssuld.github.io/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E5%85%AB%E7%AB%A0%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>数据结构笔记（第八章） | RSP_Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RSP_Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">矿大计算机学院资源共享计划·博客</h1>
+      
+  </div>
+
+  <div class="site-nav-right"></div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-contributors">
+
+    <a href="/contributors/" rel="section"><i class="fa fa-fw fa-thumbs-o-up"></i>贡献者们</a>
+
+  </li>
+        <li class="menu-item menu-item-blogs-recommendation">
+
+    <a href="/blogs-recommendation" rel="section"><i class="fa fa-fw fa-truck"></i>博客站点推荐</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://cumtcssuld.github.io/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E5%85%AB%E7%AB%A0%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/RSP_Logo.jpg">
+      <meta itemprop="name" content="CUMTCSSULD">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RSP_Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          数据结构笔记（第八章）
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-24 23:16:53" itemprop="dateCreated datePublished" datetime="2021-05-24T23:16:53+08:00">2021-05-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-18 16:39:34" itemprop="dateModified" datetime="2020-06-18T16:39:34+08:00">2020-06-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E5%86%85%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">课内学习</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AF%BE%E5%86%85%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>23k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>57 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="第八章-图"><a href="#第八章-图" class="headerlink" title="第八章 图"></a>第八章 图</h1><h2 id="图的基本概念"><a href="#图的基本概念" class="headerlink" title="图的基本概念"></a>图的基本概念</h2><p><strong>图定义：</strong></p>
+<p>图是由顶点集合及顶点间的关系 集合组成的一种数据结构： </p>
+<p>Graph＝( V, E )    </p>
+<p>V = { x | x  属于某个数据对象} 是顶点的有穷非空集 合；  </p>
+<p>E = {(x,y)|x,y 属于 V }或者{&lt;x, y&gt; | x, y属于 V &amp;&amp; Path (x, y)}   是顶点之间关系的有穷集合，也叫做边(edge)集合。 </p>
+<p>Path (x, y)表示从 x 到 y 的一条单向通路, 它是有方向的。</p>
+<p><strong>有向图:</strong></p>
+<p>图G中的每条边都是有方向的； </p>
+<p><strong>无向图:</strong></p>
+<p>图G中的每条边都是无方向的；</p>
+<p><strong>完全图</strong></p>
+<p>图G任意两个顶点都有一条边相连接</p>
+<p>若有 n 个顶点的无向图有 n(n-1)/2 条边, 则此图为 完全无向图。</p>
+<p>有 n 个顶点的有向图有n(n-1) 条边, 则此图为完全有向图。 </p>
+<p><strong>子图</strong> </p>
+<p>设有两个图G＝(V, E) 和G’＝(V’, E’)。若V ‘含于V 且E’含于E, 则称图G’是图G的子图。 </p>
+<p><strong>权</strong> </p>
+<p>某些图的边具有与它相关的数, 称之为权。这种带 权图叫做网络。 </p>
+<p><strong>邻接顶点</strong> </p>
+<p>如果 (u, v) 是 E(G) 中的一条边， 则称 u 与 v 互为邻接顶点。 </p>
+<p><strong>顶点的度</strong> </p>
+<p>一个顶点v的度是与它相关联的边 的条数。记作TD(v)。在有向图中, 顶点的度 等于该顶点的入度与出度之和。</p>
+<p>顶点 v 的入度是以 v 为终点的有向边的条数, 记作 ID(v);  </p>
+<p>顶点 v 的出度是以 v 为始点的有向边的条数, 记作 OD(v)。 </p>
+<p><strong>路径</strong> </p>
+<p>在图 G＝(V, E) 中, 若从顶点 vi 出发, 沿一些 边经过一些顶点 vp1, vp2, …, vpm，到达顶点vj。 则称顶点序列 (vi  vp1 vp2 … vpm  vj) 为从顶点vi 到顶点 vj 的路径。</p>
+<p>经过的边(vi, vp1)、(vp1, vp2)、..、(vpm, vj) 是 属于E的边。 </p>
+<p><strong>路径长度</strong></p>
+<p>非带权图的路径长度是指此路径 上边的条数。带权图的路径长度是指路径 上各边的权之和。 </p>
+<p><strong>简单路径</strong>  </p>
+<p>若路径上各顶点 v1, v2, …, vm 均不 互相重复, 则称这样的路径为简单 路径。</p>
+<p><strong>回路</strong>    </p>
+<p>若路径上第一个顶点 v1 与最后一 个顶点vm 重合, 则称这样的路径为回路 或环。</p>
+<p><strong>连通图与连通分量</strong>  </p>
+<p>在无向图中, 若从顶点v1到顶点v2有路径, 则称顶点v1与 v2是连通的。如果图中任意一对顶点都是连通的, 则称 此图是连通图。非连通图的极大连通子图叫做连通分量。</p>
+<p><strong>强连通图与强连通分量</strong></p>
+<p>在有向图中, 若对于每一对顶点vi和vj, 都存在一条从vi 到vj和从vj到vi的路径, 则称此图是强连通图。非强连通图的极大强连通子图叫做强连通分量。</p>
+<p><strong>生成树</strong>   </p>
+<p>一个连通图的生成树是其极小连通子图， 在 n 个顶点的情形下，有 n-1 条边。 </p>
+<p>两类图形不在本章讨论之列：有自环的图，多重图。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//图的抽象数据类型 </span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Graph</span> &#123;</span> <span class="comment">//对象: 由一个顶点的非空集合和一个边集合构成 //每条边由一个顶点对来表示。 </span></span><br><span class="line"><span class="keyword">public</span>:    </span><br><span class="line">Graph();   <span class="comment">//建立一个空的图    </span></span><br><span class="line">~Graph(); </span><br><span class="line"><span class="function">virturl <span class="keyword">void</span> <span class="title">insertVertex</span> <span class="params">(<span class="keyword">const</span> T&amp; vertex)</span></span>;    <span class="comment">//插入一个顶点vertex, 该顶点暂时没有入边 virtual void removeVertex (int v);    //在图中删除顶点v和所有关联到它的边    </span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">insertEdge</span> <span class="params">(<span class="keyword">int</span> v1, <span class="keyword">int</span> v2, <span class="keyword">int</span> weight)</span></span>; <span class="comment">//在图中插入一条边(v1, v2, w) </span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">removeEdge</span> <span class="params">(<span class="keyword">int</span> v1, <span class="keyword">int</span> v2)</span></span>;    <span class="comment">//在图中删去边(v1,v2)    </span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">IsEmpty</span><span class="params">()</span></span>;<span class="comment">//若图中没有顶点, 则返回true, 否则false    </span></span><br><span class="line"><span class="function">T <span class="title">getWeight</span> <span class="params">(<span class="keyword">int</span> v1, <span class="keyword">int</span> v2)</span></span>; <span class="comment">//函数返回边 (v1,v2) 的权值    </span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">getFirstNeighbor</span> <span class="params">(<span class="keyword">int</span> v)</span></span>;    <span class="comment">//给出顶点 v 第一个邻接顶点的位置    </span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">getNextNeighbor</span> <span class="params">(<span class="keyword">int</span> v, <span class="keyword">int</span> w)</span></span>;<span class="comment">//给出顶点 v 的某邻接顶点 w 的下一个邻接顶点   </span></span><br><span class="line"><span class="function"><span class="keyword">virtual</span> T <span class="title">getValue</span><span class="params">(<span class="keyword">int</span> i)</span></span>;  </span><br><span class="line"><span class="function"><span class="keyword">virtual</span> E <span class="title">getWeight</span><span class="params">(<span class="keyword">int</span> v1, <span class="keyword">int</span> v2)</span> </span>;    </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">NumberOfVertices</span><span class="params">()</span></span>;    </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">NumberOfEdges</span><span class="params">()</span></span>; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="图的存储表示"><a href="#图的存储表示" class="headerlink" title="图的存储表示"></a>图的存储表示</h2><p>图的特点：非线性结构（m :n ） </p>
+<p>顺序存储结构：</p>
+<p>1）（多个顶点，无序可言） </p>
+<p>2）但可用二维数组描述元素间关系。（ 邻接矩阵）</p>
+<p>链式存储结构：可用多重链表</p>
+<p>邻接表</p>
+<p>邻接多重表 </p>
+<p>十字链表 </p>
+<p>重点介绍： 邻接矩阵(数组)表示法 邻接表(链式)表示法 </p>
+<p><strong>邻接矩阵 (Adjacency Matrix)</strong> </p>
+<p>表示图： 一个顶点表（记录各个顶点信息） 一个邻接矩阵（表示各个顶点之间关系） </p>
+<p>设图 A = (V, E) 有 n 个顶点，则图的邻接矩阵是一个二维数组  A.Edge[n][n]，定义为： </p>
+<p>A.Edge[i] [j]= 1 ,如果&lt;i,j&gt;∈E 或者（i,j）∈E         </p>
+<p>否则A.Edge[i] [j]=0</p>
+<p>分析1：无向图的邻接矩阵是对称的； </p>
+<p>分析2：顶点i 的度＝第 i 行 (列) 中1 的个数； </p>
+<p>特别：完全图的邻接矩阵中，对角元素为0，其余全1。</p>
+<p>注：在有向图的邻接矩阵中，第i行含义：以结点vi为尾的弧(即出度边）；第i列含义：以结点vi为头的弧(即入度边）。 </p>
+<p>分析1：有向图的邻接矩阵可能是不对称的。 </p>
+<p>分析2：顶点的出度=第i行元素之和，OD( Vi )= ∑ A.Edge[ i ] [j ]                  </p>
+<p>​              顶点的入度=第i列元素之和。ID( Vi )=∑  A.Edge[ j ] [i ]                   </p>
+<p>​              顶点的度=第i行元素之和+第i列元素之和,   </p>
+<p>网络的邻接矩阵 </p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102707655-2094219092.png" alt=""></p>
+<p> <strong>图的模板基类</strong>   </p>
+<p> 在模板类定义中顶点数据类型是变量，边 的权值是变量。</p>
+<p>因此数据类型参数表 &lt;class T, class E&gt; 中， T是顶点数据的类型，E是边上所附数据的 类型。</p>
+<p>这个模板基类是按照最复杂的情况（即带 权无向图）来定义的，如果需要使用非带 权图，可改为 &lt; class  T&gt;。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//图的模板基类</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; <span class="title">class</span> <span class="title">Graph</span> &#123;</span>       <span class="comment">//图的类定义</span></span><br><span class="line"><span class="keyword">private</span>:    </span><br><span class="line">T *VerticesList;    <span class="comment">//顶点表     </span></span><br><span class="line">E **Edge;    <span class="comment">//邻接矩阵 </span></span><br><span class="line"><span class="keyword">protected</span>:     </span><br><span class="line"><span class="keyword">int</span> maxVertices;      <span class="comment">//图中最大顶点数     </span></span><br><span class="line"><span class="keyword">int</span> numVertices;                       <span class="comment">//当前顶点数    </span></span><br><span class="line"><span class="keyword">int</span> numEdges;       <span class="comment">//当前边数     </span></span><br><span class="line"><span class="comment">//GraphKind kind             //图的种类(这样不用分类定义)     </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getVertexPos</span> <span class="params">(T vertex)</span></span>; <span class="comment">//给出顶点vertex在图中位置 </span></span><br><span class="line"><span class="keyword">public</span>:  <span class="comment">//相关操作…… </span></span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">//用邻接矩阵表示的图的类定义 </span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">Graphmtx</span> :</span> <span class="keyword">public</span> Graph&lt;T, E&gt; </span><br><span class="line">&#123; </span><br><span class="line"><span class="keyword">friend</span> istream&amp; <span class="keyword">operator</span> &gt;&gt; ( istream&amp; in,   Graphmtx&lt;T, E&gt;&amp; G);   <span class="comment">//输入 </span></span><br><span class="line"><span class="keyword">friend</span> ostream&amp; <span class="keyword">operator</span> &lt;&lt; (ostream&amp; out, Graphmtx&lt;T, E&gt;&amp; G);  <span class="comment">//输出 </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:     </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getVertexPos</span> <span class="params">(T vertex)</span></span></span><br><span class="line"><span class="function"></span>&#123;        <span class="comment">//给出顶点vertex在图中的位置         </span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numVertices; i++)          </span><br><span class="line"><span class="keyword">if</span> (VerticesList[i] == Vertex) <span class="keyword">return</span> i;      </span><br><span class="line"><span class="keyword">return</span> <span class="number">-1</span>;   &#125;; </span><br><span class="line"><span class="keyword">public</span>:   </span><br><span class="line">    Graphmtx (<span class="keyword">int</span> sz = DefaultVertices);    <span class="comment">//构造函数     </span></span><br><span class="line">    ～Graphmtx ()          <span class="comment">//析构函数         </span></span><br><span class="line">  &#123; <span class="keyword">delete</span> [ ]VerticesList;  <span class="keyword">delete</span> [ ]Edge; &#125;     </span><br><span class="line">  <span class="function">T <span class="title">getValue</span> <span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;         <span class="comment">//取顶点 i 的值, i 不合理返回0       </span></span><br><span class="line">  <span class="keyword">return</span> i &gt;= <span class="number">0</span> &amp;&amp; i &lt;= numVertices ? VerticesList[i] : <span class="literal">NULL</span>;      &#125;     </span><br><span class="line">  <span class="function">E <span class="title">getWeight</span> <span class="params">(<span class="keyword">int</span> v1, <span class="keyword">int</span> v2)</span> </span>&#123;  <span class="comment">//取边(v1,v2)上权值       </span></span><br><span class="line">  <span class="keyword">return</span> v1 != <span class="number">-1</span> &amp;&amp; v2 != <span class="number">-1</span> ? Edge[v1][v2] : <span class="number">0</span>;     &#125;     </span><br><span class="line">  <span class="function"><span class="keyword">int</span> <span class="title">getFirstNeighbor</span> <span class="params">(<span class="keyword">int</span> v)</span></span>;       <span class="comment">//取顶点 v 的第一个邻接顶点 </span></span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">int</span> <span class="title">getNextNeighbor</span> <span class="params">(<span class="keyword">int</span> v, <span class="keyword">int</span> w)</span></span>;        <span class="comment">//取 v 的邻接顶点 w 的下一邻接顶点    </span></span><br><span class="line"> <span class="function"><span class="keyword">bool</span> <span class="title">insertVertex</span> <span class="params">(<span class="keyword">const</span> T vertex)</span></span>;        <span class="comment">//插入顶点vertex     </span></span><br><span class="line"> <span class="function"><span class="keyword">bool</span> <span class="title">insertEdge</span> <span class="params">(<span class="keyword">int</span> v1, <span class="keyword">int</span> v2, E cost)</span></span>;       <span class="comment">//插入边(v1, v2),权值为cost     </span></span><br><span class="line"> <span class="function"><span class="keyword">bool</span> <span class="title">removeVertex</span> <span class="params">(<span class="keyword">int</span> v)</span></span>;       <span class="comment">//删去顶点 v 和所有与它相关联的边     </span></span><br><span class="line"> <span class="function"><span class="keyword">bool</span> <span class="title">removeEdge</span> <span class="params">(<span class="keyword">int</span> v1, <span class="keyword">int</span> v2)</span></span>;       <span class="comment">//在图中删去边(v1,v2) &#125;; </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; <span class="title">Graphmtx</span>&lt;T, E&gt;:</span>:Graphmtx (<span class="keyword">int</span> sz) &#123;      <span class="comment">//构造函数     maxVertices = sz;       </span></span><br><span class="line">numVertices = <span class="number">0</span>;  </span><br><span class="line">numEdges = <span class="number">0</span>;  </span><br><span class="line"><span class="keyword">int</span> i, j;  </span><br><span class="line">VerticesList = <span class="keyword">new</span> T[maxVertices];  <span class="comment">//创建顶点表     </span></span><br><span class="line">Edge = (E **) <span class="keyword">new</span> E *[maxVertices]; </span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; maxVertices; i++)      </span><br><span class="line">Edge[i] = <span class="keyword">new</span> E[maxVertices];   <span class="comment">//邻接矩阵     </span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; maxVertices; i++)        <span class="comment">//矩阵初始化      </span></span><br><span class="line"><span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; maxVertices; j++)    </span><br><span class="line">Edge[i][j] = (i == j) ? <span class="number">0</span> : maxWeight; </span><br><span class="line">&#125;; </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; <span class="title">int</span> <span class="title">Graphmtx</span>&lt;T, E&gt;:</span>:getFirstNeighbor (<span class="keyword">int</span> v) &#123; </span><br><span class="line"><span class="comment">//给出顶点位置为v的第一个邻接顶点的位置,如果找不到, 则函数返回-1     </span></span><br><span class="line"><span class="keyword">if</span> (v != <span class="number">-1</span>) &#123;      </span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> col = <span class="number">0</span>; col &lt; numVertices; col++)           </span><br><span class="line"><span class="keyword">if</span> (Edge[v][col] &amp;&amp; Edge[v][col] &lt; maxWeight)                   </span><br><span class="line"><span class="keyword">return</span> col;     &#125;     </span><br><span class="line"><span class="keyword">return</span> <span class="number">-1</span>; &#125;; </span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">int</span> <span class="title">Graphmtx</span>&lt;T, E&gt;:</span>:getNextNeighbor (<span class="keyword">int</span> v, <span class="keyword">int</span> w) &#123; </span><br><span class="line"><span class="comment">//给出顶点 v 的某邻接顶点 w 的下一个邻接顶点      </span></span><br><span class="line"><span class="keyword">if</span> (v != <span class="number">-1</span> &amp;&amp; w != <span class="number">-1</span>) &#123;     </span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> col = w+<span class="number">1</span>; col &lt; numVertices; col++)            </span><br><span class="line"><span class="keyword">if</span> (Edge[v][col] &amp;&amp; Edge[v][col] &lt; maxWeight)                 </span><br><span class="line"><span class="keyword">return</span> col;      &#125;    </span><br><span class="line"><span class="keyword">return</span> <span class="number">-1</span>; &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>邻接矩阵法优点：容易实现图的操作，如：求某顶点的度、判断 顶点之间是否有边（弧）、找顶点的邻接点等等。                 </p>
+<p>邻接矩阵法缺点：n个顶点需要 n*n 个单元存储边(弧);空间效率 为O(n^2)。 对稀疏图而言尤其浪费空间。</p>
+<p>为此需把邻接矩阵的各行分别组织为一个单链表 </p>
+<p><strong>图的邻接表存储结构</strong></p>
+<p>在邻接表表示法中</p>
+<p>•顶点：通常按编号顺序将顶点数据存储在一维数组中 </p>
+<p>•关联同一顶点的边：用单链表存储</p>
+<p>无向图的邻接表 </p>
+<p>顶点的度：统计某顶点对应边链表中结点个数。</p>
+<p>某条边(vi, vj)在邻接表中有两个边结点，分别 在第 i 个顶点和第 j 个顶点对应的边链表中。 </p>
+<p>有向图的邻接表和逆邻接表 </p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102746243-301822766.png" alt=""></p>
+<p>特性总结：</p>
+<p>图中有 n 个顶点，e 条边， </p>
+<p>邻接表表示无向图时，需要 n 个顶点结点，2e 个边结点；</p>
+<p>用邻接表表示有向图时，若不考虑逆邻接表，只需 n 个顶点结点，e 个边结点。</p>
+<p>当 e 远远小于 n2 时，可以节省大量的存储空 间。  </p>
+<p>怎样计算无向图顶点的度？  </p>
+<p>  TD(Vi) =单链表中链接的结点个数</p>
+<p>怎样计算有向图顶点的出度？ </p>
+<p>   OD(Vi)＝单链出边表中链接的结点数 </p>
+<p>怎样计算有向图顶点的入度？    </p>
+<p>   ID(Vi) ＝邻接点为Vi的弧个数 </p>
+<p>怎样计算有向图顶点Vi的度：</p>
+<p>   TD(Vi) = OD( Vi )+ID( Vi ) </p>
+<p>邻接表的优点： 空间效率高；容易寻找顶点的邻接点； </p>
+<p>邻接表的缺点： 判断两顶点间是否有边或弧， 需搜索两结点对应的单链表，没有邻接矩阵方便。 </p>
+<p>网络 (带权图) 的邻接表 </p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102823434-1325153282.png" alt=""></p>
+<p>统计出边表中结点个数，得到该顶点的出度；</p>
+<p>统计入边表中结点个数，得到该顶点的入度。 </p>
+<p>单链表结点中包含另一顶点的下标 dest 和指针 link。对于带权图，边结点中还要 保存该边的权值cost。 </p>
+<p><strong>用邻接表表示的图的类定义</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; <span class="title">struct</span> <span class="title">Edge</span> </span></span><br><span class="line"><span class="class">&#123;</span>      <span class="comment">//边结点的定义     </span></span><br><span class="line"><span class="keyword">int</span> dest;       <span class="comment">//边的另一顶点位置     </span></span><br><span class="line">E cost;       <span class="comment">//边上的权值     </span></span><br><span class="line">Edge&lt;T, E&gt; *link;     <span class="comment">//下一条边链指针     </span></span><br><span class="line">Edge () &#123;&#125;       <span class="comment">//构造函数    </span></span><br><span class="line">Edge (<span class="keyword">int</span> num, E cost): dest (num), weight (cost), link (<span class="literal">NULL</span>) &#123; &#125;  <span class="comment">//构造函数       </span></span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span> != (Edge&lt;T, E&gt;&amp; R) <span class="keyword">const</span></span><br><span class="line">&#123; <span class="keyword">return</span> dest != R.dest; &#125;    <span class="comment">//判边等否 </span></span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; <span class="title">struct</span> <span class="title">Vertex</span> &#123;</span>      <span class="comment">//顶点的定义    </span></span><br><span class="line">T data;       <span class="comment">//顶点的名字 </span></span><br><span class="line">Edge&lt;T, E&gt; *adj;     <span class="comment">//边链表的头指针 </span></span><br><span class="line">&#125;; </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">Graphlnk</span> :</span> <span class="keyword">public</span> Graph&lt;T, E&gt; </span><br><span class="line">&#123;   <span class="comment">//图的类定义 </span></span><br><span class="line"><span class="keyword">private</span>:     </span><br><span class="line">Vertex&lt;T, E&gt; *NodeTable;<span class="comment">//顶点表 (各边链表的头结点) </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">protected</span>:     </span><br><span class="line"><span class="keyword">int</span> maxVertices;      <span class="comment">//图中最大顶点数     </span></span><br><span class="line"><span class="keyword">int</span> numVertices;     <span class="comment">//当前顶点数    </span></span><br><span class="line"><span class="keyword">int</span> numEdges;      <span class="comment">//当前边数 </span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getVertexPos</span> <span class="params">(<span class="keyword">const</span> T vertx)</span> </span>&#123;          <span class="comment">//给出顶点vertex在图中的位置      </span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numVertices; i++)          </span><br><span class="line"><span class="keyword">if</span> (NodeTable[i].data == vertx) <span class="keyword">return</span> i;       </span><br><span class="line"><span class="keyword">return</span> <span class="number">-1</span>;   &#125; </span><br><span class="line"><span class="keyword">public</span>:     </span><br><span class="line">Graphlnk (<span class="keyword">int</span> sz = DefaultVertices);  <span class="comment">//构造函数     </span></span><br><span class="line">~Graphlnk();       <span class="comment">//析构函数 </span></span><br><span class="line"><span class="function">T <span class="title">getValue</span> <span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;       <span class="comment">//取顶点 i 的值  </span></span><br><span class="line"><span class="keyword">return</span> (i &gt;= <span class="number">0</span> &amp;&amp; i &lt; NumVertices) ?  NodeTable[i].data : <span class="number">0</span>;    </span><br><span class="line">&#125;  </span><br><span class="line"><span class="function">E <span class="title">getWeight</span> <span class="params">(<span class="keyword">int</span> v1, <span class="keyword">int</span> v2)</span></span>;      <span class="comment">//取边(v1,v2)权值  </span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">insertVertex</span> <span class="params">(<span class="keyword">const</span> T&amp; vertex)</span></span>;     </span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">removeVertex</span> <span class="params">(<span class="keyword">int</span> v)</span></span>;     </span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">insertEdge</span> <span class="params">(<span class="keyword">int</span> v1, <span class="keyword">int</span> v2, E cost)</span></span>;  </span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">removeEdge</span> <span class="params">(<span class="keyword">int</span> v1, <span class="keyword">int</span> v2)</span></span>;     </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getFirstNeighbor</span> <span class="params">(<span class="keyword">int</span> v)</span></span>;     </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getNextNeighbor</span> <span class="params">(<span class="keyword">int</span> v, <span class="keyword">int</span> w)</span></span>;  </span><br><span class="line"><span class="keyword">friend</span> istream&amp; <span class="keyword">operator</span> &gt;&gt; (istream&amp; in, Graphlnk&lt;T, E&gt;&amp; G);  </span><br><span class="line"><span class="keyword">friend</span> ostream&amp; <span class="keyword">operator</span> &lt;&lt; (ostream&amp; out, Graphlnk&lt;T, E&gt;&amp; G);      </span><br><span class="line">&#125;; </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; <span class="title">Graphlnk</span>&lt;T, E&gt;:</span>:Graphlnk (<span class="keyword">int</span> sz) &#123;</span><br><span class="line"><span class="comment">//构造函数：建立一个空的邻接表     </span></span><br><span class="line">maxVertices = sz;     </span><br><span class="line">numVertices = <span class="number">0</span>;  </span><br><span class="line">numEdges = <span class="number">0</span>;     </span><br><span class="line">NodeTable = <span class="keyword">new</span> Vertex&lt;T, E&gt;[maxVertices];  <span class="comment">//创建顶点表数组     </span></span><br><span class="line"><span class="keyword">if</span> (NodeTable == <span class="literal">NULL</span>)         </span><br><span class="line">&#123; <span class="built_in">cerr</span> &lt;&lt; <span class="string">"存储分配错！"</span> &lt;&lt; <span class="built_in">endl</span>;  <span class="built_in">exit</span>(<span class="number">1</span>); &#125;     </span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; maxVertices; i++)          </span><br><span class="line">NodeTable[i].adj = <span class="literal">NULL</span>; &#125;; </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; <span class="title">Graphlnk</span>&lt;T, E&gt;:</span>:～Graphlnk() &#123; </span><br><span class="line"><span class="comment">//析构函数：删除一个邻接表    </span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numVertices; i++ ) &#123;      </span><br><span class="line">Edge&lt;T, E&gt; *p = NodeTable[i].adj;         </span><br><span class="line"><span class="keyword">while</span> (p != <span class="literal">NULL</span>) </span><br><span class="line">&#123;                 </span><br><span class="line">NodeTable[i].adj = p-&gt;link;             </span><br><span class="line"><span class="keyword">delete</span> p;  p = NodeTable[i].adj;         &#125;    </span><br><span class="line">&#125;      <span class="keyword">delete</span> [ ]NodeTable;         </span><br><span class="line"><span class="comment">//删除顶点表数组 &#125;; </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">int</span> <span class="title">Graphlnk</span>&lt;T, E&gt;:</span>:getFirstNeighbor (<span class="keyword">int</span> v) &#123;</span><br><span class="line"><span class="comment">//给出顶点位置为 v 的第一个邻接顶点的位置,果找不到, 则函数返回-1     </span></span><br><span class="line"><span class="keyword">if</span> (v != <span class="number">-1</span>) &#123;   <span class="comment">//顶点v存在    </span></span><br><span class="line">Edge&lt;T, E&gt; *p = NodeTable[v].adj;   <span class="comment">//对应边链表第一个边结点  </span></span><br><span class="line"><span class="keyword">if</span> (p != <span class="literal">NULL</span>) <span class="keyword">return</span> p-&gt;dest;    <span class="comment">//存在, 返回第一个邻接顶点     </span></span><br><span class="line">&#125;     </span><br><span class="line"><span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">//第一个邻接顶点不存在</span></span><br><span class="line">&#125;; </span><br><span class="line"> </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; <span class="title">int</span> <span class="title">Graphlnk</span>&lt;T, E&gt;:</span>:getNextNeighbor (<span class="keyword">int</span> v, <span class="keyword">int</span> w) </span><br><span class="line">&#123; <span class="comment">//给出顶点v的邻接顶点w的下一个邻接顶点的位置,若没有下一个邻接顶点, 则函数返回-1     </span></span><br><span class="line"><span class="keyword">if</span> (v != <span class="number">-1</span>) &#123;    <span class="comment">//顶点v存在         </span></span><br><span class="line">Edge&lt;T, E&gt; *p = NodeTable[v].adj;         </span><br><span class="line"><span class="keyword">while</span> (p != <span class="literal">NULL</span> &amp;&amp; p-&gt;dest != w)             </span><br><span class="line">p = p-&gt;link;      </span><br><span class="line"><span class="keyword">if</span> (p != <span class="literal">NULL</span> &amp;&amp; p-&gt;link != <span class="literal">NULL</span>)              </span><br><span class="line"><span class="keyword">return</span> p-&gt;link-&gt;dest;  <span class="comment">//返回下一个邻接顶点     </span></span><br><span class="line">&#125;    </span><br><span class="line"><span class="keyword">return</span> <span class="number">-1</span>;    <span class="comment">//下一邻接顶点不存在 </span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="图的遍历与连通性"><a href="#图的遍历与连通性" class="headerlink" title="图的遍历与连通性"></a>图的遍历与连通性</h2><p>从已给的连通图中某一顶点出发，沿着一些边访遍图 中所有的顶点，且使每个顶点仅被访问一次，就叫做图的遍历 (Graph Traversal)。 </p>
+<p>图的遍历操作是求解图的连通性问题、拓扑排序等问题的基础。 </p>
+<p><strong>遍历方法:</strong> </p>
+<p>深度优先遍历DFS (Depth First Search) </p>
+<p> 广度优先遍历BFS (Breadth First Search) </p>
+<p><strong>遍历实质：</strong></p>
+<p>找每个顶点的邻接点的过程。 </p>
+<p><strong>图的特点：</strong></p>
+<p>图中可能存在回路，且图的任一顶点都 可能与其它顶点相通，在访问完某个顶点之后可能 会沿着某些边又回到了曾经访问过的顶点。 </p>
+<p>怎样避免重复访问？     </p>
+<p>解决思路：可设置一个辅助数组 visited [n ]，用来 标记每个被访问过的顶点。它的初始状态为0，在图的遍历过程中，一旦某一个顶点i 被访问，就立即改 visited [i]为1，防止它被多次访问。 </p>
+<p><strong>深度优先搜索DFS (Depth First Search)</strong> </p>
+<p>深度优先遍历图的方法是，从图中某顶点v出发： </p>
+<p>(1)访问顶点v； </p>
+<p>(2)依次从v的未被访问的邻接点出发，对图进行深度优先 遍历；直至图中和v有路径相通的顶点都被访问； </p>
+<p>(3)若此时图中尚有顶点未被访问，则从一个未被访问的 顶点出发，重新进行深度优先遍历，直到图中所有顶点 均被访问过为止。对非连通 图</p>
+<p>深度优先搜索遍历类似于树的先序遍历。 </p>
+<p>深度优先遍历过程是递归的，在遍历过程中，若 某个顶点的所有邻接顶点均被访问过，则需要回溯。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//连通图的深度遍历 </span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">DFS</span> (<span class="title">Graph</span>&lt;T, E&gt;&amp; <span class="title">G</span>, <span class="title">int</span> <span class="title">v</span>, <span class="title">bool</span> <span class="title">visited</span>[]) &#123;</span>     </span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; G.getValue(v) &lt;&lt; <span class="string">' '</span>;        <span class="comment">//访问顶点v     </span></span><br><span class="line">visited[v] = <span class="literal">true</span>;            <span class="comment">//作访问标记     </span></span><br><span class="line"><span class="keyword">int</span> w = G.getFirstNeighbor (v);     <span class="comment">//第一个邻接顶点     </span></span><br><span class="line"><span class="keyword">while</span> (w != <span class="number">-1</span>) &#123; <span class="comment">//若邻接顶点w存在       </span></span><br><span class="line"><span class="keyword">if</span> ( !visited[w] ) DFS(G, w, visited);   <span class="comment">//若w未访问过, 递归访问顶点w         </span></span><br><span class="line">w = G.getNextNeighbor (v, w); <span class="comment">//下一个邻接顶点     &#125; </span></span><br><span class="line">&#125;; </span><br><span class="line"></span><br><span class="line"><span class="comment">//图的深度优先搜索算法 </span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt;  </span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">DFSTraverse</span> (<span class="title">Graph</span>&lt;T, E&gt;&amp; <span class="title">G</span>, <span class="title">const</span> <span class="title">T</span>&amp; <span class="title">v</span>) &#123;</span> </span><br><span class="line"><span class="comment">//从顶点v出发对图G进行深度优先遍历的主过程     </span></span><br><span class="line"><span class="keyword">int</span> i, loc, n = G.NumberOfVertices();    <span class="comment">//顶点个数    </span></span><br><span class="line"><span class="keyword">bool</span> *visited = <span class="keyword">new</span> <span class="keyword">bool</span>[n];          <span class="comment">//创建辅助数组     </span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) visited [i] = <span class="literal">false</span>; <span class="comment">//辅助数组初始化     </span></span><br><span class="line">loc = G.getVertexPos(v);    </span><br><span class="line">DFS (G, loc, visited); <span class="comment">//从顶点0开始深度优先搜索  </span></span><br><span class="line"><span class="keyword">delete</span> [] visited;           <span class="comment">//释放visited </span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>广度优先搜索BFS (Breadth First Search)</strong> </p>
+<p>基本思想：——仿树的层次遍历过程。 </p>
+<p>广度优先搜索（遍历）步骤： </p>
+<p>简单归纳： </p>
+<p>①访问了起始点v之后， </p>
+<p>②依次访问 v的邻接点。</p>
+<p>③然后再依次访问这些顶点的未被访问过的邻接点； 直到所有顶点都被访问过为止。 （连通图）  </p>
+<p>若此时图中尚有顶点未被访问,则另选图中一个未曾被访问的顶点作起始点，重复上述过程，直至图中所有顶点都被访问到为止（非连通图） </p>
+<p>计算机如何实现BFS？ </p>
+<p>除辅助数组visited [n ]外，还需再开一辅助队列</p>
+<p>(1)首先访问顶点v，并将其访问标志置为已被访问，即visited[v]=1，并入队； </p>
+<p>(2)接着依次访问与顶点v有边相连的所有未访问顶点W1， W2，…，Wt，并入队； </p>
+<p>(3)然后再按顺序访问与W1，W2，…，Wt有边相连又未曾访 问过的顶点；</p>
+<p>依此类推，直到图中所有顶点都被访问完为止 。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//图的广度优先搜索算法 </span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">BFS</span> (<span class="title">Graph</span>&lt;T, E&gt;&amp; <span class="title">G</span>, <span class="title">const</span> <span class="title">T</span>&amp; <span class="title">v</span>) &#123;</span>     </span><br><span class="line"><span class="keyword">int</span> i, w, n = G.NumberOfVertices();   <span class="comment">//图中顶点个数   </span></span><br><span class="line"><span class="keyword">bool</span> *visited = <span class="keyword">new</span> <span class="keyword">bool</span>[n];     </span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) visited[i] = <span class="literal">false</span>;     </span><br><span class="line"><span class="keyword">int</span> loc = G.getVertexPos (v);  <span class="comment">//取顶点号     </span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; G.getValue (loc) &lt;&lt; <span class="string">' '</span>;  <span class="comment">//访问顶点v    </span></span><br><span class="line">visited[loc] = <span class="literal">true</span>;           <span class="comment">//做已访问标记            </span></span><br><span class="line">Queue&lt;<span class="keyword">int</span>&gt; Q;  Q.EnQueue (loc);   <span class="comment">//顶点进队列, 实现分层访问 图的广度优先搜索算法 </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">while</span> (!Q.IsEmpty() ) &#123; <span class="comment">//循环, 访问所有结点         </span></span><br><span class="line">Q.DeQueue (loc);         </span><br><span class="line">w = G.getFirstNeighbor (loc);  <span class="comment">//第一个邻接顶点         </span></span><br><span class="line"><span class="keyword">while</span> (w != <span class="number">-1</span>) &#123;  <span class="comment">//若邻接顶点w存在            </span></span><br><span class="line"><span class="keyword">if</span> (!visited[w]) &#123;  <span class="comment">//若未访问过  </span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; G.getValue (w) &lt;&lt; ‘ ’; <span class="comment">//访问           </span></span><br><span class="line">visited[w] = <span class="literal">true</span>;               </span><br><span class="line">Q.EnQueue (w);   <span class="comment">//顶点w进队列                </span></span><br><span class="line">&#125;           </span><br><span class="line">w = G.getNextNeighbor (loc, w); <span class="comment">//找顶点loc的下一个邻接点         </span></span><br><span class="line">&#125; </span><br><span class="line">&#125;     <span class="comment">//外层循环，判队列空否</span></span><br><span class="line">&#125; <span class="comment">// 如果对于非联通的图    </span></span><br><span class="line"><span class="keyword">delete</span> [] visited; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>连通分量 (Connected component)</strong> </p>
+<p>当无向图为非连通图时，从图中某一顶点出发，利 用深度优先搜索算法或广度优先搜索算法不可能遍 历到图中的所有顶点，只能访问到该顶点所在最大 连通子图（连通分量）的所有顶点。</p>
+<p>若从无向图每一连通分量中的一个顶点出发进行遍 历,   可求得无向图的所有连通分量。</p>
+<p>例如，对于非连通的无向图，所有连通分量的生成 树组成了非连通图的生成森林。 </p>
+<h2 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h2><p>对连通图进行遍历，得到的是什么？    </p>
+<p>——得到的将是一个极小连通子图，即图的生成树！     由深度优先搜索得到的，称为深度优先搜索生成树。   由广度优先搜索得到的，称为广度优先搜索生成树。 </p>
+<p>对非连通图进行遍历，得到的是什么？ </p>
+<p>—— 得到的是各连通分量的生成树，即图的生成森林 </p>
+<p>求解步骤：<br>Step1:先用邻接矩阵或邻接表表示；<br>Step2:写出DFS或BFS结果序列；<br>Step3:画出对应生成树或森林。 </p>
+<p><strong>最小代价生成树</strong></p>
+<p>在一个连通网的所有生成树中， 各边的代价之和 最小的那棵生成树。简称为最小生成树(MST)。 </p>
+<p>构造最小生成树的准则： </p>
+<ol>
+<li>必须使用且仅使用n-1条边来联结网络中的n个顶点 </li>
+<li>不能使用产生回路的边。</li>
+<li>各边上的权值的总和达到最小。 </li>
+</ol>
+<p><strong>典型用途：</strong> </p>
+<p>欲在n个城市间建立通信网，则n个城市应铺n-1条线路； 但因为每条线路都会有对应的经济成本，而n个城市至多可 能有n(n-1)/2 条线路，那么，如何选择n–1条线路，使总 费用最少？ </p>
+<p>数学模型： 顶点———表示城市，有n个； 边————表示线路，有n–1条； 边的权值—表示线路的经济代价； 连通网——表示n个城市间通信网。</p>
+<p>下面仅讨论无向网的最小生成树问题。 </p>
+<p>有多种算法，但最常用的是以下两种：</p>
+<p>Prim（普里姆）算法：  将顶点归并，与边数无关，适于稠密网  </p>
+<p>Kruskal（克鲁斯卡尔）算法： 将边归并，适于求稀疏网的最小生成树 </p>
+<p>这两个算法，都是利用MST 性质来构造最小生成树的 。</p>
+<p><strong>MST性质</strong><br>假设G=(V, E)是一个无向连通网，U是顶点集V的一 个非空子集。若(u, v)是一条具有最小权值的边，其 中u∈U，v∈V－U，则必存在一棵包含边(u, v)的最 小生成树。 </p>
+<p><strong>克鲁斯卡尔 (Kruskal) 算法</strong> </p>
+<p>克鲁斯卡尔算法的基本思想： </p>
+<p> 设有一个有 n 个顶点的连通网络 N = { V, E }, 最初先构造一 个只有 n 个顶点, 没有边的非连通图 T = { V, Ø },  图中每个顶 点自成一个连通分量。 </p>
+<p>当在 E 中选到一条具有最小权值的边时, 若该边的两个顶点 落在不同的连通分量上，则将此边加入到 T 中。 </p>
+<p>如此重复下去, 直到所有顶点在同一个连通分量上为止。 </p>
+<p>不用最小堆的算法实现： </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//顶点结点： </span></span><br><span class="line"><span class="keyword">typedef</span>   <span class="class"><span class="keyword">struct</span> </span></span><br><span class="line"><span class="class">&#123;</span>    <span class="keyword">int</span> data;    <span class="comment">//顶点信息       </span></span><br><span class="line">     <span class="keyword">int</span>  jihe;    </span><br><span class="line">&#125;VEX;</span><br><span class="line"><span class="comment">//边结点</span></span><br><span class="line"> <span class="keyword">typedef</span>   <span class="class"><span class="keyword">struct</span>  </span></span><br><span class="line"><span class="class">&#123;</span>    <span class="keyword">int</span>   tail, head;  <span class="comment">//边依附的两顶点       </span></span><br><span class="line">     <span class="keyword">int</span>  cost;       <span class="comment">//边的权值       </span></span><br><span class="line">     <span class="keyword">int</span>  flag;        <span class="comment">//标志域 </span></span><br><span class="line">&#125;EDGE;</span><br></pre></td></tr></table></figure>
+
+<p>0）用顶点数组和边数组存放顶点和边信息 </p>
+<p>1）初始时，令每个顶点的集合互不相同；每个边的flag为0 </p>
+<p>2）选出权值最小且flag为0的边 </p>
+<p>3）若该边依附的两个顶点的集合值不同，即非连通，则令该边的flag=1, 选中该边；再令该边依附的两顶点的集合以及两集合中所有顶点的集合 相同  若该边依附的两个顶点的集合值相同，即连通，则令该边的flag=2, 即舍去该边 </p>
+<p>4）重复上述步骤，直到选出n-1条边为止<br><strong>算法的框架</strong>  </p>
+<p> 利用最小堆(MinHeap)和并 查集(DisjointSets)来实现克鲁斯卡尔算法</p>
+<p>首先, 利用最小堆来存放E中的所有的边, 并选出最小边 </p>
+<p><img src="https://img2020.cnblogs.com/blog/2023220/202006/2023220-20200617102907499-992845421.png" alt=""></p>
+<p>利用并查集的运算检查两顶点是否在同一连通分量 上。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//最小生成树类定义 </span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> maxValue = FLOAT_MAX     <span class="comment">//机器可表示的、问题中不可能出现的大数 </span></span><br><span class="line"><span class="keyword">template</span> &lt;class T, class E&gt; </span><br><span class="line">struct MSTEdgeNode &#123;  <span class="comment">//树边结点的类定义     </span></span><br><span class="line"><span class="keyword">int</span> tail, head;   <span class="comment">//两顶点位置    </span></span><br><span class="line">E cost;    <span class="comment">//边上的权值  </span></span><br><span class="line">MSTEdgeNode() : tail(<span class="number">-1</span>), head(<span class="number">-1</span>), cost(<span class="number">0</span>) &#123; &#125;      <span class="comment">//构造函数  </span></span><br><span class="line">&#125;;   </span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">MinSpanTree</span> &#123;</span> <span class="comment">//树的类定义</span></span><br><span class="line"><span class="keyword">protected</span>:     </span><br><span class="line">MSTEdgeNode&lt;T, E&gt; *edgevalue;     <span class="comment">//边值数组   </span></span><br><span class="line"><span class="keyword">int</span> maxSize, n;  <span class="comment">//最大元素个数和当前个数 </span></span><br><span class="line"><span class="keyword">public</span>:     </span><br><span class="line">MinSpanTree (<span class="keyword">int</span> sz = DefaultSize<span class="number">-1</span>) : MaxSize (sz), n (<span class="number">0</span>) </span><br><span class="line">&#123;       </span><br><span class="line">edgevalue = <span class="keyword">new</span> MSTEdgeNode&lt;T, E&gt;[sz];      </span><br><span class="line">&#125;     </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Insert</span> <span class="params">(MSTEdgeNode&amp; item)</span></span>;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在求解最小生成树时，可以用邻接矩阵存储图， 也可以用邻接表存储图。算法中使用图的抽象 基类的操作，无需考虑图及其操作的具体实现。</p>
+<p><strong>Kruskal算法的实现</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"heap.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"UFSets.h"</span> </span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">Kruskal</span> (<span class="title">Graph</span>&lt;T, E&gt;&amp; <span class="title">G</span>, <span class="title">MinSpanTree</span>&lt;T, E&gt;&amp; <span class="title">MST</span>) &#123;</span> </span><br><span class="line"> MSTEdgeNode&lt;T, E&gt; ed;           <span class="comment">//边结点辅助单元     </span></span><br><span class="line"> <span class="keyword">int</span> u, v, count;       </span><br><span class="line"> <span class="keyword">int</span> n = G.NumberOfVertices();   <span class="comment">//顶点数     </span></span><br><span class="line"> <span class="keyword">int</span> m = G.NumberOfEdges();     <span class="comment">//边数    </span></span><br><span class="line"> MinHeap &lt;MSTEdgeNode&lt;T, E&gt;&gt; H(m);   //最小堆      </span><br><span class="line"> <span class="function">UFSets <span class="title">F</span><span class="params">(n)</span></span>;        <span class="comment">//并查集     </span></span><br><span class="line"> <span class="keyword">for</span> (u = <span class="number">0</span>; u &lt; n; u++)            </span><br><span class="line"> <span class="keyword">for</span> (v = u+<span class="number">1</span>; v &lt; n; v++)   <span class="comment">//无向连通图             </span></span><br><span class="line"> <span class="keyword">if</span> (G.getWeight(u,v) != maxValue) &#123;                 </span><br><span class="line"> ed.tail = u;  ed.head = v;  <span class="comment">//插入堆                 </span></span><br><span class="line"> ed.cost = G.getWeight (u, v);                 </span><br><span class="line"> H.Insert(ed);              </span><br><span class="line"> &#125; </span><br><span class="line">count = <span class="number">1</span>;                <span class="comment">//最小生成树边数计数    </span></span><br><span class="line"><span class="keyword">while</span> (count &lt; n) &#123;      <span class="comment">//反复执行, 取n-1条边         </span></span><br><span class="line">H.Remove(ed);      <span class="comment">//退出具最小权值的边         </span></span><br><span class="line">u = F.Find(ed.tail);  v = F.Find(ed.head);<span class="comment">//取两顶点所在集合的根u与v        </span></span><br><span class="line"><span class="keyword">if</span> (u != v) &#123;                <span class="comment">//不是同一集合,不连通             </span></span><br><span class="line">F.Union(u, v);     <span class="comment">//合并,连通它们               </span></span><br><span class="line">MST.Insert(ed);     <span class="comment">//该边存入MST             </span></span><br><span class="line">count++;       </span><br><span class="line">&#125;     &#125; </span><br><span class="line">&#125;；</span><br></pre></td></tr></table></figure>
+
+<p><strong>普里姆(Prim)算法</strong> </p>
+<p>普里姆算法的基本思想： </p>
+<p>从连通网络 N = {V, E}中的某一顶点 u0 出发, 选择与 它关联的具有最小权值的边 (u0, v), 将其顶点加入到 生成树顶点集合U中。 </p>
+<p>以后每一步从一个顶点在集合U中,  而另一个顶点不 在集合U中的各条边中选择权值最小的边(u, v), 把它 的顶点加入到集合U中。 </p>
+<p>如此继续下去, 直到网络中的所有顶点都加入到生 成树顶点集合U中为止。 </p>
+<p>注意：当各边有相同权值时，由于选择的随意 性，产生的生成树可能不唯一。 </p>
+<p><strong>Prim算法的实现</strong> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"heap.h"</span> </span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">Prim</span> (<span class="title">Graph</span>&lt;T, E&gt;&amp; <span class="title">G</span>, <span class="title">const</span> <span class="title">T</span> <span class="title">u0</span>,<span class="title">MinSpanTree</span>&lt;T, E&gt;&amp; <span class="title">MST</span>) &#123;</span>     </span><br><span class="line">MSTEdgeNode&lt;T, E&gt; ed; <span class="comment">//边结点辅助单元     </span></span><br><span class="line"><span class="keyword">int</span> i, u, v, count;         </span><br><span class="line"><span class="keyword">int</span> n = G.NumberOfVertices();   <span class="comment">//顶点数      </span></span><br><span class="line"><span class="keyword">int</span> m = G.NumberOfEdges();   <span class="comment">//边数  </span></span><br><span class="line"><span class="keyword">int</span> u = G.getVertexPos(u0);    <span class="comment">//起始顶点号  </span></span><br><span class="line">MinHeap &lt;MSTEdgeNode&lt;T, E&gt;&gt; H(m);  //最小堆 </span><br><span class="line"><span class="keyword">bool</span> Vmst = <span class="keyword">new</span> <span class="keyword">bool</span>[n];   <span class="comment">//最小生成树顶点集合     </span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) Vmst[i] = <span class="literal">false</span>;      </span><br><span class="line">Vmst[u] = <span class="literal">true</span>;          <span class="comment">//u 加入生成树     </span></span><br><span class="line">count = <span class="number">1</span>;     </span><br><span class="line"><span class="keyword">do</span> &#123;           <span class="comment">//迭代      </span></span><br><span class="line">v = G.getFirstNeighbor(u);         </span><br><span class="line"><span class="keyword">while</span> (v != <span class="number">-1</span>) &#123;         <span class="comment">//检测u所有邻接顶点             </span></span><br><span class="line"><span class="keyword">if</span> (!Vmst[v]) &#123;         <span class="comment">//v不在mst中                 </span></span><br><span class="line">ed.tail = u;  ed.head = v;                </span><br><span class="line">ed.cost = G.getWeight(u, v);                 </span><br><span class="line">H.Insert(ed);         <span class="comment">//(u,v)加入堆             </span></span><br><span class="line">&#125;     <span class="comment">//堆中存所有u在mst中, v不在mst中的边             </span></span><br><span class="line">v = G.getNextNeighbor(u, v);  </span><br><span class="line">        &#125;        </span><br><span class="line"> <span class="keyword">while</span> (!H.IsEmpty() &amp;&amp; count &lt; n) &#123;              </span><br><span class="line"> H.Remove(ed);          <span class="comment">//选堆中具最小权的边             </span></span><br><span class="line"> <span class="keyword">if</span> (!Vmst[ed.head]) &#123;                </span><br><span class="line"> MST.Insert(ed);       <span class="comment">//加入最小生成树                 </span></span><br><span class="line"> u = ed.head;  Vmst[u] = <span class="literal">true</span>;   <span class="comment">//u加入生成树顶点集合                 </span></span><br><span class="line"> count++;                   </span><br><span class="line"> <span class="keyword">break</span>;  <span class="comment">//找找未曾加入的边入栈            </span></span><br><span class="line"> &#125;         &#125;     </span><br><span class="line"> &#125; <span class="keyword">while</span> (count &lt; n); </span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Prim算法（只用数组记录最值当前状态）自学 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MiniSpanTree_PRIM</span><span class="params">(MGraph G, VertexType u)</span> </span>&#123;     </span><br><span class="line"><span class="comment">// 用普里姆算法从第u个顶点出发构造网G的最小生成树T，输出T 的各条边。  </span></span><br><span class="line"><span class="comment">// 记录从顶点集U到V－U的代价最小的边的辅助数组定义：  </span></span><br><span class="line"><span class="comment">//  struct &#123;   </span></span><br><span class="line"><span class="comment">//      VertexType  adjvex;  </span></span><br><span class="line"><span class="comment">//      VRType     lowcost;  </span></span><br><span class="line"><span class="comment">//  &#125; closedge[MAX_VERTEX_NUM];   </span></span><br><span class="line"><span class="keyword">int</span> i,j,k;  </span><br><span class="line">k = LocateVex ( G, u );   </span><br><span class="line"><span class="keyword">for</span> ( j=<span class="number">0</span>; j&lt;G.vexnum; ++j ) &#123;    </span><br><span class="line"><span class="comment">// 辅助数组初始化     </span></span><br><span class="line"><span class="keyword">if</span> (j!=k)    </span><br><span class="line">&#123; closedge[j].adjvex=u;       </span><br><span class="line">closedge[j].lowcost=G.arcs[k][j].adj; &#125;  </span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line">closedge[k].lowcost = <span class="number">0</span>; <span class="comment">// 初始，U＝&#123;u&#125; </span></span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">1</span>; i&lt;G.vexnum; ++i) &#123;  <span class="comment">// 选择其余G.vexnum-1个顶点</span></span><br><span class="line">k = minimum(closedge);  <span class="comment">// 求出T的下一个结点：第k顶点 </span></span><br><span class="line"><span class="comment">//此时closedge[k].lowcost = </span></span><br><span class="line"><span class="comment">//MIN&#123; closedge[vi].lowcost | closedge[vi].lowcost&gt;0, vi∈V-U &#125;</span></span><br><span class="line"><span class="built_in">printf</span>(closedge[k].adjvex, G.vexs[k]);  <span class="comment">// 输出生成树的边 </span></span><br><span class="line">closedge[k].lowcost = <span class="number">0</span>;  <span class="comment">// 第k顶点并入U集 </span></span><br><span class="line"><span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;G.vexnum; ++j)</span><br><span class="line"><span class="keyword">if</span> (G.arcs[k][j].adj &lt; closedge[j].lowcost) &#123;  </span><br><span class="line"><span class="comment">// 新顶点并入U后重新选择最小边 </span></span><br><span class="line"><span class="comment">// closedge[j] = &#123; G.vexs[k], G.arcs[k][j].adj &#125;; </span></span><br><span class="line">closedge[j].adjvex=G.vexs[k]; </span><br><span class="line">closedge[j].lowcost=G.arcs[k][j].adj; </span><br><span class="line">&#125; </span><br><span class="line">&#125; </span><br><span class="line">&#125; <span class="comment">// MiniSpanTree</span></span><br></pre></td></tr></table></figure>
+
+<p>显然， Prim算法的时间效率＝O（n^2） </p>
+<p>两种算法比较<br>Prim：从某一个顶点出发寻找到其他顶点 最小了分支（与顶点有关）</p>
+<p>Kruscal：先对边排序，再测试连通（与边有关） </p>
+<h2 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h2><p>最短路径问题：如果从图中某一顶点（称为源 点）到另一顶点（称为终点）的路径可能不止一条，如何找到一条路径使得沿此路径上各边 上的权值总和达到最小。 </p>
+<p> 问题解法  :边上权值非负情形的单源最短路径问题   —  Dijkstra算法   </p>
+<p>典型用途：交通问题。如：城市A到城市B有多条线路， 但每条线路的交通费（或所需时间）不同，那么，如何 选择一条线路，使总费用（或总时间）最少？ （注：最短路径与最小生成树不同，路径上不一定包含n 个顶点） </p>
+<p>问题抽象：在带权有向图中A点（源点）到达B点（终点） 的多条路径中，寻找一条各边权值之和最小的路径，即 最短路径.</p>
+<p><strong>边上权值非负情形的 单源最短路径问题</strong> </p>
+<p>目的： 设一有向图G=（V, E），已知各边的权值， 以某指定点v0为源点，求从v0到图的其余各点的最短 路径。限定各边上的权值大于或等于0。 </p>
+<p>Dijkstra提出按路径长度的递增次序,   逐步产生最短 路径的算法。 </p>
+<p>假设S是已求得的最短路径的终点的集合，则可 证明：下一条最短路径必然是从v0 出发，中间只经过S 中的顶点便可到达的那些顶点vx (vxV-S )的路 径中路径长度值最小的一条。逐步扩充S,将终点加入集合S中。 </p>
+<p><strong>Dijkstra 算法的基本步骤</strong></p>
+<p>1) 设V0是起始源点，S是已求得最短路径的终点集合。 1) V-S = 未确定最短路径的顶点的集合， 初始时 S={V0} </p>
+<p>2) 选择下一条长度最短的路径： </p>
+<p>① Vi  V - S ，求出V0 到Vi 中间只经 S 中顶点的最短 路径；    </p>
+<p>② 上述最短路径中长度最小者即为下一条长度最短的路径   </p>
+<p>③ 将所求最短路径的终点加入S 中，并作调整； </p>
+<p>3) 重复2）直到求出所有终点的最短路径 </p>
+<p><strong>数据结构描述</strong> </p>
+<p>1 引入辅助数组dist[]  </p>
+<p>dist[]:存放当前找到的从源点V0到每个终点的最短路径长度 </p>
+<p> 初始状态：  若从v0到顶点vi有边, 则dist[i]为该边的权值；  若从v0到顶点vi无边, 则dist[i]为 ∞</p>
+<p>每次求得一条最短路径后, 其终点vk 加入集合S，然后对所有的vi V-S，修改其 dist[i]值 </p>
+<p>2 s[]: 存放点是否已确定最短路径的状态 </p>
+<p>3 path[]:表示从V0到各终点的最短路径上，此顶点的前一顶 点的序号；若从V0到某终点无路径，则用0作为其前一顶 点的序号。 </p>
+<p><strong>算法描述：</strong> </p>
+<p>（1）S为已找到从源点v0出发的最短路径的终点集合，初始为{v0}.  辅助数组 dist [ n ]存储各终点当前找到的最短路径的长度<br>（2）选择u，使得&lt;v0,u&gt;是这些路径中长度最短的路径，加入已求 的最短路径的点集合     </p>
+<p> dist [ u ]＝min{dist[i] | i∈V-S }  // i是S集之外的顶点    </p>
+<p> // dist[u]是从源点v0到S集外所有顶点的弧中最短的一条     </p>
+<p> S= S ∪{u}   //将u加入S集<br>（3）对于所有不在S中的终点w，进行路径调整：  dist[u]+ A[u,i]&lt; dist[i]  // 即(v0,u)＋(u,i)&lt;(v0,i)  则修改dist[i]为： dist[i]＝ dist[u]+ A[u,i]<br>重复操作（2）、（3）共n-1次，由此求得从v0到各终点的最短路径。 </p>
+<p><strong>从单个顶点到其他各顶点最短路径的算法</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ShortestPath</span> <span class="params">(Graph&lt;T, E&gt;&amp; G, T v, E dist[], <span class="keyword">int</span> path[])</span> </span>&#123; </span><br><span class="line"> <span class="keyword">int</span> n = G.NumberOfVertices();    </span><br><span class="line"> <span class="keyword">bool</span> *S = <span class="keyword">new</span> <span class="keyword">bool</span>[n];     <span class="comment">//最短路径顶点集     </span></span><br><span class="line"> <span class="keyword">int</span> i, j, k;  E w, <span class="built_in">min</span>;     </span><br><span class="line"> <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;      </span><br><span class="line"> dist[i] = G.getWeight(v, i);           </span><br><span class="line"> S[i] = <span class="literal">false</span>;         </span><br><span class="line"> <span class="keyword">if</span> (i != v &amp;&amp; dist[i] &lt; maxValue) path[i] = v;         </span><br><span class="line"> <span class="keyword">else</span> path[i] = <span class="number">-1</span>;   </span><br><span class="line">S[v] = <span class="literal">true</span>;  dist[v] = <span class="number">0</span>;      <span class="comment">//顶点v加入顶点集合     </span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n<span class="number">-1</span>; i++) &#123;       <span class="comment">//求解各顶点最短路径          </span></span><br><span class="line"><span class="built_in">min</span> = maxValue;  <span class="keyword">int</span> u = v;               </span><br><span class="line"><span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; n; j++)               </span><br><span class="line"><span class="keyword">if</span> (!S[j] &amp;&amp; dist[j] &lt; <span class="built_in">min</span>)                 </span><br><span class="line">&#123; u = j; <span class="built_in">min</span> = dist[j];&#125;         <span class="comment">//将源点V加 入S后, 初始化剩 余点的当前路径 </span></span><br><span class="line">S[u] = <span class="literal">true</span><span class="comment">//将顶点u加入集合S        </span></span><br><span class="line"><span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; n; k++) &#123;                    </span><br><span class="line">w = G.GetWeight(u, k);      <span class="comment">//然后对其余各点路径 进行适当调整：,并记 录每个点的前驱 </span></span><br><span class="line"><span class="keyword">if</span> (!S[k] &amp;&amp; w &lt; maxValue &amp;&amp;                      </span><br><span class="line">dist[u]+w &lt; dist[k]) &#123;                        </span><br><span class="line">dist[k] = dist[u]+w;                 </span><br><span class="line">path[k] = u;                    </span><br><span class="line">&#125;    &#125; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="活动网络"><a href="#活动网络" class="headerlink" title="活动网络"></a>活动网络</h2><p><strong>用顶点表示活动的网络 (AOV网络)</strong> </p>
+<p>计划、施工过程、生产流程、程序流程等都是“工 程”。除了很小的工程外，一般都把工程分为若干 个叫做“活动”的子工程。完成了这些活动，这个 工程就可以完成了。</p>
+<p>例如，计算机专业学生的学习就是一个工程，每一 门课程的学习就是整个工程的一些活动。其中有些 课程要求先修课程，有些则不要求。这样在有的课 程之间有领先关系，有的课程可以并行地学习。 </p>
+<p>可以用有向图表示一个工程。在这种有向图中， 用顶点表示活动，用有向边&lt;Vi, Vj&gt;表示活动Vi 必须先于活动Vj 进行。这种有向图叫做顶点表 示活动的AOV网络 (Activity  On Vertices)。 </p>
+<p><strong>拓扑排序</strong> </p>
+<p>问题：    </p>
+<p>假设以有向图表示一个工程的施工图或程 序的数据流图，则图中不允许出现回路 </p>
+<p>如何检查有向图中是否存在回路的方法之 一，是对有向图进行拓扑排序。 </p>
+<p><strong>什么是拓扑排序：</strong></p>
+<p>对有向图进行如下操作： 按照有向图给出的次序关系，将图中顶点排成一个线 性序列，对于有向图中没有限定次序关系的顶点，则 可以人为加上任意的次序关系。 由此所得顶点的线性序列称为拓扑有序序列构造有向图的一个拓扑序列的过程称为拓扑排序。</p>
+<p>若该线性序列中包含AOV网全部顶点，则AOV网无环，否 则，AOV网中存在有向环，此AOV网络所代表的工程是不 可行的。 </p>
+<p><strong>进行拓扑排序的方法</strong></p>
+<p> ① 输入AOV网络。令 n 为顶点个数。  </p>
+<p> ② 在AOV网络中选一个没有直接前驱的顶点, 并 输出之; </p>
+<p> ③ 从图中删去该顶点, 同时删去所有它发出的有 向边; </p>
+<p> ④ 重复以上 ②、③步, 直到 全部顶点均已输出，拓扑有序序列形成， 拓扑排序完成；或 图中还有未输出的顶点, 但已跳出处理循环。 说明图中还剩下一些顶点, 它们都有直接前 驱。这时网络中必存在有向环。 </p>
+<p>在邻接表中增设一个数组count[]，记录各顶点入 度。入度为零的顶点即无前驱顶点。</p>
+<p>在输入数据前, 顶点表NodeTable[]和入度数组 count[]全部初始化。在输入数据时, 每输入一条 边&lt;j, k&gt;, 就需要建立一个边结点, 并将它链入相 应边链表中, 统计入度信息：     </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Edge * p = <span class="keyword">new</span> Edge&lt; <span class="keyword">int</span> &gt; (k);   <span class="comment">//建立边结点, dest 域赋为 k    </span></span><br><span class="line"></span><br><span class="line"> p-&gt;link = NodeTable[j].adj;    </span><br><span class="line"></span><br><span class="line"> NodeTable[j].adj = p;    <span class="comment">//链入顶点j的边链表的前端     </span></span><br><span class="line"></span><br><span class="line">count[k]++;     <span class="comment">//顶点k入度加一</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p> 在算法中, 使用一个存放入度为零的顶点的链 式栈, 供选择和输出无前驱的顶点。</p>
+<p>拓扑排序算法可描述如下： </p>
+<p>1、建立入度为零的顶点栈; </p>
+<p>2、当入度为零的顶点栈不空时, 重复执行</p>
+<p>从顶点栈中退出一个顶点, 并输出之; </p>
+<p>从AOV网络中删去这个顶点和它发出的 边, 边的终顶点入度减一; </p>
+<p>如果边的终顶点入度减至0, 则该顶点进 入度为零的顶点栈; </p>
+<p> 3、如果输出顶点个数少于AOV网络的顶点 个数, 则报告网络中存在有向环。 </p>
+<p>在算法实现时, 为了建立入度为零的顶点栈,可 以不另外分配存储空间, 直接利用入度为零的 顶点的count[ ]数组元素。设立一个栈顶指针 top, 指示当前栈顶位置, 即某一个入度为零的 顶点。栈初始化时置top = -1。 </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将顶点i 进栈时执行以下指针的修改：   </span></span><br><span class="line">count[i] = top;  top = i ; <span class="comment">// top指向新栈顶i, 原栈顶元素在count[i]中 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">//退栈操作可以写成：  </span></span><br><span class="line"> j = top;  top = count[top]; <span class="comment">//位于栈顶的顶点记于 j, top退到次栈顶</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>拓扑排序的算法</strong> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">TopologicalSort</span> (<span class="title">Graph</span>&lt;T, E&gt;&amp; <span class="title">G</span>) </span></span><br><span class="line"><span class="class">&#123;</span> <span class="keyword">int</span> i, j, w, v;     </span><br><span class="line"><span class="keyword">int</span> top = <span class="number">-1</span>;              <span class="comment">//入度为零顶点的栈初始化     </span></span><br><span class="line"><span class="keyword">int</span> n = G.NumberOfVertices();    <span class="comment">//网络中顶点个数     </span></span><br><span class="line"><span class="keyword">int</span> *count = <span class="keyword">new</span> <span class="keyword">int</span>[n];     <span class="comment">//入度数组兼入度为零顶点栈     </span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) count[i] = <span class="number">0</span>;    </span><br><span class="line"><span class="built_in">cin</span> &gt;&gt; i &gt;&gt; j;    <span class="comment">//输入一条边(i, j)    </span></span><br><span class="line"><span class="keyword">while</span> (i &gt; <span class="number">-1</span> &amp;&amp; i &lt; n &amp;&amp; j &gt; <span class="number">-1</span> &amp;&amp; j &lt; n) &#123;        </span><br><span class="line">G.insertEdge (i, j);  </span><br><span class="line">count[j]++; </span><br><span class="line"> <span class="built_in">cin</span> &gt;&gt; i &gt;&gt; j;      &#125;     </span><br><span class="line"> <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++)  <span class="comment">//初始化，检查网络所有顶点   </span></span><br><span class="line"> <span class="keyword">if</span> (count[i] == <span class="number">0</span>)         <span class="comment">//入度为零的顶点进栈  </span></span><br><span class="line"> &#123; count[i] = top;  top = i; &#125;      </span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++)       <span class="comment">//期望输出n个顶点         </span></span><br><span class="line"><span class="keyword">if</span> (top == <span class="number">-1</span>) &#123;            <span class="comment">//中途栈空,转出</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; “网络中有回路！<span class="string">" &lt;&lt; endl;  </span></span><br><span class="line"><span class="string">return;   </span></span><br><span class="line"><span class="string">&#125; </span></span><br><span class="line"><span class="string">else </span></span><br><span class="line"><span class="string">&#123;     //继续拓扑排序     </span></span><br><span class="line"><span class="string">v = top;  top = count[top];    //退栈v            </span></span><br><span class="line"><span class="string">cout &lt;&lt; G.getValue(v) &lt;&lt; "</span>  <span class="string">" &lt;&lt; endl;   //输出            </span></span><br><span class="line"><span class="string">w = G.GetFirstNeighbor(v);                </span></span><br><span class="line"><span class="string">while (w != -1) &#123;      //扫描顶点v的出边表             </span></span><br><span class="line"><span class="string">count[w]--;    //邻接顶点入度减一             </span></span><br><span class="line"><span class="string">if (!count[w])              </span></span><br><span class="line"><span class="string">&#123; count[w] = top;  top = w; &#125;  //入度减至零,进栈      </span></span><br><span class="line"><span class="string">w = G.GetNextNeighbor (v, w);   </span></span><br><span class="line"><span class="string">&#125;     //一个顶点输出后，调整其邻接顶点入度        </span></span><br><span class="line"><span class="string">&#125;     </span></span><br><span class="line"><span class="string">&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<p>分析此拓扑排序算法可知，如果AOV网络有 n个顶点，e条边，在拓扑排序的过程中，搜 索入度为零的顶点，建立链式栈所需要的时 间是O(n)。在正常的情况下，有向图有n个顶 点，每个顶点进一次栈，出一次栈，共输出 n 次。顶点入度减一的运算共执行了e次。所 以总的时间复杂度为O(n+e)。 </p>
+<p><strong>用边表示活动的网络(AOE网络)</strong> </p>
+<p>用一个带权有向图（DAG）描述工程的预计进度。 </p>
+<p>顶点表示事件，有向边表示活动，边e的权c(e） 表示完成活动e所需的时间(比如 天数）。 </p>
+<p>图中入度为0的顶点表示工程的开始事件（如开工 仪式），出度为0的顶点表示工程结束事件。 </p>
+<p><strong>关键路径</strong> </p>
+<p>从AOE网中源点到汇点的最长路径，具有最大长 度的路径叫关键路径。</p>
+<p>关键路径是由关键活动构成的，关键路径可能不唯一。</p>
+<p>关键路径为源点到汇点的最长路径，这样转变为查找图中最长路径问题。</p>
+<p>求一个AOE的关键路径 即 求AOE的中的关键活动 </p>
+<p><strong>用边表示活动的网络(AOE网络)</strong> </p>
+<p>如果在无有向环的带权有向图中, 用有向边表 示一个工程中的活动 (Activity), 用边上权值表 示活动持续时间 (Duration),  用顶点表示事件 (Event),  则这样的有向图叫做用边表示活动的 网络, 简称 AOE ( Activity On Edges ) 网络。</p>
+<p>AOE网络在某些工程估算方面非常有用。例如，可以使人们了解：</p>
+<p> 完成整个工程至少需要多少时间(假设网络 中没有环)?  </p>
+<p>为缩短完成工程所需的时间, 应当加快哪些 活动?  </p>
+<p>从源点到各个顶点, 以至从源点到汇点的有向 路径可能不止一条。  这些路径的长度也可能 不同。  完成不同路径的活动所需的时间虽然 不同, 但只有各条路径上所有活动都完成了, 整 个工程才算完成。</p>
+<p>因此, 完成整个工程所需的时间取决于从源点 到汇点的最长路径长度, 即在这条路径上所有 活动的持续时间之和。这条路径长度最长的路 径就叫做关键路径(Critical Path)。</p>
+<p>要找出关键路径，必须找出关键活动, 即不按 期完成就会影响整个工程完成的活动。</p>
+<p>关键路径上的所有活动都是关键活动。因此, 只要找到了关键活动, 就可以找到关键路径。 例如, 下图就是一个AOE网。 </p>
+<p><strong>定义几个与计算关键活动有关的量</strong></p>
+<ol>
+<li><p>事件Vi 的最早可能开始时间Ve(i)  是从源点V0 到顶点Vi 的最长路径长度。</p>
+</li>
+<li><p>事件Vi 的最迟允许开始时间Vl[i]  是在保证汇点Vn-1 在Ve[n-1] 时刻完成的前提 下，事件Vi 的允许的最迟开始时间。</p>
+</li>
+<li><p>活动ak 的最早可能开始时间 e[k]  设活动ak 在边&lt;Vi, Vj&gt;上, 则e[k]是从源点V0 到 顶点Vi 的最长路径长度。因此,  e[k] = Ve[i]。</p>
+</li>
+<li><p>活动ak 的最迟允许开始时间 l[k]，l[k]是在不会引起时间延误的前提下, 该活动 允许的最迟开始时间。            l[k] = Vl[j]-dur(&lt;i, j&gt;)。  其中, dur(&lt;i, j&gt;)是完成 ak  所需的时间。</p>
+</li>
+<li><p>时间余量 l[k]-e[k]  </p>
+<p>表示活动ak的最早可能开始时间和最迟允许 开始时间的时间余量。l[k] == e[k]表示活动 ak 是没有时间余量的关键活动。</p>
+<p>为找出关键活动, 需要求各个活动的 e[k] 与 l[k]，以判别是否 l[k] == e[k]。 </p>
+<p>为求得e[k]与l[k],  需要先求得从源点V0到各个 顶点Vi 的Ve[i]和Vl[i]。 </p>
+<p>求Ve[i]的递推公式，从 Ve[0] = 0 开始，向前递推 ， Ve[j]=max{ Ve[i]+dur(&lt; Vi , Vj&gt;)},   &lt; Vi, Vj &gt; ∈S2,   j = 1, 2, … , n-1 。 S2 是所有指向Vj 的有向边&lt;Vi,Vj&gt;的集合。 </p>
+<p>从Vl[n-1] = Ve[n-1]开始，反向递推 Vl [j]=min{ Vl[k]-dur(&lt; Vj , Vk&gt;)},   &lt; Vj, Vk &gt; ∈S1,   j = 1, 2, … , n-1 。 S1 是所有指向Vj 的有向边&lt;Vj,Vk&gt;的集合。</p>
+<p>这两个递推公式的计算必须分别在拓扑有序及 逆拓扑有序的前提下进行。  </p>
+<p>设活动ak (k=1, 2, …, e)在带权有向边&lt; Vi, Vj &gt; 上, 其持续时间用dur (&lt;Vi,Vj&gt;)表示, 则有       </p>
+<p> e[k] = Ve[i]；        </p>
+<p> l[k] = Vl[j]-dur(&lt;Vi,Vj&gt;)；k = 1, 2, …, e。  这样就得到计算关键路径的算法。</p>
+<p>为了简化算法,  假定在求关键路径之前已经对 各顶点实现了拓扑排序,  并按拓扑有序的顺序 对各顶点重新进行了编号。 </p>
+<p><strong>求关键路径的过程</strong></p>
+<p>（1）事件的最早开始和最迟开始时间</p>
+<p>事件v的最早开始时间：规定源点事件的最早开始时间为0。定义图中任 一事件v的最早开始时间（early event） ee(v)等于x、y、z到v所有路径长度的 最大值：</p>
+<p>事件v的最迟开始时间：定义在不影响整个工程进度的前提下，事件v必 须发生的时间称为v的最迟开始时间（late event） ，记作le(v)。le(v)应等于 ee(y)与v到汇点的最长路径长度之差：</p>
+<p>（2）活动的最早开始时间和最迟开始时间</p>
+<p>活动a的最早开始时间e(a)指该活动起点x事件的最早开始时间，即： e(a)=ee(x)</p>
+<p>活动a的最迟开始时间l(a)指该活动终点y事件的最迟开始时间与该 活动所需时间之差，即： l(a)=le(y)-c</p>
+<p>（3）求关键活动 </p>
+<p>对于每个活动a，求出d(a)=l(a)-e(a)，若d(a)为0，则称活动a为关键活动。对关键活动来说，不存在富余时间。</p>
+</li>
+</ol>
+<p>   <strong>利用关键路径法求AOE网的各关键活动</strong> </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="title">class</span> <span class="title">E</span>&gt; </span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">CriticalPath</span>(<span class="title">graph</span>&lt;T, E&gt;&amp; <span class="title">G</span>) &#123;</span>     </span><br><span class="line"><span class="keyword">int</span> i, j, k;   E Ae, Al, dur;     </span><br><span class="line"><span class="keyword">int</span> n = G.NumberOfVertices();     </span><br><span class="line">E *Ve = <span class="keyword">new</span> E[n]; </span><br><span class="line">E *Vl = <span class="keyword">new</span> E[n];    </span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) Ve[i] = <span class="number">0</span>;  </span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;        <span class="comment">//正向计算Ve[]         </span></span><br><span class="line">j = G.getFirstNeighbor(i);         </span><br><span class="line"><span class="keyword">while</span> (j != <span class="number">-1</span>) &#123;           </span><br><span class="line">dur = G.getWeight (i, j); </span><br><span class="line"> <span class="keyword">if</span> (Ve[i]+dur &gt; Ve[j]) Ve[j] = Ve[i]+dur;              </span><br><span class="line"> j = G.getNextNeighbor(i, j);         &#125;     </span><br><span class="line"> &#125;     Vl[n<span class="number">-1</span>] = Ve[n<span class="number">-1</span>];    </span><br><span class="line"> <span class="keyword">for</span> (j = n<span class="number">-2</span>; j &gt; <span class="number">0</span>; j--) &#123;       <span class="comment">//逆向计算Vl[]         </span></span><br><span class="line"> k = G.getFirstNrighbor (j);         </span><br><span class="line"> <span class="keyword">while</span> (k != <span class="number">-1</span>) &#123;         </span><br><span class="line"> dur = G.getWeight (j, k);              </span><br><span class="line"> <span class="keyword">if</span> (Vl[k]-dur &lt; Vl[j]) Vl[j] = Vl[k]-dur;           </span><br><span class="line"> k = G.getNextNeighbor (j, k);             </span><br><span class="line"> &#125;     &#125; </span><br><span class="line"> <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;  <span class="comment">//求各活动的e, l         </span></span><br><span class="line"> j = G.getFirstNeighbor (i);         </span><br><span class="line"> <span class="keyword">while</span> (j != <span class="number">-1</span>) &#123;             </span><br><span class="line"> Ae = Ve[i];  </span><br><span class="line"> Al = Vl[k]-G.getWeight(i, j);          </span><br><span class="line"> <span class="keyword">if</span> (Al == Ae)                  </span><br><span class="line"> <span class="built_in">cout</span> &lt;&lt; <span class="string">"&lt;"</span> &lt;&lt; G.getValue(i) &lt;&lt; <span class="string">","</span> &lt;&lt; G.getValue(j) &lt;&lt; “&gt;”&lt;&lt; <span class="string">"是关键活动"</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"> j = G.getNextNeighbor (i, j);         </span><br><span class="line"> &#125;     </span><br><span class="line"> &#125;  <span class="keyword">delete</span> [] Ve; </span><br><span class="line"> <span class="keyword">delete</span> [] Vl; </span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong> </p>
+<p>所有顶点按拓扑有序的次序编号。</p>
+<p>仅计算 Ve[i] 和 Vl[i] 是不够的，还须计算 e[k] 和 l[k]。</p>
+<p>不是任一关键活动加速一定能使整个工程提前。 想使整个工程提前，要考虑各个关键路径上所 有关键活动。</p>
+<p>如果任一关键活动延迟，整个工程就要延迟。 </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 期末复习</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"><i class="fa fa-tag"></i> 数据结构</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%89/" rel="prev" title="数据结构笔记（第六章）">
+      <i class="fa fa-chevron-left"></i> 数据结构笔记（第六章）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/24/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%94%E8%AE%B0%EF%BC%88%E7%AC%AC%E4%BA%94%E7%AB%A0%20%EF%BC%89/" rel="next" title="数据结构笔记（第五章）">
+      数据结构笔记（第五章） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第八章-图"><span class="nav-number">1.</span> <span class="nav-text">第八章 图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图的基本概念"><span class="nav-number">1.1.</span> <span class="nav-text">图的基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图的存储表示"><span class="nav-number">1.2.</span> <span class="nav-text">图的存储表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图的遍历与连通性"><span class="nav-number">1.3.</span> <span class="nav-text">图的遍历与连通性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最小生成树"><span class="nav-number">1.4.</span> <span class="nav-text">最小生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最短路径"><span class="nav-number">1.5.</span> <span class="nav-text">最短路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#活动网络"><span class="nav-number">1.6.</span> <span class="nav-text">活动网络</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CUMTCSSULD"
+      src="/images/RSP_Logo.jpg">
+  <p class="site-author-name" itemprop="name">CUMTCSSULD</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cumtcssuld" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cumtcssuld@foxmail.com" title="E-Mail → mailto:cumtcssuld@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://user.qzone.qq.com/1390274240" title="学习菌QQ空间 → https:&#x2F;&#x2F;user.qzone.qq.com&#x2F;1390274240" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>学习菌QQ空间</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://gitee.com/cumtcssuld" title="码云 → https:&#x2F;&#x2F;gitee.com&#x2F;cumtcssuld" rel="noopener" target="_blank"><i class="fa fa-fw fa-"></i>码云</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://me.csdn.net/weixin_43608722" title="https:&#x2F;&#x2F;me.csdn.net&#x2F;weixin_43608722" rel="noopener" target="_blank">vito</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://home.cnblogs.com/u/scwjy/" title="https:&#x2F;&#x2F;home.cnblogs.com&#x2F;u&#x2F;scwjy&#x2F;" rel="noopener" target="_blank">Poplar</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="/xzaslxr.xyz" title="xzaslxr.xyz">xzlxr</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://github.com/AIAHUB/HUST-AIA-Courses-Resource" title="https:&#x2F;&#x2F;github.com&#x2F;AIAHUB&#x2F;HUST-AIA-Courses-Resource" rel="noopener" target="_blank">HUST-AIA资源仓库</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CUMTCSSULD</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">188k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">7:50</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+  <script>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id    : 24550,
+      el    : 'wpac-rating',
+      color : 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '24f145eaad236b72c6ca',
+      clientSecret: '6be2fb8df7a0afc8bae34beb6b9ec156cb45150c',
+      repo        : 'Comments_for_RSP_Blog',
+      owner       : 'cumtcssuld',
+      admin       : ['cumtcssuld'],
+      id          : '6236d27d22e79ae326649f9d0bdc634b',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
