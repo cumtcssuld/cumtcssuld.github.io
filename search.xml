@@ -1,6 +1,768 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>正则表达式入门</title>
+    <url>/2021/05/25/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<blockquote>
+<p>本文首发于<a href="https://www.cnblogs.com/gylic/p/14514188.html" target="_blank" rel="noopener">gylic</a>，经作者同意后转载。</p>
+</blockquote>
+<h2 id="正则表达式入门"><a href="#正则表达式入门" class="headerlink" title="正则表达式入门"></a>正则表达式入门</h2><p>简单地说，正则表达式(regular expression)是一些用来匹配和处理文本的字符串。它是内置于其他语言或软件产品里的“迷你”语言。语法是正则表达式最容易掌握的部分，真正的挑战在于如何运用语法把实际问题分解为可由正则表达式解决的子问题。</p>
+<p>正则在线测试工具：<a href="https://regexper.com/" target="_blank" rel="noopener">regexper</a>、<a href="https://jex.im/regulex/#!flags=&re=%5E(a%7Cb)*%3F%24" target="_blank" rel="noopener">regulex</a>、<a href="https://regex101.com/" target="_blank" rel="noopener">regex101</a></p>
+<h3 id="匹配一个或多个字符"><a href="#匹配一个或多个字符" class="headerlink" title="匹配一个或多个字符"></a>匹配一个或多个字符</h3><p><code>.</code>字符可以匹配任意单个字符、字母、数字甚至是<code>.</code>字符本身。</p>
+<p>正则表达式使用字符串内容来匹配模式，匹配到的未必总是整个字符串，也可能是与某个模式相匹配的子串。</p>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>sales.xls<br>sales1.xls<br>orders3.xls<br>sales2.xls<br>sales3.xls<br>apac1.xls</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>sales.</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p><font color="red">sales.</font>xls<br><font color="red">sales1</font>.xls<br>orders3.xls<br><font color="red">sales2</font>.xls<br><font color="red">sales3</font>.xls<br>apac1.xls</p>
+<p><code>.</code>并不是可以匹配所有字符，在大多数的正则表达式实现里，<code>.</code>就不能匹配换行符。而如果要匹配<code>.</code>本身，可以对其进行转义，即<code>\.</code>可以匹配字符<code>.</code>。</p>
+<h3 id="匹配一组字符"><a href="#匹配一组字符" class="headerlink" title="匹配一组字符"></a>匹配一组字符</h3><p>正则表达式<code>[ns]</code>将匹配字符<code>n</code>或<code>s</code>，<code>[</code>和<code>]</code>不匹配任何字符，它们只负责定义一个字符集合。</p>
+<p>类似地，<code>[0123456789]</code>将匹配从<code>0</code>到<code>9</code>任意一个数字。<code>[0123456789]</code>可简写为<code>[0-9]</code>，二者功能完全等价。当然，字符区间并不仅限于数字，以下都是合法的字符区间：</p>
+<ul>
+<li><code>A-Z</code>，匹配从<code>A</code>到<code>Z</code>的所有大写字母。</li>
+<li><code>a-z</code>，匹配从<code>a</code>到<code>z</code>的所有小写字母。</li>
+<li><code>A-z</code>，匹配从ASCII字符<code>A</code>到ASCII字符<code>z</code>的所有字母。这个模式不常用，因为它还包含<code>[</code>和<code>^</code>等。</li>
+</ul>
+<p>注意，要保证区间的首字符小于尾字符，否则往往会让整个模式失效。 <code>-</code>（连字符）只有出现在<code>[</code>和<code>]</code>之间的时候才是元字符。在字符集合以外的时候只是一个普通字符，不需要被转义。</p>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>europe2.xls<br>sam.xls<br>na1.xls<br>na2.xls<br>sa1.xls<br>ca1.xls</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>[ns]a[0-9]\.xls</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p>europe2.xls<br>sam.xls<br><font color="red">na1.xls</font><br><font color="red">na2.xls</font><br><font color="red">sa1.xls</font><br>ca1.xls</p>
+<p>注意，在同一个字符集合里可以给出多个字符区间。比如说，下面这个模式可以匹配任何一个字母（无论大小写）或数字：<code>[A-Za-z0-9]</code></p>
+<p>字符集合通常用来指定一组必须匹配其中之一的字符，但在某些场合，我们需要反过来做，即指定一组不需要匹配的字符，即排除字符集合里指定的那些字符。可以使用元字符 <code>^</code> 来排除某个字符集合。前面说<code>[0-9]</code>只匹配数字，而这里<code>[^0-9]</code>匹配的是任何不是数字的字符。</p>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>europe2.xls<br>sam.xls<br>na1.xls<br>na2.xls<br>sa1.xls<br>ca1.xls</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>[ns]a[^0-9]\.xls</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p>europe2.xls<br><font color="red">sam.xls</font><br>na1.xls<br>na2.xls<br>sa1.xls<br>ca1.xls</p>
+<p>注意，<code>^</code>的效果将作用于给定字符集合里的所有字符或字符区间，而不是仅限于紧跟在<code>^</code>字符后面的那一个字符或字符区间。</p>
+<h3 id="关于转义"><a href="#关于转义" class="headerlink" title="关于转义"></a>关于转义</h3><table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[\b]</td>
+<td>回退(并删除)一个字符(Backspace键)</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>换页符</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>换行符</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>回车符</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>制表符(Tab键)</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>垂直制表符</td>
+</tr>
+</tbody></table>
+<p><code>\r\n</code>匹配一个“回车(carriage)+换行(line feed)”组合，Windows把这个组合用作文本行的结束标记。而在Unix/Linux系统以及Mac OSX系统上匹配空白行只使用<code>\n</code>即可。</p>
+<table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\d</td>
+<td>任何一个数字字符 ( 等价于[0-9] )</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>任何一个非数字字符 ( 等价于[^0-9] )</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>任何一个字母数字字符(大小写均可)或下划线字符 ( 等价于[a-zA-Z0-9_] )</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>任何一个非字母数字字符(大小写均可)或非下划线字符 ( 等价于[^a-zA-Z0-9_] )</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>任何一个空白字符(等价于 [\f\n\r\t\v] )</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>任何一个非空白字符(等价于 [^\f\n\r\t\v] )</td>
+</tr>
+</tbody></table>
+<p>注意，用来匹配退格字符的<code>[\b]</code>不在<code>\s</code>的覆盖范围内，<code>\S</code>也没有将其排除。</p>
+<p>在正则表达式里，十六进制值要用前缀<code>\x</code>来给出，比如说，<code>\x0A</code>(对应于ASCII字符10，也就是换行符)等价于<code>\n</code>。同样地，八进制值要用前缀<code>\0</code>来给出。</p>
+<p>POSIX是一种特殊的标准字符类集，是许多正则表达式实现都支持的一种简写形式，JavaScript不支持在正则表达式里使用POSIX字符类。</p>
+<table>
+<thead>
+<tr>
+<th>字符类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[:alnum:]</td>
+<td>任何一个字母或数字（等价于[a-zA-Z0-9]）</td>
+</tr>
+<tr>
+<td>[:alpha:]</td>
+<td>任何一个字母（等价于[a-zA-Z]）</td>
+</tr>
+<tr>
+<td>[:blank:]</td>
+<td>空格或制表符（等价于[\t ]）。字母t后面有一个空格</td>
+</tr>
+<tr>
+<td>[:cntrl:]</td>
+<td>ASCII控制字符（ASCII 0到31，再加上ASCII127）</td>
+</tr>
+<tr>
+<td>[:digit:]</td>
+<td>任何一个数字（等价于[0-9]）</td>
+</tr>
+<tr>
+<td>[:graph:]</td>
+<td>和[:print:]一样，但不包括空格</td>
+</tr>
+<tr>
+<td>[:lower:]</td>
+<td>任何一个小写字母（等价于[a-z]）</td>
+</tr>
+<tr>
+<td>[:print:]</td>
+<td>任何一个可打印字符</td>
+</tr>
+<tr>
+<td>[:punct:]</td>
+<td>既不属于[:alnum:]，也不属于[:cntrl:]的任何一个字符</td>
+</tr>
+<tr>
+<td>[:space:]</td>
+<td>任何一个空白字符，包括空格（等价于[\f\n\r\t\v ]）。字母v后有一个空格</td>
+</tr>
+<tr>
+<td>[:upper:]</td>
+<td>任何一个大写字母（等价于[A-Z]）</td>
+</tr>
+<tr>
+<td>[:xdigit:]</td>
+<td>任何一个十六进制数字（等价于[a-fA-F0-9])</td>
+</tr>
+</tbody></table>
+<h3 id="重复匹配"><a href="#重复匹配" class="headerlink" title="重复匹配"></a>重复匹配</h3><p><code>+</code>匹配一个或多个字符（至少一个，不匹配零个字符的情况）。比如<code>a</code>匹配<code>a</code>本身，<code>a+</code>匹配一个或多个连续出现的<code>a</code>。类似地，<code>[0-9]</code>匹配任意单个数字，<code>[0-9]+</code>匹配一个或多个连续的数字。</p>
+<p><code>[\w.]+</code>匹配字母数字字符、下划线和<code>.</code>的一次或多次重复出现。当在字符集合里使用像<code>.</code>和<code>+</code>这样的元字符时，不需要转义，但转义了也没有坏处。</p>
+<p><code>+</code>最少也要匹配一个字符。如果想匹配一个可有可无的字符，需要配合<code>*</code>元字符来完成。只要把<code>*</code>放在某个字符（或字符集合）的后面，就可以匹配该字符（或字符集合）出现零次或多次的情况。比如说，模式<code>B.*Forta</code>将匹配<code>B Forta</code>、<code>B. Forta</code>、<code>Ben Forta</code>以及其他组合。可以把<code>*</code>理解为一种“使其可选”的元字符。<code>+</code>需要最少匹配一次，而<code>*</code>可以匹配多次，也可以一次都不匹配。</p>
+<p>另一个非常有用的元字符是<code>?</code>。和<code>+</code>一样，它能够匹配可选文本，但只能匹配某个字符（或字符集合）的零次或一次出现，最多不超过一次。<code>?</code>非常适合匹配一段文本中某个特定的可选字符。</p>
+<p>要想设置具体的匹配次数，把数字写在<code>{</code>和<code>}</code>之间。比如说，<code>{3}</code>意味着匹配前一个字符（或字符集合）3次。<code>{}</code>语法还可以用来为重复匹配次数设定一个区间范围，也就是匹配的最小次数和最大次数。<code>{0,4}</code>表示最少重复0次，最多重复4次。<code>{3,}</code>表示至少重复3次。</p>
+<table>
+<thead>
+<tr>
+<th>贪婪型量词</th>
+<th>懒惰型量词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>*</td>
+<td>*?</td>
+</tr>
+<tr>
+<td>+</td>
+<td>+?</td>
+</tr>
+<tr>
+<td>{n,}?</td>
+<td>{n,}?</td>
+</tr>
+</tbody></table>
+<p><code>*</code>和<code>+</code>是所谓的“贪婪型”元字符，它们会尽可能地从一段文本的开头一直匹配到末尾，而不是碰到第一个匹配时就停止。需要时可以使用“懒惰型”版本。</p>
+<h3 id="位置匹配"><a href="#位置匹配" class="headerlink" title="位置匹配"></a>位置匹配</h3><p>匹配单词边界用到<code>\b</code>，它匹配的是字符之间的一个位置：一边是单词（能够被<code>\w</code>匹配的字母数字字符和下划线），另一边是其他内容（能够被<code>\w</code>匹配的字符）。要想匹配一个完整的单词，必须要在匹配的文本的前后都加上<code>\b</code>。</p>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>The cat scattered his food all over the room.</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>\bcat\b</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p>The <font color="red">cat</font> scattered his food all over the room.</p>
+<p>注意<code>\b</code>匹配的是一个位置，上述例子中匹配到的字符串的长度是3个字符，不是5个字符。</p>
+<p><code>\B</code>将匹配一个前后都不是单词边界的连字符。<code>nine-digit</code>和<code>pass-key</code>中的连字符不能与之匹配，但<code>color - coded</code>中的连字符可以与之匹配。</p>
+<p>字符串边界元字符有两个：<code>^</code>代表字符串开头，<code>$</code>代表字符串结尾。正则表达式<code>^\s*&lt;\?xml.*\?&gt;</code>可以匹配XML文件第一行的起始标签。<code>^</code>匹配一个字符串的开头位置，所以<code>^\s*</code>匹配字符串的开头和随后的零个或多个空白字符（这解决了<code>&lt;?xml&gt;</code>标签前允许出现的空格、制表符、换行符的问题）注意贪婪型量词的问题，用<code>.*?</code>代替<code>.*</code>。<code>$</code>的用法也差不多。它可以用来检查<code>Web</code>页面结尾的<code>&lt;/html&gt;</code>标签的后面没有任何内容：<code>&lt;/[Hh][Tt][Mm][Ll]&gt;\s*$</code>。</p>
+<p>再如<code>^\s*\/\/.*$</code>可以匹配代码中的注释内容，但它只能匹配第一条注释，并认为这条注释将一直延续到代码的末尾。<code>(?m)</code>可以启用多行模式（Javascript不支持），多行模式迫使正则表达式引擎将换行符视为字符串分隔符，这样一来<code>^</code>既可以匹配字符串开头，也可以匹配换行符之后的起始位置（新行）；<code>$</code>不仅能匹配字符串结尾，还能匹配字符串结尾，还能匹配换行符之后的结束位置。在使用时，<code>(?m)</code>必须出现在整个模式的最前面，例如<code>(?m)^\s*\/\/.*$</code> 。                                                                                                                                             </p>
+<h3 id="使用子表达式"><a href="#使用子表达式" class="headerlink" title="使用子表达式"></a>使用子表达式</h3><p>用来表示重复次数的元字符<code>?</code>、<code>*</code>、<code>{2}</code>只作用于紧挨着它的前一个字符或元字符。要用多个字符实现重复次数的匹配可以用元字符 <code>(</code> 和 <code>)</code> 划分子表达式。子表达式允许嵌套。</p>
+<p>例如IP地址的匹配：</p>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>Pinging cumt campus network [10.2.5.251]</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>(\d{1,3}\.){3}\d{1,3}</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p>Pinging cumt campus network [<font color="red">10.2.5.251</font>]</p>
+<h3 id="反向引用"><a href="#反向引用" class="headerlink" title="反向引用"></a>反向引用</h3><p>比如<code>\1</code>、<code>\2</code>分别匹配前面模式中所使用的第一、第二个子表达式，且只能用来引用括号里的子表达式。反向引用匹配通常从1开始计数。在许多实现里，第0个匹配(\0)可以用来代表整个正则表达式。（.NET支持命名捕获功能）。</p>
+<p>假设要把某个Web页面里的所有标题文字全都查找出来，不管是几级标题。</p>
+<p>正则表达式：<code>&lt;[hH]([1-6])&gt;.*?&lt;\/[hH]\1&gt;</code></p>
+<p>遗憾的是，在不同的正则表达式实现中，反向引用的语法差异不小。Javascript使用\来标识反向引用。在替换操作中用的是$。</p>
+<p>已知<code>\w+[\w\.]*@[\w\.]+\.\w+</code>可以找出文本中的电子邮件地址。现在要把文本中的电子邮件地址全部替换为可点击的链接，于是可以考虑替换操作。在HTML文档中需要使用<code>&lt;a href=&quot;mailto:user@address.com&quot;&gt;user@address.com&lt;/a&gt;</code>这样的语法来创建一个可点击的电子邮件地址。</p>
+<p>替换操作需要用到两个正则表达式：一个用来指定搜索模式，另一个用来指定替换模式。反向引用可以跨模式使用，在第一个模式里匹配的子表达式可以用在第二个模式里。</p>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>Hello, <a href="mailto:ben@forta.com">ben@forta.com</a> is my email address.</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>(\w+[\w\.]*@[\w\.]+\.\w+)</p>
+<blockquote>
+<p>替换</p>
+</blockquote>
+<p>&lt;a href=”mailto:＄1”&gt;＄1&lt;/a&gt;</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p>Hello, <font color="red">&lt;a href=”mailto:ben @forta.com”&gt;<a href="mailto:ben@forta.com">ben@forta.com</a>&lt;/a&gt;</font> is my email address.</p>
+<p>有些正则表达式允许我们使用元字符对字母进行大小写转换。</p>
+<table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\E</td>
+<td>结束\L或\U转换</td>
+</tr>
+<tr>
+<td>\l</td>
+<td>把下一个字符转换为小写</td>
+</tr>
+<tr>
+<td>\L</td>
+<td>把\L到\E之间的字符全部转换为小写</td>
+</tr>
+<tr>
+<td>\u</td>
+<td>把下一个字符转换为大写</td>
+</tr>
+<tr>
+<td>\U</td>
+<td>把\U到\E之间的字符全部转换为大写</td>
+</tr>
+</tbody></table>
+<p><code>\l</code>和<code>\u</code>可以放置在字符（或子表达式）之前，转换下一个字符的大小写。<code>L</code>和<code>\U</code>可以转换其与<code>\U</code>之间所有字符的大小写。</p>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>&lt;h1&gt;Welcome to my Homepage&lt;/h1&gt;</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>(&lt;[Hh]1&gt;)(.*?)(&lt;\/[Hh]1&gt;)</p>
+<blockquote>
+<p>替换</p>
+</blockquote>
+<p>＄1\U＄2\E＄3</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p><font color="red">&lt;h1&gt;WELCOME TO MY HOMEPAGE&lt;/h1&gt;</font></p>
+<h3 id="环视"><a href="#环视" class="headerlink" title="环视"></a>环视</h3><p>向前查看指定了一个必须匹配但不用在结果中返回的模式。向前查看模式的语法是一个以<code>?=</code>开头的子表达式，需要匹配的文本跟在<code>=</code>的后面。有些正则表达式文档使用术语“消耗”（consume）来表述“匹配和返回文本”的含义。向前查看“不消耗”（not consume）所匹配的文本。</p>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>http: //www .forta.com/</p>
+<p>https: //mail .forta.com/</p>
+<p>ftp: //ftp .forta.com/</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>.+(?=:)</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p><font color="red">http</font>: //www .forta.com/</p>
+<p><font color="red">https</font>: //mail .forta.com/</p>
+<p><font color="red">ftp</font>: //ftp .forta.com/</p>
+<p>向后查看即查看出现在已匹配文本之前的内容。向后查看操作符是<code>?&lt;=</code>，（Java、.NET、PHP、Python、Perl都支持向后查看）。<code>?&lt;=</code>的用法和<code>?=</code>一样，它必须出现在一个表达式里，后面跟随要匹配的文本。</p>
+<p>结合向前查看和向后查看。要把一个Web页面的页面标题提取出来。HTML页面标题是出现在<code>&lt;title&gt;</code>和<code>&lt;/title&gt;</code>标签之间的文字，而这对标签又必须位于HTML代码的<code>&lt;head&gt;</code>部分里。能不能只返回文字部分呢？</p>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>&lt;head&gt;<br>&lt;title&gt;Ben Forta’s Homepage&lt;/title&gt;<br>&lt;/head&gt;</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>(?&lt;=&lt;[tT][iI][tT][lL][eE]&gt;).*(?=&lt;/[tT][iI][tT][lL][eE&gt;)</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p>&lt;head&gt;<br>&lt;title&gt;<font color="red">Ben Forta’s Homepage</font>&lt;/title&gt;<br>&lt;/head&gt;</p>
+<p>为避免歧义，在上面这个例子里，应该对<code>&lt;</code>(需要匹配的第一个字符)进行转义，也就是把<code>(?&lt;=&lt;</code>替换为<code>(?&lt;=\&lt;</code>。</p>
+<p>否定式环视会查看不匹配指定模式的文本。一般来说，凡是支持向前查看的正则表达式实现也都支持肯定式向前查看和否定式向前查看。向后查看类似。</p>
+<table>
+<thead>
+<tr>
+<th>种类</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>(?=)</td>
+<td>肯定式向前查看</td>
+</tr>
+<tr>
+<td>(?!)</td>
+<td>否定式向前查看</td>
+</tr>
+<tr>
+<td>(?&lt;=)</td>
+<td>肯定式向后查看</td>
+</tr>
+<tr>
+<td>(?&lt;!)</td>
+<td>否定式向后查看</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>I paid ＄30 for 100 apples,<br>50 oranges, and 60 pears.<br>I saved ＄5 on this order.</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>\b(?&lt;!\$)\d+\b</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p>I paid $ 30 for <font color="red">100</font> apples,<br><font color="red">50</font> oranges, and <font color="red">60</font> pears.<br>I saved $ 5 on this order.</p>
+<p>注意，上面的模式中使用了<code>\b</code>指定了单词边界。因为不使用单词边界，<code>$30</code>里的<code>0</code>也会出现在最终的匹配结果里。因为那个字符<code>0</code>的前一个字符是3而不是<code>$</code>字符，它完全符合模式<code>(?&lt;!\\$)\d+</code>的匹配要求。把整个模式放进单词边界中就可以解决这个问题了。</p>
+<h3 id="嵌入式条件"><a href="#嵌入式条件" class="headerlink" title="嵌入式条件"></a>嵌入式条件</h3><p>嵌入式条件有反向引用条件和环视条件。</p>
+<p>反向引用条件的语法是<code>(?(backreference)true|false)</code>，其中<code>?</code>表明这是一个条件，括号里的<code>backreference</code>是一个反向引用，此语法接受一个条件和两个分别在符合/不符合该条件时执行的表达式。</p>
+<p>(123)456-7890和123-456-7890都是可接受的北美电话号码格式，而1234567890、(123)-456-7890和(123-456-7890)虽然都包含数目正确的数字字符，但格式都不对。</p>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>123-456-7890<br>(123)456-7890<br>(123)-456-7890<br>(123-456-7890<br>1234567890<br>123 456 7890</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>(\ ()?\d{3}(?(1)\ )|-)\d{3}-\d{4}</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p><font color="red">123-456-7890</font><br><font color="red">(123)456-7890</font><br>(123)-456-7890<br>(123-456-7890<br>1234567890<br>123 456 7890</p>
+<blockquote>
+<p>分析</p>
+</blockquote>
+<p><code>(\()?</code>负责检查左括号，放在一个子表达式中。随后的<code>\d{3}</code>匹配3位数字的区号。依赖于是否满足条件，<code>(?(1)\)|-</code>匹配<code>)</code>或<code>-</code>。如果<code>(1)</code>存在（也就是找到了一个左括号），必须匹配<code>\)</code>；否则必须匹配<code>-</code>。这样一来，括号就只能成对出现。如果没有使用括号，电话区号和其余数字之间的<code>-</code>分隔符必须被匹配。为什么没有匹配第4行？因为左括号没有与之匹配的右括号，所以嵌入条件被视为无关文本，完全被忽略了。</p>
+<p>嵌入了条件的模式一眼看上去非常复杂，这意味着调试工作会变得非常困难。比较好的办法是，先构建和测试整个模式的各个组成部分，再把它们组合到一起。</p>
+<p>环视条件允许根据向前或向后查看操作是否成功来决定要不要执行表达式。作为一个例子，考虑怎样匹配美国邮政编码。美国邮政编码有两种格式，一种是12345形式的ZIP编码，另一种是12345-6789形式的ZIP+4编码。只有后者才必须使用连字符。</p>
+<blockquote>
+<p>文本</p>
+</blockquote>
+<p>11111<br>22222<br>33333-<br>44444-4444</p>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<p>\d{5}(?(?=-)-\d{4})</p>
+<blockquote>
+<p>结果</p>
+</blockquote>
+<p><font color="red">11111</font><br><font color="red">22222</font><br>33333-<br><font color="red">44444-4444</font></p>
+<p>其中，使用了<code>?=-</code>匹配（但不消耗）一个连字符，如果连字符存在，那么<code>-\d{4}</code>将匹配该连字符和随后的4位数字。这样一来，33333-就被排除在最终的匹配结果之外了。向前查看和向后查看（肯定式和否定式皆可）都可作为条件，也可使用可选的else表达式（语法和之前看到的一样，即|expression）。</p>
+<p>环视条件用的不是很多，因为使用更简单的方法往往可以实现差不多的结果。</p>
+<h3 id="有用的表达式"><a href="#有用的表达式" class="headerlink" title="有用的表达式"></a>有用的表达式</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Email地址：^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$</span><br><span class="line"></span><br><span class="line">域名：[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;(\.[a-zA-Z0-9][-a-zA-Z0-9]&#123;0,62&#125;)+\.?</span><br><span class="line"></span><br><span class="line">InternetURL：[a-zA-z]+:&#x2F;&#x2F;[^\s]* 或 ^http:&#x2F;&#x2F;([\w-]+\.)+[\w-]+(&#x2F;[\w-.&#x2F;?%&amp;&#x3D;]*)?$</span><br><span class="line"></span><br><span class="line">手机号码：^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d&#123;8&#125;$</span><br><span class="line"></span><br><span class="line">电话号码(&quot;XXX-XXXXXXX&quot;、&quot;XXXX-XXXXXXXX&quot;、&quot;XXX-XXXXXXX&quot;、&quot;XXX-XXXXXXXX&quot;、&quot;XXXXXXX&quot;和&quot;XXXXXXXX)：^(\(\d&#123;3,4&#125;-)|\d&#123;3.4&#125;-)?\d&#123;7,8&#125;$</span><br><span class="line"></span><br><span class="line">国内电话号码(0511-4405222、021-87888822)：\d&#123;3&#125;-\d&#123;8&#125;|\d&#123;4&#125;-\d&#123;7&#125;</span><br><span class="line"></span><br><span class="line">身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X：(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)</span><br><span class="line"></span><br><span class="line">帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：^[a-zA-Z][a-zA-Z0-9_]&#123;4,15&#125;$</span><br><span class="line"></span><br><span class="line">密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)：^[a-zA-Z]\w&#123;5,17&#125;$</span><br><span class="line"></span><br><span class="line">强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)：^(?&#x3D;.*\d)(?&#x3D;.*[a-z])(?&#x3D;.*[A-Z])[a-zA-Z0-9]&#123;8,10&#125;$</span><br><span class="line"></span><br><span class="line">强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)：^(?&#x3D;.*\d)(?&#x3D;.*[a-z])(?&#x3D;.*[A-Z]).&#123;8,10&#125;$</span><br><span class="line"></span><br><span class="line">日期格式：^\d&#123;4&#125;-\d&#123;1,2&#125;-\d&#123;1,2&#125;</span><br><span class="line"></span><br><span class="line">一年的12个月(01～09和1～12)：^(0?[1-9]|1[0-2])$</span><br><span class="line"></span><br><span class="line">一个月的31天(01～09和1～31)：^((0?[1-9])|((1|2)[0-9])|30|31)$</span><br><span class="line"></span><br><span class="line">xml文件：^([a-zA-Z]+-?)+[a-zA-Z0-9]+\\.[x|X][m|M][l|L]$</span><br><span class="line"></span><br><span class="line">中文字符的正则表达式：[\u4e00-\u9fa5]</span><br><span class="line"></span><br><span class="line">双字节字符：[^\x00-\xff] (包括汉字在内，可以用来计算字符串的长度(一个双字节字符长度计2，ASCII字符计1))</span><br><span class="line"></span><br><span class="line">空白行的正则表达式：\n\s*\r (可以用来删除空白行)</span><br><span class="line"></span><br><span class="line">HTML标记的正则表达式：&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? &#x2F;&gt; ( 首尾空白字符的正则表达式：^\s*|\s*$或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</span><br><span class="line"></span><br><span class="line">腾讯QQ号：[1-9][0-9]&#123;4,&#125; (腾讯QQ号从10000开始)</span><br><span class="line"></span><br><span class="line">中国邮政编码：[1-9]\d&#123;5&#125;(?!\d) (中国邮政编码为6位数字)</span><br><span class="line"></span><br><span class="line">IPv4地址：((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;)(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d&#123;1,2&#125;))&#123;3&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>语言</category>
+        <category>正则表达式</category>
+      </categories>
+      <tags>
+        <tag>正则</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>认识Git、Github与Gitee</title>
+    <url>/2021/05/25/%E8%AE%A4%E8%AF%86Git%E3%80%81Github%E4%B8%8EGitee/</url>
+    <content><![CDATA[<blockquote>
+<p>本文首发于<a href="https://www.cnblogs.com/gylic/p/14439133.html" target="_blank" rel="noopener">gylic</a>，经作者同意后转载。</p>
+</blockquote>
+<p>参考链接: <a href="https://www.liaoxuefeng.com/wiki/896043488029600" target="_blank" rel="noopener">廖雪峰的Git教程</a></p>
+<h2 id="认识Git、Github与Gitee"><a href="#认识Git、Github与Gitee" class="headerlink" title="认识Git、Github与Gitee"></a>认识Git、Github与Gitee</h2><h3 id="一、Git"><a href="#一、Git" class="headerlink" title="一、Git"></a>一、Git</h3><p><strong>Git是一个版本控制系统。</strong>版本控制系统是设计用于跟踪文件随时间变化状态的一款软件。更具体地说，Git是一个分布式的版本控制系统。这就意味着，在Git中参与项目的每个程序员不仅能拥有文件的当前状态，还能拥有项目完整的历史记录。</p>
+<h4 id="1-1-在Windows上安装Git"><a href="#1-1-在Windows上安装Git" class="headerlink" title="1.1 在Windows上安装Git"></a>1.1 在Windows上安装Git</h4><p>从Git官网直接<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">下载安装程序</a>，然后按默认选项安装即可。 安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”，蹦出一个类似命令行窗口的东西，就说明Git安装成功！</p>
+<p><img src="1.png" alt=""></p>
+<p>安装完成后，还需要最后一步设置，在命令行输入：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1. $ git config --global user.name &quot;Your Name&quot;</span><br><span class="line">2. $ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p>因为Git是分布式版本控制系统，所以，每个机器都必须自报家门：你的名字和Email地址。你也许会担心，如果有人 故意冒充别人怎么办？这个不必担心，首先我们相信大家都是善良无知的群众，其次，真的有冒充的也是有办法可查的。</p>
+<p>注意 <code>git config</code> 命令的 <code>--global</code> 参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。一般情况下，你可以在主目录下的<code>.gitconfig</code>里看到上面输入的两行命令。</p>
+<h4 id="1-2-使用Git创建版本库"><a href="#1-2-使用Git创建版本库" class="headerlink" title="1.2 使用Git创建版本库"></a>1.2 使用Git创建版本库</h4><p>版本库又名仓库，英文名repository，你可以简单理解成一个目录，这个目录里面的所有文件都 可以被Git管理起来，每个文件的修改、删除，Git都能跟踪，以便任何时刻都可以追踪历史，或者在将来某个时刻可 以“还原”。 所以，创建一个版本库非常简单。</p>
+<p>首先，选择一个合适的地方，创建一个空目录：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ mkdir learngit</span><br><span class="line">$ cd learngit</span><br><span class="line">$ pwd</span><br><span class="line">&#x2F;d&#x2F;learngit</span><br></pre></td></tr></table></figure>
+
+<p><code>pwd</code> 命令用于显示当前目录。在我的Windows上，这个仓库位于 <code>/d/learngit</code> 。使用Windows系统时，为了避免遇到各种莫名其妙的问题，请确保目录名（包括父目录）不包含中文。</p>
+<p>第二步，通过 <code>git init</code> 命令把这个目录变成Git可以管理的仓库：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git init</span><br><span class="line">Initialized empty Git repository in &#x2F;d&#x2F;learngit&#x2F;.git&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>瞬间Git就把仓库建好了，而且告诉你是一个空的仓库（empty Git repository），可以发现当前目录 下多了一个<code>.git</code> 的目录，这个目录是Git来跟踪管理版本库的，没事千万不要手动修改这个目录里面的文件，不然 改乱了，就把Git仓库给破坏了。如果没有看到<code>.git</code>目录，那是因为这个目录默认是隐藏的，在查看方式里勾选隐藏的项目即可。也不一定必须在空目录下创建Git仓库，选择一个已经有东西的目录也是可以的。</p>
+<h4 id="1-3-向版本库添加文件"><a href="#1-3-向版本库添加文件" class="headerlink" title="1.3 向版本库添加文件"></a>1.3 向版本库添加文件</h4><p>首先这里再明确一下，所有的版本控制系统，其实只能跟踪文本文件的改动，比如TXT文件，网页，所有的程序代码等 等，Git也不例外。要真正使用版本控制系统，就要以纯文本方式编写文件。 </p>
+<p>因为文本是有编码的，比如中文有常用的GBK编码，日文有Shift_JIS编码，强烈建议使用 标准的UTF-8编码，所有语言使用同一种编码，既没有冲突，又被所有平台所支持。</p>
+<p>尽量不要使用Windows自带的记事本编辑任何文本文件。原因是Microsoft开发记事本的团队使用了一个非常弱智的 行为来保存UTF-8编码的文件，他们自作聪明地在每个文件开头添加了0xefbbbf（十六进制）的字符，你会遇到很多不可思议的问题，比如，网页第一行可能会显示一个“?”，明明正确的程序一编译就报语法错误，等等，都是由记事本的弱智行为带来的。建议<a href="http://notepad-plus-plus.org/" target="_blank" rel="noopener">下载Notepad++</a>代替记事本，不但功能强大，而且免费！把Notepad++的默认编码设 置为UTF-8 without BOM即可：</p>
+<p><img src="2.png" alt=""></p>
+<p>言归正传，现在我们编写一个 <code>readme.txt</code>文件，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Git is a version control system.</span><br><span class="line">Git is free software</span><br></pre></td></tr></table></figure>
+
+<p>一定要放到 <code>learngit</code>目录下（子目录也行），因为这是一个Git仓库，放到其他地方Git再厉害也找不到这个文件。 和把大象放到冰箱需要3步相比，把一个文件放到Git仓库只需要两步</p>
+<p>第一步，用命令 <code>git add</code> 告诉Git，把文件添加到仓库：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git add readme.txt</span><br></pre></td></tr></table></figure>
+
+<p>执行上面的命令，没有任何显示，这就对了，Unix的哲学是“没有消息就是好消息”，说明添加成功。</p>
+<p>第二步，用命令 <code>git commit</code> 告诉Git，把文件提交到仓库：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git commit -m &quot;wrote a readme file&quot;</span><br><span class="line">[master (root-commit) ea97297] wrote a readme file</span><br><span class="line">1 file changed, 2 insertions(+)</span><br><span class="line">create mode 100644 readme.txt</span><br></pre></td></tr></table></figure>
+
+<p>简单解释一下<code>git commit</code>命令， <code>-m</code>后面输入的是本次提交的说明，可以输入任意内容，当然最好是有意义的，这样你就能从历史记录里方便地找到改动记录。 </p>
+<p><code>git commit</code>命令执行成功后会告诉你， <code>1 file changed</code> ：1个文件被改动（我们新添加的readme.txt文件）；<code>2 insertions</code>：插入了两行内容（readme.txt有两行内容）。</p>
+<p>为什么Git添加文件需要 <code>add</code> ，<code>commit</code>一共两步呢？因为 <code>commit</code>可以一次提交很多文件，所以你可以多次 <code>add</code> 不同的文件，比如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git add file1.txt</span><br><span class="line">$ git add file2.txt file3.txt</span><br><span class="line">$ git commit -m &quot;add 3 files.&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-4-文件修改及版本回退"><a href="#1-4-文件修改及版本回退" class="headerlink" title="1.4 文件修改及版本回退"></a>1.4 文件修改及版本回退</h4><p>我们已经成功地添加并提交了一个readme.txt文件，现在，是时候继续工作了，于是，我们继续修改readme.txt 文件，改成如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Git is a distributed version control system.</span><br><span class="line">Git is free software.</span><br></pre></td></tr></table></figure>
+
+<p>现在，运行 <code>git status</code> 命令看看结果：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes not staged for commit:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line">        modified:   readme.txt</span><br><span class="line"></span><br><span class="line">no changes added to commit (use &quot;git add&quot; and&#x2F;or &quot;git commit -a&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><code>git status</code>命令可以让我们时刻掌握仓库当前的状态，上面的命令输出告诉我们， readme.txt 被修改过了，但还 没有准备提交的修改。 </p>
+<p>虽然Git告诉我们 <code>readme.txt</code>被修改了，但如果能看看具体修改了什么内容，自然是很好的。比如你休假两周从国外 回来，第一天上班时，已经记不清上次怎么修改的<code>readme.txt</code>，所以，需要用<code>git diff</code> 这个命令看看：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git diff</span><br><span class="line">diff --git a&#x2F;readme.txt b&#x2F;readme.txt</span><br><span class="line">index d8036c1..013b5bc 100644</span><br><span class="line">--- a&#x2F;readme.txt</span><br><span class="line">+++ b&#x2F;readme.txt</span><br><span class="line">@@ -1,2 +1,2 @@</span><br><span class="line">-Git is a version control system.</span><br><span class="line">+Git is a distributed version control system.</span><br><span class="line"> Git is free software.</span><br><span class="line">\ No newline at end of file</span><br></pre></td></tr></table></figure>
+
+<p><code>git diff</code>顾名思义就是查看difference，显示的格式正是Unix通用的diff格式，可以从上面的命令输出看到， 我们在第一行添加了一个 <code>distributed</code>单词。 </p>
+<p>知道了对<code>readme.txt</code> 作了什么修改后，再把它提交到仓库就放心多了，提交修改和提交新文件是一样的两步，第一 步是 <code>git add</code>：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git add readme.txt</span><br></pre></td></tr></table></figure>
+
+<p>同样没有任何输出。在执行第二步 <code>git commit</code> 之前，我们再运行 <code>git status</code> 看看当前仓库的状态：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)</span><br><span class="line">        modified:   readme.txt</span><br></pre></td></tr></table></figure>
+
+<p><code>git status</code> 告诉我们，将要被提交的修改包括 <code>readme.txt</code> ，下一步，就可以放心地提交了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git commit -m &quot;add distributed&quot;</span><br><span class="line">[master ac4c73d] add distributed</span><br><span class="line"> 1 file changed, 1 insertion(+), 1 deletion(-)</span><br></pre></td></tr></table></figure>
+
+<p>提交后，我们再用 <code>git status</code> 命令看看仓库的当前状态：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">nothing to commit, working tree clean</span><br></pre></td></tr></table></figure>
+
+<p>Git告诉我们当前没有需要提交的修改，而且，工作目录是干净（working tree clean）的。</p>
+<p>再练习一次，修改<code>readme.txt</code>文件如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Git is a distributed version control system.</span><br><span class="line">Git is free software distributed under the GPL.</span><br></pre></td></tr></table></figure>
+
+<p>然后尝试提交：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git add readme.txt</span><br><span class="line">$ git commit -m &quot;append GPL&quot;</span><br><span class="line"> [master 1094adb] append GPL</span><br><span class="line"> 1 file changed, 1 insertion(+), 1 deletion(-)</span><br></pre></td></tr></table></figure>
+
+<p>像这样，你不断对文件进行修改，然后不断提交修改到版本库里，就好比玩RPG游戏时，每通过一关就会自动把游戏状 态存盘，如果某一关没过去，你还可以选择读取前一关的状态。有些时候，在打Boss之前，你会手动存盘，以便万一 打Boss失败了，可以从最近的地方重新开始。</p>
+<p>Git也是一样，每当你觉得文件修改到一定程度的时候，就可以“保存一 个快照”，这个快照在Git中被称为 <code>commit</code>。一旦你把文件改乱了，或者误删了文件，还可以从最近的一 个 commit 恢复，然后继续工作，而不是把几个月的工作成果全部丢失。</p>
+<p><strong>想知道文件一共有几个版本被提交到Git仓库里？在Git中，我们用 git log 命令查看：</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git log</span><br><span class="line">commit 3db02ce718daef235dd6655c8b4d8e09cda002db (HEAD -&gt; master)</span><br><span class="line">Author: gylic &lt;981897889@qq.com&gt;</span><br><span class="line">Date:   Tue Feb 23 14:43:19 2021 +0800</span><br><span class="line"></span><br><span class="line">    append GPL</span><br><span class="line"></span><br><span class="line">commit ac4c73d1e2434301d22b837807c8386afa141719</span><br><span class="line">Author: gylic &lt;981897889@qq.com&gt;</span><br><span class="line">Date:   Tue Feb 23 14:39:29 2021 +0800</span><br><span class="line"></span><br><span class="line">    add distributed</span><br><span class="line"></span><br><span class="line">commit ea97297057d9cdf96db031b0fa5457341d431baa</span><br><span class="line">Author: gylic &lt;981897889@qq.com&gt;</span><br><span class="line">Date:   Tue Feb 23 14:25:13 2021 +0800</span><br><span class="line"></span><br><span class="line">    wrote a readme file</span><br></pre></td></tr></table></figure>
+
+<p><code>git log</code>命令显示从最近到最远的提交日志，我们可以看到3次提交，最近的一次是 <code>append GPL</code> ，上一次是 <code>add distributed</code>，最早的一次是<code>wrote a readme file</code> 。<br>如果嫌输出信息太多，看得眼花缭乱的，可以试试加上 <code>--pretty=oneline</code>参数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$  git log --pretty&#x3D;oneline</span><br><span class="line">3db02ce718daef235dd6655c8b4d8e09cda002db (HEAD -&gt; master) append GPL</span><br><span class="line">ac4c73d1e2434301d22b837807c8386afa141719 add distributed</span><br><span class="line">ea97297057d9cdf96db031b0fa5457341d431baa wrote a readme file</span><br></pre></td></tr></table></figure>
+
+<p>一大串类似<code>3db02ce718d...</code> 的是 commit id （版本号），和SVN不一样，Git的 commit id 不是1，2，3……递增的数字，而是一个SHA1计算出来的一个非常大的数字，用十六进制表示。</p>
+<p><strong>现在我们准备把 readme.txt 回退到上一个版本，也就是 add distributed 的那个版本，怎 么做呢？</strong></p>
+<p>首先，Git必须知道当前版本是哪个版本，在Git中，用 <code>HEAD</code> 表示当前版本，也就是最新的提交 <code>3db02ce718d...</code> （注意提交ID和你的肯定不一样），上一个版本就是 <code>HEAD^</code> ，上上一个版本就是 <code>HEAD^^</code> ，当然往上100个版本写 100个 ^ 比较容易数不过来，所以写成 <code>HEAD~100</code> 。</p>
+<p>现在，我们要把当前版本<code>append GPL</code> 回退到上一个版本 <code>add distributed</code>，就可以使用 <code>git reset</code> 命令:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git reset --hard HEAD^</span><br><span class="line">HEAD is now at ac4c73d add distributed</span><br></pre></td></tr></table></figure>
+
+<p>看看<code>readme.txt</code>的内容是不是版本 <code>add distributed</code>：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat readme.txt</span><br><span class="line">Git is a distributed version control system.</span><br><span class="line">Git is free software.</span><br></pre></td></tr></table></figure>
+
+<p>果然被还原了。此时再看现在版本库的状态：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git log</span><br><span class="line">commit ac4c73d1e2434301d22b837807c8386afa141719 (HEAD -&gt; master)</span><br><span class="line">Author: gylic &lt;981897889@qq.com&gt;</span><br><span class="line">Date:   Tue Feb 23 14:39:29 2021 +0800</span><br><span class="line"></span><br><span class="line">    add distributed</span><br><span class="line"></span><br><span class="line">commit ea97297057d9cdf96db031b0fa5457341d431baa</span><br><span class="line">Author: gylic &lt;981897889@qq.com&gt;</span><br><span class="line">Date:   Tue Feb 23 14:25:13 2021 +0800</span><br><span class="line"></span><br><span class="line">    wrote a readme file</span><br></pre></td></tr></table></figure>
+
+<p><strong>最新的那个版本<code>append GPL</code> 已经看不到了！好比你从21世纪坐时光穿梭机来到了19世纪，想再回去已经回不去了， 肿么办？</strong> </p>
+<p>办法其实还是有的，只要上面的命令行窗口还没有被关掉，你就可以顺着往上找啊找啊，找到那个 <code>append GPL</code>的 <code>commit id</code> 是<code>3db02ce718d...</code>，于是就可以指定回到未来的某个版本：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git reset --hard 3db02ce718d</span><br><span class="line">HEAD is now at 3db02ce append GPL</span><br></pre></td></tr></table></figure>
+
+<p>版本号没必要写全，前几位就可以了，Git会自动去找。当然也不能只写前一两位，因为Git可能会找到多个版本号， 就无法确定是哪一个了。 再小心翼翼地看看 <code>readme.txt</code>的内容：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ cat readme.txt</span><br><span class="line">Git is a distributed version control system.</span><br><span class="line">Git is free software distributed under the GPL.</span><br></pre></td></tr></table></figure>
+
+<p>果然，又回来了。</p>
+<p>假如你回退到了某个版本，关掉了电脑，第二天早上就后悔了，想恢复到新版本但找不到新版本的 <code>commit id</code>怎么办？ </p>
+<p>在Git中，总是有后悔药可以吃的。当你用 <code>$ git reset --hard HEAD^</code> 回退到 <code>add distributed</code>版本时，再想恢复 到 <code>append GPL</code> ，就必须找到<code>append GPL</code>的<code>commit id</code>。Git提供了一个命令<code>git reflog</code>用来记录你的每一次命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git reflog</span><br><span class="line">3db02ce (HEAD -&gt; master) HEAD@&#123;0&#125;: reset: moving to 3db02ce718d</span><br><span class="line">ac4c73d HEAD@&#123;1&#125;: reset: moving to HEAD^</span><br><span class="line">3db02ce (HEAD -&gt; master) HEAD@&#123;2&#125;: commit: append GPL</span><br><span class="line">ac4c73d HEAD@&#123;3&#125;: commit: add distributed</span><br><span class="line">ea97297 HEAD@&#123;4&#125;: commit (initial): wrote a readme file</span><br></pre></td></tr></table></figure>
+
+<p>终于舒了口气，从输出可知，<code>append GPL</code> 的commit id是 <code>1094adb</code> 。</p>
+<h4 id="1-5-Git工作原理"><a href="#1-5-Git工作原理" class="headerlink" title="1.5 Git工作原理"></a>1.5 Git工作原理</h4><p>git四大域：工作目录，暂存区，仓库，远程仓库。</p>
+<p> git对文件的操作都是在四大域上进行的，文件可以在四大域内与四大域间进行各种操作。（有一个例外，进行“git stash”系列操作时，文件可能被保存到四大域外的堆栈中）</p>
+<p><img src="3.png" alt=""></p>
+<p>工作区（Working Directory）就是你在电脑里能看到的目录，比如我的 <code>learngit</code> 文件夹就是一个工作区：</p>
+<p><img src="4.png" alt=""></p>
+<p>版本库（Repository）:  工作区有一个隐藏目录<code>.git</code> ，这个不算工作区，而是Git的版本库。</p>
+<p> Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的 第一个分支<code>master</code> ，以及指向 <code>master</code> 的一个指针叫 <code>HEAD</code> 。</p>
+<p><img src="5.png" alt=""></p>
+<p>前面讲了我们把文件往Git版本库里添加的时候，是分两步执行的： </p>
+<p>第一步是用 <code>git add</code>把文件添加进去，实际上就是把文件修改添加到暂存区； </p>
+<p>第二步是用 <code>git commit</code> 提交更改，实际上就是把暂存区的所有内容提交到当前分支。 </p>
+<p>因为我们创建Git版本库时，Git自动为我们创建了唯一一个 <code>master</code> 分支，所以，现在， <code>git commit</code>就是 往 <code>master</code> 分支上提交更改。 </p>
+<p>可以简单理解为，需要提交的文件修改通通放到暂存区，然后，一次性提交暂存区的所有修改。</p>
+<p>俗话说，实践出真知。现在，我们再练习一遍，先对 <code>readme.txt</code> 做个修改，比如加上一行内容：</p>
+<p>然后，在工作区新增一个<code>LICENSE</code>文本文件（内容随便写）</p>
+<p>先用 <code>git status</code> 查看一下状态：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes not staged for commit:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line">        modified:   readme.txt</span><br><span class="line"></span><br><span class="line">Untracked files:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)</span><br><span class="line">        LICENSE.txt</span><br><span class="line"></span><br><span class="line">no changes added to commit (use &quot;git add&quot; and&#x2F;or &quot;git commit -a&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>Git非常清楚地告诉我们， <code>readme.txt</code> 被修改了，而 <code>LICENSE.txt</code> 还从来没有被添加过，所以它的状态 是 <code>Untracked</code>。</p>
+<p>现在，使用两次命令 <code>git add</code>，把 <code>readme.txt</code>和<code>LICENSE.txt</code>都添加后，用 git status 再查看一下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)</span><br><span class="line">        new file:   LICENSE.txt</span><br><span class="line">        modified:   readme.txt</span><br></pre></td></tr></table></figure>
+
+<p>现在，暂存区的状态就变成这样了：</p>
+<p><img src="6.png" alt=""></p>
+<p>所以，<code>git add</code>命令实际上就是把要提交的所有修改放到暂存区（Stage），然后，执行<code>git commit</code> 就可以一次性 把暂存区的所有修改提交到分支。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git commit -m &quot;understand how stage works&quot;</span><br><span class="line">[master bbfb3e2] understand how stage works</span><br><span class="line"> 2 files changed, 3 insertions(+), 1 deletion(-)</span><br><span class="line"> create mode 100644 LICENSE.txt</span><br></pre></td></tr></table></figure>
+
+<p>一旦提交后，如果你又没有对工作区做任何修改，那么工作区就是“干净”的：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">nothing to commit, working tree clean</span><br></pre></td></tr></table></figure>
+
+<p>现在版本库变成了这样，暂存区就没有任何内容了：</p>
+<p><img src="7.png" alt=""></p>
+<p>一些小结</p>
+<ul>
+<li><p>Git比其他版本控制系统设计得优秀， 因为Git跟踪并管理的是修改，而非文件。要注意每次修改，如果不用<code>git add</code> 到暂存区，那就不会加入到 commit 中。</p>
+</li>
+<li><p><code>git checkout -- file</code> 可以丢弃工作区的修改：命令 <code>git checkout -- readme.txt</code> 意思就是，把 <code>readme.txt</code>文件在工作区的修改全部撤销，这里有两种情况： 一种是<code>readme.txt</code>自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态； 一种是<code>readme.txt</code> 已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。 总之，就是让这个文件回到最近一次 <code>git commit</code>或 <code>git add</code> 时的状态。</p>
+</li>
+<li><p><code>git reset</code> 命令既可以回退版本，也可以把暂存区的修改回退到工作区。</p>
+</li>
+<li><p><code>git reset HEAD</code>可以把暂存区的修改撤销掉（unstage），重新放回工作区</p>
+</li>
+</ul>
+<h4 id="1-6-删除文件"><a href="#1-6-删除文件" class="headerlink" title="1.6 删除文件"></a>1.6 删除文件</h4><p>在Git中，删除也是一个修改操作，我们实战一下，先添加一个新文件 test.txt 到Git并且提交：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git add test.txt</span><br><span class="line"></span><br><span class="line">$ git commit -m &quot;add test.txt&quot;</span><br><span class="line">[master b982eea] add test.txt</span><br><span class="line"> 1 file changed, 1 insertion(+)</span><br><span class="line"> create mode 100644 test.txt</span><br></pre></td></tr></table></figure>
+
+<p>一般情况下，你通常直接在文件管理器中把没用的文件删了，或者用 <code>rm</code> 命令删了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ rm test.txt</span><br></pre></td></tr></table></figure>
+
+<p>这个时候，Git知道你删除了文件，因此，工作区和版本库就不一致了， git status 命令会立刻告诉你哪些文件被删 除了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes not staged for commit:</span><br><span class="line">  (use &quot;git add&#x2F;rm &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line">        deleted:    test.txt</span><br><span class="line"></span><br><span class="line">no changes added to commit (use &quot;git add&quot; and&#x2F;or &quot;git commit -a&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>现在有两个选择，一是确实要从版本库中删除该文件，那就用命令 <code>git rm</code> 删掉，并且 <code>git commit</code>：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git rm test.txt</span><br><span class="line"> rm &#39;test.txt&#39;</span><br><span class="line"></span><br><span class="line">$ git commit -m &quot;remove test.txt&quot;</span><br><span class="line"> [master d46f35e] remove test.txt</span><br><span class="line"> 1 file changed, 1 deletion(-)</span><br><span class="line"> delete mode 100644 test.txt</span><br></pre></td></tr></table></figure>
+
+<p>现在，文件就从版本库中被删除了。</p>
+<p>小提示：先手动删除文件，然后使用<code>git rm</code>或<code>git add</code>效果是一样的。 </p>
+<p>另一种情况是删错了，因为版本库里还有呢，所以可以很轻松地把误删的文件恢复到最新版本</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git checkout -- test.txt</span><br></pre></td></tr></table></figure>
+
+<p><code>git checkout</code> 其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”。</p>
+<p>注意：从来没有被添加到版本库就被删除的文件，是无法恢复的！</p>
+<h4 id="1-7-远程仓库"><a href="#1-7-远程仓库" class="headerlink" title="1.7 远程仓库"></a>1.7 远程仓库</h4><p>有 个叫GitHub的神奇的网站，从名字就可以看出，这个网站就是提供Git仓库托管服务的，所以，只要注册一个 GitHub账号，就可以免费获得Git远程仓库。</p>
+<p>由于你的本地Git仓库和GitHub仓库之间的传输是通过SSH加密 的，所以，需要一点设置：</p>
+<p>第1步：创建SSH Key。</p>
+<p>在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没 有<code>id_rsa</code>和 <code>id_rsa.pub</code> 这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打 开Git Bash），创建SSH Key：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &quot;youremail@example.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p>你需要把邮件地址换成你自己的邮件地址，然后一路回车，使用默认值即可，由于这个Key也不是用于军事目的，所以 也无需设置密码。</p>
+<p>如果一切顺利的话，可以在用户主目录里找到 <code>.ssh</code>目录，里面有<code>id_rsa</code> 和<code>id_rsa.pub</code> 两个文件，这两个就是 SSH Key的秘钥对， <code>id_rsa</code> 是私钥，不能泄露出去， <code>id_rsa.pub</code> 是公钥，可以放心地告诉任何人。</p>
+<p>第2步：登陆GitHub，打开“Account settings”，“SSH Keys”页面</p>
+<p>然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴 id_rsa.pub 文件的内容：</p>
+<p>点“Add Key”，你就应该看到已经添加的Key。</p>
+<p><strong>为什么GitHub需要SSH Key呢？</strong></p>
+<p>因为GitHub需要识别出你推送的提交确实是你推送的，而不是别人冒充的，而Git 支持SSH协议，所以，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送。 </p>
+<p>当然，GitHub允许你添加多个Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑 的Key都添加到GitHub，就可以在每台电脑上往GitHub推送了。 </p>
+<p>最后友情提示，在GitHub上免费托管的Git仓库，任何人都可以看到喔（但只有你自己才能改）。所以，不要把敏感信息放进去。 </p>
+<p>如果你不想让别人看到Git库，有两个办法，一个是交点保护费，让GitHub把公开的仓库变成私有的，这样别人就看 不见了（不可读更不可写）。另一个办法是自己动手，搭一个Git服务器，因为是你自己的Git服务器，所以别人也是看不见的。</p>
+<p><strong>添加远程库</strong></p>
+<p>现在的情景是，你已经在本地创建了一个Git仓库后，又想在GitHub创建一个Git仓库，并且让这两个仓库进行远程 同步，这样，GitHub上的仓库既可以作为备份，又可以让其他人通过该仓库来协作，真是一举多得。</p>
+<p>首先，登陆GitHub，然后，在右上角找到“Create a new repo”按钮，创建一个新的仓库。</p>
+<p>在Repository name填入 learngit ，其他保持默认设置，点击“Create repository”按钮，就成功地创建了一 个新的Git仓库。</p>
+<p>目前，在GitHub上的这个<code>learngit</code>仓库还是空的，GitHub告诉我们，可以从这个仓库克隆出新的仓库，也可以把 一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到GitHub仓库。 </p>
+<p>现在，我们根据GitHub的提示，在本地的<code>learngit</code>仓库下运行命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add origin git@github.com:gylic&#x2F;learngit.git</span><br></pre></td></tr></table></figure>
+
+<p>请千万注意，把上面的 <code>gylic</code> 替换成你自己的GitHub账户名，否则，你在本地关联的就是我的远程库，关联 没有问题，但是你以后推送是推不上去的，因为你的SSH Key公钥不在我的账户列表中。 添加后，远程库的名字就是 <code>origin</code> ，这是Git默认的叫法，也可以改成别的，但是 <code>origin</code> 这个名字一看就知道是 远程库。 下一步，就可以把本地库的所有内容推送到远程库上：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git push -u origin master</span><br><span class="line">Enumerating objects: 17, done.</span><br><span class="line">Counting objects: 100% (17&#x2F;17), done.</span><br><span class="line">Delta compression using up to 12 threads</span><br><span class="line">Compressing objects: 100% (12&#x2F;12), done.</span><br><span class="line">Writing objects: 100% (17&#x2F;17), 1.36 KiB | 232.00 KiB&#x2F;s, done.</span><br><span class="line">Total 17 (delta 3), reused 0 (delta 0), pack-reused 0</span><br><span class="line">remote: Resolving deltas: 100% (3&#x2F;3), done.</span><br><span class="line">To github.com:gylic&#x2F;learngit.git</span><br><span class="line"> * [new branch]      master -&gt; master</span><br><span class="line">Branch &#39;master&#39; set up to track remote branch &#39;master&#39; from &#39;origin&#39;.</span><br></pre></td></tr></table></figure>
+
+<p>把本地库的内容推送到远程，用 <code>git push</code>命令，实际上是把当前分支 master 推送到远程。</p>
+<p>由于远程库是空的，我们第一次推送<code>master</code> 分支时，加上了<code>-u</code>参数，Git不但会把本地的 <code>master</code> 分支内容推 送的远程新的 <code>master</code> 分支，还会把本地的 <code>master</code>分支和远程的 <code>master</code> 分支关联起来，在以后的推送或者拉取 时就可以简化命令。</p>
+<p>推送成功后，可以立刻在GitHub页面中看到远程库的内容已经和本地一模一样。</p>
+<p>从现在起，只要本地作了提交，就可以通过命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git push origin master</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong></p>
+<p>当你第一次使用Git的 <code>clone</code> 或者 <code>push</code> 命令连接GitHub时，会得到一个SSH警告:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">The authenticity of host &#39;github.com (xx.xx.xx.xx)&#39; can&#39;t be established.</span><br><span class="line">RSA key fingerprint is xx.xx.xx.xx.xx.</span><br><span class="line">Are you sure you want to continue connecting (yes&#x2F;no)?</span><br></pre></td></tr></table></figure>
+
+<p>这是因为Git使用SSH连接，而SSH连接在第一次验证GitHub服务器的Key时，需要你确认GitHub的Key的指纹信息 是否真的来自GitHub的服务器，输入<code>yes</code>回车即可</p>
+<p>Git会输出一个警告，告诉你已经把GitHub的Key添加到本机的一个信任列表里了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Warning: Permanently added &#39;github.com&#39; (RSA) to the list of known hosts.</span><br></pre></td></tr></table></figure>
+
+<p>如果你实在担心有人冒充GitHub服务器，输入 <code>yes</code>前可以对照<a href="https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints/" target="_blank" rel="noopener">GitHub的RSA Key的指纹信息</a>是否与SSH连接给出 的一致。</p>
+<p><strong>从远程库克隆</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git clone git@github.com:用户名&#x2F;仓库名.git</span><br></pre></td></tr></table></figure>
+
+<p>你也许还注意到，GitHub给出的地址不止一个，还可以用 <code>https://github.com/用户名/仓库名.git</code>这样的地 址。</p>
+<p>实际上，Git支持多种协议，默认的 <code>git://</code>使用<code>ssh</code>，但也可以使用 <code>https</code> 等其他协议。 </p>
+<p>使用 <code>https</code>除了速度慢以外，还有个最大的麻烦是每次推送都必须输入口令，但是在某些只开放http端口的公司内 部就无法使用 <code>ssh</code>协议而只能用<code>https</code> 。</p>
+<p>参与开源项目时一定要从自己的账号下clone仓库，这样你才能推送修改。如果从原作者的仓库地 址克隆，因为没有权限，你将不能推送修改。</p>
+<h4 id="1-8-创建与合并分支"><a href="#1-8-创建与合并分支" class="headerlink" title="1.8 创建与合并分支"></a>1.8 创建与合并分支</h4><p>创建一个属于你自己的分支，别人看不到。你在自己的分支上干活，想提交就提交，直到开发完毕后，再一次性合并到原来的分支上，这样既安全又不影响别 人工作。</p>
+<p>首先，我们创建 <code>dev</code> 分支，然后切换到<code>dev</code>分支：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git switch -c dev</span><br><span class="line">Switched to a new branch &#39;dev&#39;</span><br></pre></td></tr></table></figure>
+
+<p><code>git switch</code>命令加上<code>-c</code>参数表示创建并切换，相当于以下两条命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git branch dev</span><br><span class="line">$ git switch dev</span><br><span class="line">Switched to branch &#39;dev&#39;</span><br></pre></td></tr></table></figure>
+
+<p>然后，用 <code>git branch</code>命令查看当前分支：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">* dev</span><br><span class="line"> master</span><br></pre></td></tr></table></figure>
+
+<p><code>git branch</code>命令会列出所有分支，当前分支前面会标一个<code>*</code> 号。</p>
+<p>然后，我们就可以在<code>dev</code>分支上正常提交，比如对<code>readme.txt</code> 做个修改，加上一行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Creating a new branch is quick.</span><br></pre></td></tr></table></figure>
+
+<p>然后提交：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git add readme.txt</span><br><span class="line">$ git commit -m &quot;branch test&quot;</span><br><span class="line">[dev b75715d] branch test</span><br><span class="line"> 1 file changed, 2 insertions(+), 1 deletion(-)</span><br></pre></td></tr></table></figure>
+
+<p>现在， dev 分支的工作完成，我们就可以切换回 master 分支：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git switch master</span><br><span class="line">Switched to branch &#39;master&#39;</span><br><span class="line">Your branch is up to date with &#39;origin&#x2F;master&#39;.</span><br></pre></td></tr></table></figure>
+
+<p>切换回 <code>master</code> 分支后，再查看 <code>readme.txt</code>文件，刚才添加的内容不见了！因为那个提交是在 <code>dev</code>分支上， 而<code>master</code>分支此刻的提交点并没有变：</p>
+<p>现在，我们把 <code>dev</code> 分支的工作成果合并到<code>master</code>分支上：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git merge dev</span><br><span class="line">Updating 39d3777..b75715d</span><br><span class="line">Fast-forward</span><br><span class="line"> readme.txt | 1 +</span><br><span class="line"> 1 file changed, 1 insertions(+)</span><br></pre></td></tr></table></figure>
+
+<p><code>git merge</code>命令用于合并指定分支到当前分支。合并后，再查看 readme.txt 的内容，就可以看到，和 dev 分支的 最新提交是完全一样的。 </p>
+<p>注意到上面的<code>Fast-forward</code> 信息，Git告诉我们，这次合并是“快进模式”，也就是直接把 <code>master</code> 指向 <code>dev</code> 的当 前提交，所以合并速度非常快。</p>
+<p>合并完成后，就可以放心地删除 <code>dev</code>分支了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git branch -d dev</span><br><span class="line">Deleted branch dev (was b75715d).</span><br></pre></td></tr></table></figure>
+
+<p>删除后，查看 <code>branch</code> ，就只剩下 master 分支了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">* master</span><br></pre></td></tr></table></figure>
+
+<p>因为创建、合并和删除分支非常快，所以Git鼓励你使用分支完成某个任务，合并后再删掉分支，这和直接 在<code>master</code>分支上工作效果是一样的，但过程更安全。</p>
+<p>查看分支：<code>git branch</code><br>创建分支： <code>git branch &lt;name&gt;</code><br>切换分支：<code>git checkout &lt;name&gt;</code> 或者<code>git switch &lt;name&gt;</code><br>创建+切换分支： <code>git checkout -b &lt;name&gt;</code> 或者<code>git switch -c &lt;name&gt;</code><br>合并某分支到当前分支： <code>git merge &lt;name&gt;</code><br>删除分支：<code>git branch -d &lt;name&gt;</code></p>
+<h3 id="二、Github"><a href="#二、Github" class="headerlink" title="二、Github"></a>二、Github</h3><p><strong>Github是一个提供代码托管服务的网站</strong>，你可以向该网站上传一个Git数据库副本。使用Github使你与他人合作一个项目变得更容易，而这归功于Github提供的下述机制：一个用于以共享库的集中位置，一个基于Web的界面以及分叉（forking）、拉请求（pull request）、提出问题（issue）、维基（WiKi）等功能，这些功能使你和你的团队能更有效地对所做的修改进行说明、讨论和评估。</p>
+<h4 id="2-1-查看仓库（repository）"><a href="#2-1-查看仓库（repository）" class="headerlink" title="2.1  查看仓库（repository）"></a>2.1  查看仓库（repository）</h4><p>以学习菌账户下的RSP仓库为例：</p>
+<p><img src="8.png" alt=""></p>
+<h4 id="2-2-为一个仓库做贡献"><a href="#2-2-为一个仓库做贡献" class="headerlink" title="2.2 为一个仓库做贡献"></a>2.2 为一个仓库做贡献</h4><p>如果想直接对一个项目做出贡献，你必须是项目的拥有者或作为合作者加入项目。若不是，则需要在Github上你的用户账户下复制这个项目。这一过程称为分叉（fork）。一旦你对一个项目进行了分叉操作，你就能对你复制过来的分叉副本做任何修改，同时还可以通过使用拉请求将你的改动纳入原来的项目。现在让我们一起来看一下这个过程。</p>
+<p>首先，点击页面右上角的fork。然后你会发现自己多了一个该仓库的副本。</p>
+<p>接着就可以对这个仓库的副本进行操作了。</p>
+<p>现在，我们先选择一个文件夹，再点击Add file。</p>
+<p><img src="9.png" alt=""></p>
+<p>然后上传文件，点击Commit changes，将文件同步至仓库。</p>
+<p><img src="10.png" alt=""></p>
+<p>完成上面的操作后进行Compare。</p>
+<p><img src="11.png" alt=""></p>
+<p>显示Able to merge，就可以创建拉请求给原作者了。</p>
+<p><img src="12.png" alt=""></p>
+<p>最后再点击Create pull request，等待作者合并你的拉请求吧。</p>
+<p><img src="13.png" alt=""></p>
+<p>以上都是在复制过来的副本上进行操作。要注意的是如果原作者的仓库已经更新，那么你必须先保持同步，保持一个好的习惯，定期进行compare。确保自己复制的仓库和原仓库一样，再上传文件并创建pull request，这样可以避免冲突。</p>
+<h4 id="2-3-使用Github-Desktop"><a href="#2-3-使用Github-Desktop" class="headerlink" title="2.3 使用Github Desktop"></a>2.3 使用Github Desktop</h4><p>当仓库太大或者要上传的文件太大时，显然通过网页提交pull request是不太可行的。方便的是，有一个叫做Github Desktop的软件可以帮助你。GitHub Desktop 是一个可让您使用 GUI 而非命令行或网络浏览器与 GitHub 交互的应用程序。<a href="https://desktop.github.com/" target="_blank" rel="noopener">到官网下载</a>，然后只需简单地配置一下就可以使用。关于Github Desktop如何使用，详细内容可以参考<a href="https://docs.github.com/cn/desktop/installing-and-configuring-github-desktop#%E7%9B%AE%E5%BD%95" target="_blank" rel="noopener">官方文档</a>。</p>
+<p>下载完成后，使用Github账号登陆，然后将远程库克隆到本地。当你更改本地仓库或者其他人更改远程仓库时，将项目的本地副本与远程仓库同步。要查看本地副本与远程版本是否同步，只需点击Fetch origin。 GitHub Desktop 可以通过push origin和pull origin来保持项目本地副本与远程版本同步。确认无误后在左下角点commit to master提交到master分支。</p>
+<p>这样一来，就可以借助软件来管理仓库了。</p>
+<p>小提示：有时会出现冲突，大多数情况下是因为没有和远程版本保持同步就commit。先保持同步再提交。</p>
+<h3 id="三、Gitee"><a href="#三、Gitee" class="headerlink" title="三、Gitee"></a>三、Gitee</h3><p>使用GitHub时，国内的用户经常遇到的问题是访问速度太慢，有时候还会出现无法连接的情况。 如果希望体验Git飞一般的速度，可以使用国内的Git托管服务——Gitee（gitee.com）。 </p>
+<p>和GitHub相比，Gitee也提供免费的Git仓库。此外，还集成了代码质量检测、项目演示等功能。对于团队协作开 发，Gitee还提供了项目管理、代码托管、文档管理的服务，5人以下小团队免费。 Gitee的免费版本也提供私有库功能，只是有5人的成员上限。 </p>
+<h4 id="3-1-配合Git"><a href="#3-1-配合Git" class="headerlink" title="3.1 配合Git"></a>3.1 配合Git</h4><p>使用Gitee和使用GitHub类似，我们在Gitee上注册账号并登录后，需要先上传自己的SSH公钥。选择右上角用户头 像 -&gt; 菜单“修改资料”，然后选择“SSH公钥”，填写一个便于识别的标题，然后把用户主目录下 的 .ssh/id_rsa.pub 文件的内容粘贴进去：</p>
+<p>如果我们已经有了一个本地的git仓库（例如，一个名为learngit的本地库），如何把它关联到Gitee的远程库上呢？</p>
+<p>首先，我们在Gitee上创建一个新的项目，选择右上角用户头像 -&gt; 菜单“控制面板”，然后点击“创建项目”。项目名称最好与本地库保持一致。</p>
+<p>然后，我们在本地库上使用命令 <code>git remote add</code>把它和Gitee的远程库关联：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add origin git@gitee.com:liaoxuefeng&#x2F;learngit.git</span><br></pre></td></tr></table></figure>
+
+<p>之后，就可以正常地用 <code>git push</code> 和<code>git pull</code> 推送了！</p>
+<p>如果在使用命令 <code>git remote add</code>时报错：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add origin git@gitee.com:liaoxuefeng&#x2F;learngit.git</span><br><span class="line">fatal: remote origin already exists.</span><br></pre></td></tr></table></figure>
+
+<p>这说明本地库已经关联了一个名叫 <code>origin</code>的远程库，此时，可以先用 <code>git remote -v</code>查看远程库信息：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br><span class="line"> origin git@github.com:michaelliao&#x2F;learngit.git (fetch)</span><br><span class="line"> origin git@github.com:michaelliao&#x2F;learngit.git (push)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，本地库已经关联了 origin 的远程库，并且，该远程库指向GitHub。 </p>
+<p>我们可以删除已有的GitHub远程库：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote rm origin</span><br></pre></td></tr></table></figure>
+
+<p>再关联Gitee的远程库（注意路径中需要填写正确的用户名）：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add origin git@gitee.com:liaoxuefeng&#x2F;learngit.git</span><br></pre></td></tr></table></figure>
+
+<p>此时，我们再查看远程库信息：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br><span class="line"> origin git@gitee.com:liaoxuefeng&#x2F;learngit.git (fetch)</span><br><span class="line"> origin git@gitee.com:liaoxuefeng&#x2F;learngit.git (push</span><br></pre></td></tr></table></figure>
+
+<p>现在可以看到，origin已经被关联到Gitee的远程库了。通过 git push 命令就可以把本地库推送到Gitee上。 </p>
+<p>有的小伙伴又要问了，一个本地库能不能既关联GitHub，又关联Gitee呢？ </p>
+<p>答案是肯定的，因为git本身是分布式版本控制系统，可以同步到另外一个远程库，当然也可以同步到另外两个远程 库。 </p>
+<p>使用多个远程库时，我们要注意，git给远程库起的默认名称是 origin ，如果有多个远程库，我们需要用不同的名 称来标识不同的远程库。</p>
+<p>仍然以<code>learngit</code> 本地库为例，我们先删除已关联的名为 origin 的远程库：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote rm origin</span><br></pre></td></tr></table></figure>
+
+<p>然后，先关联GitHub的远程库：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add github git@github.com:michaelliao&#x2F;learngit.git</span><br></pre></td></tr></table></figure>
+
+<p>注意，远程库的名称叫 github ，不叫 origin 了。 接着，再关联Gitee的远程库：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote add gitee git@gitee.com:liaoxuefeng&#x2F;learngit.git</span><br></pre></td></tr></table></figure>
+
+<p>同样注意，远程库的名称叫 gitee ，不叫 origin 。</p>
+<p>现在，我们用 git remote -v 查看远程库信息，可以看到两个远程库：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br><span class="line">gitee git@gitee.com:liaoxuefeng&#x2F;learngit.git (fetch)</span><br><span class="line">gitee git@gitee.com:liaoxuefeng&#x2F;learngit.git (push)</span><br><span class="line">github git@github.com:michaelliao&#x2F;learngit.git (fetch)</span><br><span class="line">github git@github.com:michaelliao&#x2F;learngit.git (push)</span><br></pre></td></tr></table></figure>
+
+<p>如果要推送到GitHub，使用命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push github master</span><br></pre></td></tr></table></figure>
+
+<p>如果要推送到Gitee，使用命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git push gitee master</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-使用Github-Desktop"><a href="#3-2-使用Github-Desktop" class="headerlink" title="3.2 使用Github Desktop"></a>3.2 使用Github Desktop</h4><p>可以将码云（Gitee）视作国内版的Github，很多操作都是类似的。也可以通过 GitHub Desktop 连接远程仓库。可以好好读一读<a href="https://docs.github.com/cn/desktop/installing-and-configuring-github-desktop#%E7%9B%AE%E5%BD%95" target="_blank" rel="noopener">官方文档</a>。</p>
+]]></content>
+      <categories>
+        <category>工具</category>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>爱Python, 就用ipython</title>
     <url>/2021/05/24/%E7%88%B1python,%E5%B0%B1%E7%94%A8ipython/</url>
     <content><![CDATA[<blockquote>
@@ -3384,7 +4146,7 @@ KeepAliveTimeout 5
   <entry>
     <title>RSP_Blog来啦【置顶】</title>
     <url>/2020/02/13/RSP_Blog%E6%9D%A5%E5%95%A6%EF%BC%81/</url>
-    <content><![CDATA[<h1 id="RSP-Blog来啦！"><a href="#RSP-Blog来啦！" class="headerlink" title="RSP_Blog来啦！"></a>RSP_Blog来啦！</h1><p>2月10日，我们正式推出了RSP_of_CUMTCS项目，即矿大计算机学院资源共享计划。今天，作为RSP一部分的RSP_Blog也上线啦！</p>
+    <content><![CDATA[<h1 id="RSP-Blog来啦！"><a href="#RSP-Blog来啦！" class="headerlink" title="RSP_Blog来啦！"></a>RSP_Blog来啦！</h1><p>2020年2月10日，我们正式推出了RSP_of_CUMTCS项目，即矿大计算机学院资源共享计划。作为RSP重要组成部分的RSP_Blog也同步上线啦！</p>
 <h1 id="借助这个平台，我们打算干这些事儿"><a href="#借助这个平台，我们打算干这些事儿" class="headerlink" title="借助这个平台，我们打算干这些事儿"></a>借助这个平台，我们打算干这些事儿</h1><ul>
 <li>广泛的向同学们进行征稿<ul>
 <li>稿子可以是同学们新写的，也可以是大家已经发布到自己博客上的</li>
